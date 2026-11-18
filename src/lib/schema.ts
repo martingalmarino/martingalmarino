@@ -58,6 +58,7 @@ export function pageGraph(options: {
         name: site.author.name,
         jobTitle: site.author.jobTitle,
         url: absoluteUrl(site.author.path),
+        image: absoluteUrl('/martin-galmarino.jpg'),
         sameAs: [site.author.linkedin],
       },
       {

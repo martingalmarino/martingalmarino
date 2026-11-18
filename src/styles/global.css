@@ -993,7 +993,25 @@ p {
 }
 
 .home .portrait {
-  object-position: center top;
+  object-position: center center;
+}
+
+.portrait-frame.author-photo {
+  width: 8rem;
+  height: 10rem;
+}
+
+.signature {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.signature .portrait-frame {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  flex: none;
 }
 
 .facts-wrap {

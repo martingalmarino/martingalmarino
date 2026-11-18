@@ -39,13 +39,9 @@ No hay variables de entorno obligatorias en esta etapa. El formulario y Analytic
 
 ## Foto
 
-La foto de la home es un placeholder. Reemplazá el archivo, con el mismo nombre:
+El retrato del hero es `src/assets/martin-galmarino.png` (alt “Martín Galmarino” en `src/pages/index.astro`). La de perfil, en escala de grises, es `src/assets/martin-galmarino-perfil.jpg` (firma de las notas y `/martin-galmarino/`).
 
-`src/assets/martin-galmarino.png`
-
-El texto alternativo está en `src/pages/index.astro` (`alt` del retrato). Cuando llegue la foto real, cambialo por una descripción de la foto.
-
-La imagen para redes está en `public/og.png`.
+La imagen para redes está en `public/og.png`. El JSON-LD de Person usa `public/martin-galmarino.jpg`.
 
 ## Publicar una nota
 

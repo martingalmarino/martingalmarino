@@ -14,6 +14,7 @@ import {
   relatedPosts,
 } from '../../lib/blog';
 import { breadcrumb, faqPage } from '../../lib/schema';
+import profile from '../../assets/martin-galmarino-perfil.jpg';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -157,7 +158,20 @@ if (post.data.faq?.length) {
       )
     }
     <p class="signature">
-      Lo escribí yo, <a href={site.author.path}>Martín Galmarino</a>. {site.tagline}.
+      <span class="portrait-frame">
+        <Picture
+          src={profile}
+          alt=""
+          formats={['avif', 'webp']}
+          widths={[112, 224]}
+          sizes="3.5rem"
+          layout="constrained"
+          class="portrait"
+        />
+      </span>
+      <span>
+        Lo escribí yo, <a href={site.author.path}>Martín Galmarino</a>. {site.tagline}.
+      </span>
     </p>
     <Subscribe />
     {

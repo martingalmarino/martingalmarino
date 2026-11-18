@@ -3,10 +3,12 @@
   Etapa 2: bio y trayectoria.
   Onmarc se nombra solo en este relato, como experiencia, sin logo y sin sameAs.
   Blue Union Agency no se menciona en ningún lado.
-  La foto real reemplaza a src/assets/martin-galmarino.png.
+  La foto de perfil es src/assets/martin-galmarino-perfil.jpg.
 */
+import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
+import profile from '../assets/martin-galmarino-perfil.jpg';
 
 const title = `Sobre Martín Galmarino | ${site.name}`;
 const description = 'Consultor SEO. En buscadores desde 2007. SEO, GEO y AEO para empresas.';
@@ -15,9 +17,20 @@ const description = 'Consultor SEO. En buscadores desde 2007. SEO, GEO y AEO par
 <BaseLayout title={title} description={description}>
   <section class="section">
     <div class="wrap">
+      <div class="portrait-frame author-photo">
+        <Picture
+          src={profile}
+          alt="Martín Galmarino"
+          formats={['avif', 'webp']}
+          widths={[240, 480]}
+          sizes="8rem"
+          layout="constrained"
+          class="portrait"
+        />
+      </div>
       <h1>Martín Galmarino</h1>
       <p class="lead">{site.tagline}. En buscadores desde 2007.</p>
-      <p>Estoy completando esta página con el recorrido. La foto también llega después.</p>
+      <p>Estoy completando esta página con el recorrido.</p>
       <p>
         <a class="button button--primary" href={site.author.linkedin} rel="me noopener noreferrer">
           Seguime en LinkedIn
