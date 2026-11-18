@@ -141,16 +141,26 @@ const faqs: Faq[] = [
         </div>
         <p class="micro"><span>Gratis y sin compromiso</span></p>
         <div class="two">
-          <article>
-            <p class="ilus">Ilustrativo</p>
-            <h3>2012</h3>
-            <p>Diez links azules, uno debajo del otro.</p>
-          </article>
-          <article>
-            <p class="ilus">Ilustrativo</p>
-            <h3>2026</h3>
-            <p>Una respuesta nombra a dos empresas. El resto no está.</p>
-          </article>
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <p class="qlabel">2012</p>
+            <ol class="ex-links">
+              <li>resultado-1.example</li>
+              <li>resultado-2.example</li>
+              <li>resultado-3.example</li>
+              <li>resultado-4.example</li>
+              <li>resultado-5.example</li>
+            </ol>
+          </figure>
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <p class="qlabel">2026</p>
+            <p class="ex-bubble">Una respuesta nombra a dos empresas. El resto no está.</p>
+            <ol class="ex-names">
+              <li><b>Empresa A</b></li>
+              <li><b>Empresa B</b></li>
+            </ol>
+          </figure>
         </div>
       </div>
     </section>
@@ -173,7 +183,7 @@ const faqs: Faq[] = [
             {
               hitos.map((hito, index) => (
                 <li>
-                  <details open={index === 0} data-era={hito.era}>
+                  <details open={index === 0} data-era={hito.era} data-ui={index >= 4 ? 'chat' : 'links'}>
                     <summary>
                       {hito.when} · {hito.title}
                     </summary>
@@ -194,7 +204,22 @@ const faqs: Faq[] = [
             }
           </ol>
           <aside class="era" data-era-panel>
-            <p class="ilus">Ilustrativo</p>
+            <figure class="ex">
+              <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+              <div data-era-links>
+                <ol class="ex-links">
+                  <li>resultado-1.example</li>
+                  <li>resultado-2.example</li>
+                  <li>resultado-3.example</li>
+                </ol>
+              </div>
+              <div data-era-chat hidden>
+                <ol class="ex-names">
+                  <li><b>Empresa A</b></li>
+                  <li><b>Empresa B</b></li>
+                </ol>
+              </div>
+            </figure>
             <p data-era-text>{hitos[0].era}</p>
           </aside>
         </div>
@@ -246,9 +271,15 @@ const faqs: Faq[] = [
 
 <script>
   const panel = document.querySelector('[data-era-text]');
+  const links = document.querySelector('[data-era-links]');
+  const chat = document.querySelector('[data-era-chat]');
   document.querySelectorAll('[data-era]').forEach((item) => {
     item.addEventListener('toggle', () => {
-      if (item instanceof HTMLDetailsElement && item.open && panel) panel.textContent = item.getAttribute('data-era');
+      if (!(item instanceof HTMLDetailsElement) || !item.open) return;
+      if (panel) panel.textContent = item.getAttribute('data-era');
+      const showChat = item.getAttribute('data-ui') === 'chat';
+      if (links instanceof HTMLElement) links.hidden = showChat;
+      if (chat instanceof HTMLElement) chat.hidden = !showChat;
     });
   });
 </script>

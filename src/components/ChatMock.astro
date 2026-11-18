@@ -17,7 +17,7 @@ const questions = question ? [question] : chatQuestions;
       <svg><use href="#i-chat" data-channel-icon></use></svg>
       <span data-channel-name>ChatGPT</span>
     </span>
-    <span class="visually-hidden">ChatGPT, Google, AI Overviews, Gemini y Perplexity</span>
+    <span class="visually-hidden">Preguntado en ChatGPT, Gemini, Perplexity y Google</span>
     <span class="ilus">Ejemplo ilustrativo</span>
   </div>
   <div class="cm-body">
@@ -41,47 +41,51 @@ const questions = question ? [question] : chatQuestions;
 <script>
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const shot = new URLSearchParams(location.search).has('shot');
-
   const channels = [
     ['chat', 'ChatGPT'],
-    ['search', 'Google'],
-    ['spark', 'AI Overviews'],
     ['orbit', 'Gemini'],
     ['book', 'Perplexity'],
-  ];
+    ['search', 'Google'],
+  ] as const;
 
-  document.querySelectorAll<HTMLElement>('[data-channel]').forEach((pill) => {
-    if (reduce || shot) return;
-    const name = pill.querySelector<HTMLElement>('[data-channel-name]');
-    const icon = pill.querySelector('use');
-    if (!name || !icon) return;
-    let index = 0;
-    window.setInterval(() => {
-      index = (index + 1) % channels.length;
-      const next = channels[index];
-      if (!next) return;
+  document.querySelectorAll<HTMLElement>('.cm').forEach((root) => {
+    const name = root.querySelector<HTMLElement>('[data-channel-name]');
+    const icon = root.querySelector('use');
+    const rotator = root.querySelector<HTMLElement>('[data-rotator]');
+    const questions = rotator?.dataset.q ? (JSON.parse(rotator.dataset.q) as string[]) : [];
+
+    const showChannel = (index: number) => {
+      const next = channels[index % channels.length];
+      if (!next || !name || !icon) return;
       name.textContent = next[1];
       icon.setAttribute('href', `#i-${next[0]}`);
-    }, 2500);
-  });
-
-  document.querySelectorAll<HTMLElement>('[data-rotator]').forEach((el) => {
-    if (reduce || shot || !el.dataset.q) return;
-    const questions = JSON.parse(el.dataset.q) as string[];
-    let index = 0;
-
-    const type = (text: string, step = 0) => {
-      el.textContent = text.slice(0, step);
-      if (step < text.length) {
-        window.setTimeout(() => type(text, step + 1), 38);
-        return;
-      }
-      window.setTimeout(() => {
-        index = (index + 1) % questions.length;
-        type(questions[index] ?? '');
-      }, 2600);
     };
 
-    type(questions[0] ?? '');
+    showChannel(0);
+    if (reduce || shot) return;
+
+    let index = 0;
+    if (rotator && questions.length > 1) {
+      const type = (text: string, step = 0) => {
+        rotator.textContent = text.slice(0, step);
+        if (step < text.length) {
+          window.setTimeout(() => type(text, step + 1), 38);
+          return;
+        }
+        window.setTimeout(() => {
+          index = (index + 1) % channels.length;
+          const question = questions[index % questions.length] ?? '';
+          showChannel(index);
+          type(question);
+        }, 2200);
+      };
+      type(questions[0] ?? '');
+      return;
+    }
+
+    window.setInterval(() => {
+      index = (index + 1) % channels.length;
+      showChannel(index);
+    }, 2500);
   });
 </script>

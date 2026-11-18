@@ -54,14 +54,20 @@ const faqs: Faq[] = [
           <a class="button button--ghost" href="#checklist">Ver la checklist de 7 puntos</a>
         </div>
         <p class="micro"><span>Gratis y sin compromiso</span></p>
-        <figure class="serp">
+        <figure class="ex">
           <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
-          <div class="ai">
+          <div class="ex-ai">
             <b>Visión general creada por IA</b>
             <p>El mantenimiento industrial en Córdoba lo hacen empresas que publican servicio, zona y tipo de planta.</p>
           </div>
-          <p class="link">Mantenimiento industrial en Córdoba | Metalúrgica Ejemplo</p>
-          <p class="arrow-note">↓ Tu link queda más abajo</p>
+          <div class="ex-hit">
+            <span class="ex-pos">4</span>
+            <div>
+              <span class="ex-url">metalurgica-ejemplo.com.ar</span>
+              <strong>Mantenimiento industrial en Córdoba | Metalúrgica Ejemplo</strong>
+              <p>Tu link queda más abajo, debajo de la respuesta.</p>
+            </div>
+          </div>
         </figure>
       </div>
     </section>
@@ -167,10 +173,28 @@ const faqs: Faq[] = [
           <li>Las mismas 10 preguntas del diagnóstico: si Google te nombra en sus resúmenes con IA.</li>
         </ul>
         <p>No es una posición prometida: es lo que pasó.</p>
-        <figure class="mini-report">
-          <figcaption class="ilus">Ejemplo</figcaption>
-          <p><b>Apariciones</b> 1.240 · <b>Clics</b> 86 · <b>Ficha</b> 34 pedidos de cómo llegar</p>
-          <p class="pie-bar"><span>Mes</span><span><i style="width:62%"></i></span><span>+12</span></p>
+        <figure class="ex">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <ul class="ex-metrics">
+            <li><b>1.240</b> Apariciones</li>
+            <li><b>86</b> Clics</li>
+            <li><b>34</b> Cómo llegar</li>
+          </ul>
+          <svg class="ex-line" viewBox="0 0 280 88" role="img" aria-label="Gráfico ilustrativo de apariciones, de enero a abril">
+            <polyline points="16,64 88,52 160,58 248,28" fill="none" stroke="currentColor" stroke-width="3" />
+            <g class="ex-line-dots" fill="currentColor">
+              <circle cx="16" cy="64" r="4" />
+              <circle cx="88" cy="52" r="4" />
+              <circle cx="160" cy="58" r="4" />
+              <circle cx="248" cy="28" r="4" />
+            </g>
+            <g class="ex-line-labels">
+              <text x="16" y="82">Ene</text>
+              <text x="88" y="82">Feb</text>
+              <text x="160" y="82">Mar</text>
+              <text x="248" y="82">Abr</text>
+            </g>
+          </svg>
         </figure>
       </div>
     </section>

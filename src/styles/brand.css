@@ -1070,6 +1070,173 @@ h3 {
   font-weight: 700;
 }
 
+.ex {
+  margin: 0.85rem 0 0;
+  padding: 0.8rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--linea);
+  text-align: left;
+  color: var(--noche);
+}
+
+.ex-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.ex-hit {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.ex-hit.is-dim {
+  opacity: 0.72;
+}
+
+.ex-pos {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 8px;
+  background: var(--lavanda);
+  color: var(--violeta-700);
+  font-weight: 800;
+}
+
+.ex-url {
+  display: block;
+  color: #1a4fd8;
+  font-size: 0.78rem;
+}
+
+.ex-hit strong {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.95rem;
+}
+
+.ex-hit p,
+.ex-ai p,
+.ex-bubble,
+.ex-names,
+.ex-note,
+.ex-count {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+}
+
+.ex-hit p,
+.ex-note {
+  color: var(--gris);
+}
+
+.ex-ai {
+  margin-bottom: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  background: #f4f0ff;
+}
+
+.ex-ai b,
+.ex-count b {
+  display: block;
+}
+
+.ex-bubble {
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: #f6f1e7;
+}
+
+.ex-bubble.me {
+  margin-left: 12%;
+  background: var(--noche);
+  color: #fff;
+}
+
+.ex-names {
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.ex-links {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ex-links li {
+  color: #1a4fd8;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-decoration: underline;
+}
+
+.ex-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ex-metrics li {
+  padding: 0.55rem;
+  border-radius: 12px;
+  background: var(--papel);
+  font-size: 0.82rem;
+  color: var(--gris);
+}
+
+.ex-metrics b {
+  display: block;
+  color: var(--noche);
+  font-family: var(--display);
+  font-size: 1.35rem;
+}
+
+.ex-line {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0.7rem;
+  color: var(--violeta);
+}
+
+.ex-line-labels {
+  fill: var(--gris);
+  font-size: 11px;
+}
+
+.ex-matrix {
+  width: 100%;
+  margin-top: 0.6rem;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.ex-matrix th,
+.ex-matrix td {
+  padding: 0.35rem 0.3rem;
+  border-bottom: 1px solid var(--linea);
+  text-align: left;
+}
+
+.ex-matrix tr.is-blur {
+  filter: blur(3px);
+}
+
+.era .ex {
+  color: var(--noche);
+}
+
 .mini {
   height: 92px;
   border-radius: 16px;
@@ -2113,7 +2280,8 @@ html:not(.js) .test-ui {
   .waves,
   .states,
   .sym-picks,
-  .ba-table {
+  .ba-table,
+  .ex-row {
     grid-template-columns: 1fr;
   }
 

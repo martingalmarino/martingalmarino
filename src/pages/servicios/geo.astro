@@ -115,9 +115,15 @@ const faqs: Faq[] = [
           <li><b>B2B:</b> «¿Qué proveedor de software de gestión conviene para una distribuidora mediana?»</li>
           <li><b>E-commerce:</b> «¿Dónde compro repuestos de bicicleta online con envío a todo el país?»</li>
         </ul>
-        <figure class="qgrid">
+        <figure class="ex">
           <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
-          <p>ChatGPT: te nombra · Gemini: dato viejo · Perplexity: fuente · Google: no te nombra</p>
+          <p class="ex-bubble me">¿Qué distribuidora de insumos médicos me recomendás en Rosario?</p>
+          <ol class="ex-names">
+            <li><b>Distribuidora A</b> · te nombra, con la zona correcta</li>
+            <li><b>Distribuidora B</b> · dato viejo: un depósito que ya cerró</li>
+          </ol>
+          <p class="ex-url">Fuente citada: distribuidora-a.com.ar</p>
+          <p class="ex-note">En Google, tu empresa no aparece en esta respuesta.</p>
         </figure>
       </div>
     </section>
@@ -189,9 +195,26 @@ const faqs: Faq[] = [
           </ul>
           <p>No hay un «puesto» en la IA, y nadie puede prometer una mención. Lo que sí se puede es medir lo mismo todos los meses y ver si va mejorando.</p>
         </div>
-        <figure class="qgrid">
+        <figure class="ex">
           <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
-          <p><b>Te nombran en 12 de 40</b></p>
+          <p class="ex-count"><b>Te nombran en 12 de 40</b></p>
+          <table class="ex-matrix">
+            <thead>
+              <tr>
+                <th scope="col">Pregunta</th>
+                <th scope="col">Google</th>
+                <th scope="col">ChatGPT</th>
+                <th scope="col">Gemini</th>
+                <th scope="col">Perplexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">1</th><td class="ok">✓</td><td class="ok">✓</td><td class="meh">⚠</td><td class="ok">✓</td></tr>
+              <tr><th scope="row">2</th><td class="no">✗</td><td class="ok">✓</td><td class="no">✗</td><td class="meh">⚠</td></tr>
+              <tr><th scope="row">3</th><td class="no">✗</td><td class="no">✗</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+              <tr class="is-blur"><th scope="row">4–10</th><td>✓</td><td>✗</td><td>⚠</td><td>✓</td></tr>
+            </tbody>
+          </table>
         </figure>
       </div>
     </section>
