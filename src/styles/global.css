@@ -936,3 +936,183 @@ p {
     scroll-behavior: auto;
   }
 }
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/instrument-serif-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--accent-strong);
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.button--lg {
+  min-height: 3.35rem;
+  padding-inline: 1.35rem;
+  font-size: 1.05rem;
+}
+
+.home h1,
+.home h2,
+.facts strong {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.home .hero h1 {
+  font-size: clamp(2.85rem, 6.2vw, 4.7rem);
+  line-height: 0.98;
+}
+
+.home .hero {
+  align-items: center;
+}
+
+.home .hero-photo {
+  order: -1;
+}
+
+.hero-photo {
+  margin: 0;
+}
+
+.home .hero-photo .portrait-frame {
+  width: min(100%, 26rem);
+  height: auto;
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  border-radius: 1.75rem;
+}
+
+.home .portrait {
+  object-position: center top;
+}
+
+.facts-wrap {
+  border-block: 1px solid var(--line);
+}
+
+.facts {
+  width: min(var(--max), calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0.35rem 0;
+  list-style: none;
+  display: grid;
+}
+
+.facts li {
+  padding: 1.15rem 0;
+}
+
+.facts li + li {
+  border-top: 1px solid var(--line);
+}
+
+.facts strong {
+  display: block;
+  font-size: clamp(1.85rem, 3vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.facts span {
+  color: var(--muted);
+}
+
+.home .person {
+  display: block;
+  max-width: 40rem;
+}
+
+.resources {
+  display: grid;
+  gap: 1rem;
+}
+
+.resource {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-height: 17rem;
+  padding: 1.45rem 1.3rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--white);
+  text-decoration: none;
+}
+
+.resource > span:first-child {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 2.1rem;
+  line-height: 1;
+  color: #d5e2ff;
+}
+
+.resource h3 {
+  margin: 0;
+  color: var(--white);
+  font-size: 1.45rem;
+}
+
+.resource p {
+  margin: 0;
+  color: #e4e8ee;
+  flex: 1;
+}
+
+.resource .card__go {
+  color: var(--white);
+}
+
+.resource:hover {
+  background: #12161b;
+}
+
+@media (min-width: 800px) {
+  .wrap .facts,
+  .facts {
+    width: min(var(--max), calc(100% - 4rem));
+  }
+
+  .facts {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+  }
+
+  .facts li {
+    padding: 1.6rem 1.25rem 1.6rem 0;
+  }
+
+  .facts li + li {
+    border-top: 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .resources {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .home .hero {
+    padding-block: 3.5rem 2.75rem;
+    align-items: center;
+  }
+
+  .home .hero-photo {
+    order: 0;
+  }
+
+  .home .hero-photo .portrait-frame {
+    width: 100%;
+    margin-inline: 0;
+  }
+}

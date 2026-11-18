@@ -1,10 +1,12 @@
 ---
 import { Picture } from 'astro:assets';
 import portrait from '../assets/martin-galmarino.png';
+import displayFont from '../assets/fonts/instrument-serif-latin-400.woff2?url';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SearchTabs from '../components/SearchTabs.astro';
 import PostCard from '../components/PostCard.astro';
-import { services, site } from '../config/site';
+import Proof from '../components/Proof.astro';
+import { guides, services, site } from '../config/site';
 import { audiences, faqPlainText, faqs, steps } from '../data/home';
 import { getPublishedPosts } from '../lib/blog';
 import { faqPage } from '../lib/schema';
@@ -20,31 +22,52 @@ const faqGraph = faqPage(
 ---
 
 <BaseLayout title={title} description={site.description} extraGraph={[faqGraph]}>
+  <link slot="head" rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+  <div class="home">
   <section class="wrap hero">
     <div>
+      <p class="eyebrow">Martín Galmarino</p>
       <h1>Tu empresa, visible en todos los lugares donde hoy se busca</h1>
       <p class="lead">
-        SEO, GEO y AEO para empresas argentinas en transformación digital. En buscadores desde 2007.
+        Soy Martín. Desde 2007 trabajo la visibilidad de empresas que no tienen un equipo interno. Hoy eso también es aparecer cuando alguien le pregunta a una IA.
       </p>
       <div class="actions">
-        <a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a>
-        <a class="button button--ghost" href="/guia/">Entendé qué cambió</a>
+        <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
+        <a class="button button--ghost button--lg" href="/guia/">Entendé qué cambió</a>
       </div>
     </div>
-    <figure class="chat">
-      <p class="chat__label">Ejemplo ilustrativo</p>
-      <p class="bubble bubble--user">
-        <small>Pregunta</small>
-        ¿A quién le puedo encargar el mantenimiento del edificio?
-      </p>
-      <p class="bubble bubble--ai">
-        <small>Asistente</small>
-        Una opción es Empresa del Ejemplo. En su sitio explican qué incluye el servicio y en qué zona trabajan.
-      </p>
-      <figcaption class="visually-hidden">
-        Ilustración propia: una persona le pregunta a un asistente y la respuesta nombra a una empresa genérica. No es un cliente ni un testimonio.
-      </figcaption>
+    <figure class="hero-photo">
+      <div class="portrait-frame">
+        <Picture
+          src={portrait}
+          alt="Espacio reservado para la foto de Martín Galmarino"
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 960px) 38rem, 100vw"
+          layout="constrained"
+          class="portrait"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
     </figure>
+  </section>
+
+  <section class="facts-wrap" aria-label="Recorrido">
+    <ul class="facts">
+      <li>
+        <strong>Desde 2007</strong>
+        <span>En buscadores</span>
+      </li>
+      <li>
+        <strong>Desde 2018</strong>
+        <span>Docente en Fundación Graduados</span>
+      </li>
+      <li>
+        <strong>Una nota por día</strong>
+        <span>El blog sale así, de a una</span>
+      </li>
+    </ul>
   </section>
 
   <section class="section band" aria-labelledby="asi-se-busca">
@@ -92,6 +115,16 @@ const faqGraph = faqPage(
     </div>
   </section>
 
+  <section class="section band-blue">
+    <div class="wrap cta">
+      <div>
+        <h2>¿Vemos cómo aparece tu empresa?</h2>
+        <p class="intro">El diagnóstico es gratuito y el informe es corto.</p>
+      </div>
+      <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="como-trabajo">
     <div class="wrap">
       <h2 id="como-trabajo">Cómo trabajo</h2>
@@ -117,21 +150,10 @@ const faqGraph = faqPage(
 
   <section class="section band" aria-labelledby="quien">
     <div class="wrap person">
-      <div class="portrait-frame">
-        <Picture
-          src={portrait}
-          alt="Espacio reservado para la foto de Martín Galmarino"
-          formats={['avif', 'webp']}
-          widths={[160, 320]}
-          sizes="160px"
-          layout="constrained"
-          class="portrait"
-        />
-      </div>
       <div>
         <h2 id="quien">Quién está detrás</h2>
         <p>
-          Soy Martín Galmarino. Hace 19 años que trabajo con buscadores y doy clases en Fundación Graduados.
+          Hace 19 años que trabajo con buscadores y, desde 2018, doy clases en Fundación Graduados.
         </p>
         <p>
           Acompaño a empresas en transformación digital que no tienen un equipo interno para esto.
@@ -140,6 +162,27 @@ const faqGraph = faqPage(
       </div>
     </div>
   </section>
+
+  <section class="section" aria-labelledby="recursos">
+    <div class="wrap">
+      <h2 id="recursos">Para entender qué cambió</h2>
+      <p class="intro">Tres lecturas cortas, en lenguaje de empresa. Después, si hace falta, vemos tu caso.</p>
+      <div class="resources">
+        {
+          guides.map((item, index) => (
+            <a class="resource" href={item.href}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.name}</h3>
+              <p>{item.line}</p>
+              <span class="card__go">Leer</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Proof />
 
   {
     posts.length > 0 && (
@@ -193,7 +236,8 @@ const faqGraph = faqPage(
           Revisamos cómo aparece tu empresa en Google y qué responden ChatGPT, Gemini y Perplexity sobre el rubro.
         </p>
       </div>
-      <a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a>
+      <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
     </div>
   </section>
+  </div>
 </BaseLayout>

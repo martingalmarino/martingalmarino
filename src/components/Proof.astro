@@ -1,0 +1,30 @@
+---
+// TODO: mostrar esta franja solo cuando haya testimonios o menciones reales.
+// No inventar clientes, logos, medios ni frases. Onmarc y Blue Union no van acá.
+const show = false;
+
+const items: Array<{ quote: string; name: string; role: string }> = [];
+---
+
+{
+  show && items.length > 0 && (
+    <section class="section" aria-labelledby="prueba">
+      <div class="wrap">
+        <h2 id="prueba">Qué dicen quienes trabajaron conmigo</h2>
+        <ul class="cards">
+          {items.map((item) => (
+            <li class="card">
+              <blockquote>
+                <p>{item.quote}</p>
+                <footer>
+                  {item.name}
+                  {item.role ? `, ${item.role}` : ''}
+                </footer>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
