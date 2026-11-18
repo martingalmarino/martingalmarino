@@ -67,7 +67,7 @@ export const guides = [
   {
     href: '/guia/por-que-estar-en-los-llms/',
     name: 'Por qué aparecer en las respuestas de la IA',
-    line: 'Tus clientes ya le preguntan a ChatGPT, Gemini o Perplexity antes de comprar. Si tu empresa no aparece, pueden recomendar a otra.',
+    line: 'Cada vez más gente le pregunta a ChatGPT, Gemini o Perplexity para buscar información. Si tu empresa no aparece en esas respuestas, pueden nombrar a otra.',
   },
 ] as const;
 
