@@ -5,11 +5,11 @@
 export const site = {
   name: 'Martín Galmarino',
   url: 'https://martingalmarino.com',
-  tagline: 'SEO, GEO y AEO para empresas',
+  tagline: 'Para que tu empresa sea la respuesta: en Google y en la IA.',
   locale: 'es-AR',
   ogLocale: 'es_AR',
   description:
-    'Tu empresa, visible en Google y en las respuestas de ChatGPT, Gemini y Perplexity. Diagnóstico gratuito, con un informe corto. En buscadores desde 2007.',
+    '¿Qué responde la IA cuando preguntan por tu rubro? Te muestro gratis si nombra a tu empresa o a otra, en Google, ChatGPT, Gemini y Perplexity.',
   author: {
     name: 'Martín Galmarino',
     jobTitle: 'Co-founder y director de proyectos en buscadores',

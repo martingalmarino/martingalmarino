@@ -1,0 +1,35 @@
+---
+import type { Faq } from '../data/home';
+
+interface Props {
+  items: Faq[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-list">
+  {
+    items.map((item) => (
+      <details>
+        <summary>{item.question}</summary>
+        <div>
+          <p>{item.answer}</p>
+          {item.sources && item.sources.length > 0 && (
+            <p class="faq-sources">
+              <span>{item.sources.length > 1 ? 'Fuentes: ' : 'Fuente: '}</span>
+              {item.sources.map((source, index) => (
+                <>
+                  {index > 0 && ' · '}
+                  <a href={source.href} target="_blank" rel="noopener noreferrer">
+                    {source.label}
+                  </a>
+                </>
+              ))}
+            </p>
+          )}
+        </div>
+      </details>
+    ))
+  }
+</div>

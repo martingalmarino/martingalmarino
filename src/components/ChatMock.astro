@@ -1,0 +1,80 @@
+---
+import { chatQuestions } from '../data/home';
+---
+
+<div class="cm">
+  <div class="cm-bar">
+    <span class="cm-in">Preguntado en</span>
+    <span class="rot-sm" data-channel aria-hidden="true">
+      <svg><use href="#i-chat" data-channel-icon></use></svg>
+      <span data-channel-name>ChatGPT</span>
+    </span>
+    <span class="visually-hidden">ChatGPT, Google, AI Overviews, Gemini y Perplexity</span>
+    <span class="ilus">Ejemplo ilustrativo</span>
+  </div>
+  <div class="cm-body">
+    <div class="cm-q">
+      <span class="tw" data-rotator data-q={JSON.stringify(chatQuestions)}>{chatQuestions[0]}</span><i class="caret" aria-hidden="true"></i>
+    </div>
+    <div class="cm-a">
+      <p>Estas son algunas opciones que suelen recomendarse:</p>
+      <ol>
+        <li><b>Empresa A</b> · trabaja con pymes de la zona</li>
+        <li><b>Empresa B</b> · tiene reseñas y precios publicados</li>
+      </ol>
+    </div>
+    <div class="cm-you">
+      <span class="dot" aria-hidden="true">3</span>
+      <span>¿Y tu empresa?</span>
+      <span class="dash" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const shot = new URLSearchParams(location.search).has('shot');
+
+  const channels = [
+    ['chat', 'ChatGPT'],
+    ['search', 'Google'],
+    ['spark', 'AI Overviews'],
+    ['orbit', 'Gemini'],
+    ['book', 'Perplexity'],
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-channel]').forEach((pill) => {
+    if (reduce || shot) return;
+    const name = pill.querySelector<HTMLElement>('[data-channel-name]');
+    const icon = pill.querySelector('use');
+    if (!name || !icon) return;
+    let index = 0;
+    window.setInterval(() => {
+      index = (index + 1) % channels.length;
+      const next = channels[index];
+      if (!next) return;
+      name.textContent = next[1];
+      icon.setAttribute('href', `#i-${next[0]}`);
+    }, 2500);
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-rotator]').forEach((el) => {
+    if (reduce || shot || !el.dataset.q) return;
+    const questions = JSON.parse(el.dataset.q) as string[];
+    let index = 0;
+
+    const type = (text: string, step = 0) => {
+      el.textContent = text.slice(0, step);
+      if (step < text.length) {
+        window.setTimeout(() => type(text, step + 1), 38);
+        return;
+      }
+      window.setTimeout(() => {
+        index = (index + 1) % questions.length;
+        type(questions[index] ?? '');
+      }, 2600);
+    };
+
+    type(questions[0] ?? '');
+  });
+</script>

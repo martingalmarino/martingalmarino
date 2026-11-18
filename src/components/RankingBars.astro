@@ -1,0 +1,22 @@
+---
+import { ranking } from '../data/home';
+---
+
+<figure class="bars">
+  <figcaption class="ilus">Datos ilustrativos</figcaption>
+  <p class="bars__q">«¿Qué estudio contable recomendás para una pyme en Córdoba?»</p>
+  <ol>
+    {
+      ranking.map((row) => (
+        <li class:list={[{ 'is-you': row.you }]}>
+          <span class="bars__name">{row.name}</span>
+          <span class="bars__track" aria-hidden="true">
+            <span class="bars__fill" style={`--w:${row.width}%`} />
+          </span>
+          <span class="bars__score">{row.score}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="bars__note">Ejemplo ilustrativo: las empresas y los números no son reales.</p>
+</figure>

@@ -1,4 +1,6 @@
 ---
+import wordmark from '../assets/brand/wordmark.svg?url';
+
 const path = Astro.url.pathname;
 
 const links = [
@@ -17,9 +19,18 @@ function current(href: string) {
 <header class="header">
   <div class="wrap header__inner">
     <a class="brand" href="/" aria-label="Martín Galmarino, inicio">
-      <span class="brand__mark" aria-hidden="true">MG</span>
-      <span>Martín Galmarino</span>
+      <img src={wordmark} alt="Martín Galmarino" width="226" height="48" />
     </a>
+    <nav class="nav nav-desktop" aria-label="Principal">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={current(link.href)}>
+            {link.label}
+          </a>
+        ))
+      }
+      <a class="button button--primary" href="/diagnostico/">Ver cómo me ve la IA</a>
+    </nav>
     <details class="menu">
       <summary class="menu__button">
         <span class="visually-hidden">Abrir menú</span>
@@ -33,7 +44,7 @@ function current(href: string) {
             </a>
           ))
         }
-        <a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a>
+        <a class="button button--primary" href="/diagnostico/">Ver cómo me ve la IA</a>
       </nav>
     </details>
   </div>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  beforeLabel?: string;
+  afterLabel?: string;
+  before: string;
+  after: string;
+  illustrative?: boolean;
+}
+
+const {
+  beforeLabel = 'Antes',
+  afterLabel = 'Después',
+  before,
+  after,
+  illustrative = false,
+} = Astro.props;
+---
+
+<div class="ba">
+  {illustrative && <p class="ilus">Ejemplo ilustrativo</p>}
+  <div>
+    <p class="qlabel">{beforeLabel}</p>
+    <p>{before}</p>
+  </div>
+  <div>
+    <p class="qlabel">{afterLabel}</p>
+    <p>{after}</p>
+  </div>
+</div>

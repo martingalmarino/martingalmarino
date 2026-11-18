@@ -1,0 +1,30 @@
+---
+import { audiences, steps } from '../data/home';
+---
+
+<div class="time">
+  <ul class="time__chips">
+    {audiences.map((item) => <li>{item}</li>)}
+  </ul>
+  <ol class="time__steps">
+    {
+      steps.map((step) => (
+        <li>
+          <span class="time__icon" aria-hidden="true">
+            <svg>
+              <use href={`#i-${step.icon}`} />
+            </svg>
+          </span>
+          <p class="time__n">
+            {step.n} · {step.title}
+            {step.note ? <span> — {step.note}</span> : null}
+          </p>
+          <p>{step.text}</p>
+          <p class="time__out">
+            <b>Entregable:</b> {step.deliverable}
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+</div>

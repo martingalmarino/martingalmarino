@@ -1,0 +1,35 @@
+---
+interface Props {
+  caption: string;
+  columns: string[];
+  rows: { label: string; cells: string[] }[];
+  illustrative?: boolean;
+}
+
+const { caption, columns, rows, illustrative = false } = Astro.props;
+---
+
+<figure class="compare">
+  {illustrative && <figcaption class="ilus">Ejemplo ilustrativo</figcaption>}
+  <table>
+    <caption>{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col"> </th>
+        {columns.map((column) => <th scope="col">{column}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row">{row.label}</th>
+            {row.cells.map((cell) => (
+              <td>{cell}</td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</figure>

@@ -1,247 +1,312 @@
 ---
 import { Picture } from 'astro:assets';
-import portrait from '../assets/martin-galmarino.png';
-import displayFont from '../assets/fonts/instrument-serif-latin-400.woff2?url';
+import portrait from '../assets/martin-galmarino-bn.jpg';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ChatMock from '../components/ChatMock.astro';
+import ChannelRadar from '../components/ChannelRadar.astro';
 import SearchTabs from '../components/SearchTabs.astro';
+import StatCard from '../components/StatCard.astro';
+import RankingBars from '../components/RankingBars.astro';
+import Checklist from '../components/Checklist.astro';
+import Timeline from '../components/Timeline.astro';
+import ReportPreview from '../components/ReportPreview.astro';
+import FaqList from '../components/FaqList.astro';
 import PostCard from '../components/PostCard.astro';
 import Proof from '../components/Proof.astro';
-import { guides, services, site } from '../config/site';
-import { audiences, faqPlainText, faqs, steps } from '../data/home';
+import { homeGuides, faqPlainText, faqs, stats } from '../data/home';
+import { site } from '../config/site';
 import { getPublishedPosts } from '../lib/blog';
 import { faqPage } from '../lib/schema';
 import { absoluteUrl } from '../config/site';
 
 const posts = (await getPublishedPosts()).slice(0, 3);
-const title = `${site.name} | ${site.tagline}`;
-const canonical = absoluteUrl('/');
+const title = 'Martín Galmarino | SEO, GEO y AEO para empresas';
+const description = site.description;
 const faqGraph = faqPage(
-  canonical,
+  absoluteUrl('/'),
   faqs.map((item) => ({ question: item.question, answer: faqPlainText(item) })),
 );
 ---
 
-<BaseLayout title={title} description={site.description} extraGraph={[faqGraph]}>
-  <link slot="head" rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
-  <div class="home">
-  <section class="wrap hero">
-    <div>
-      <p class="eyebrow">Martín Galmarino</p>
-      <h1>Tu empresa, visible en todos los lugares donde hoy se busca</h1>
-      <p class="lead">
-        Hoy tus clientes buscan en Google y también le preguntan a una inteligencia artificial. Te ayudo a que tu empresa aparezca y esté bien descrita en esos lugares. Trabajo en buscadores desde 2007.
-      </p>
-      <div class="actions">
-        <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
-        <a class="button button--ghost button--lg" href="/guia/">Entendé qué cambió</a>
-      </div>
-    </div>
-    <figure class="hero-photo">
-      <div class="portrait-frame">
-        <Picture
-          src={portrait}
-          alt="Martín Galmarino sonriendo, en blanco y negro, con remera negra"
-          formats={['avif', 'webp']}
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 960px) 38rem, 100vw"
-          layout="constrained"
-          class="portrait"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-    </figure>
-  </section>
-
-  <section class="facts-wrap" aria-label="Recorrido">
-    <ul class="facts">
-      <li>
-        <strong>Desde 2007</strong>
-        <span>En buscadores</span>
-      </li>
-      <li>
-        <strong>Desde 2010</strong>
-        <span>Trabajo en SEO</span>
-      </li>
-      <li>
-        <strong>Desde 2015</strong>
-        <span>Co-founder de Onmarc y director de proyectos en buscadores</span>
-      </li>
-    </ul>
-  </section>
-
-  <section class="section band" aria-labelledby="asi-se-busca">
-    <div class="wrap">
-      <h2 id="asi-se-busca">Así se busca hoy</h2>
-      <p class="intro">
-        La misma necesidad puede terminar en una lista de resultados, en un resumen o en un chat. En cada pestaña ves un ejemplo genérico: no es un cliente.
-      </p>
-      <SearchTabs />
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="dato">
-    <div class="wrap">
-      <h2 id="dato">El dato que incomoda</h2>
-      <p class="stat">45,5%</p>
-      <p class="stat-copy">
-        de los adultos en Argentina usa IA generativa para fines personales. La búsqueda de información figura entre los usos más comunes.
-      </p>
-      <p class="note">
-        Fuente:
-        <a
-          href="https://www.utdt.edu/nota_prensa.php?id_item_menu=25279&id_nota_prensa=23080"
-          rel="noopener noreferrer"
-        >
-          CEPE-UTDT y Fundar, encuesta nacional, agosto-septiembre 2025
-          <span class="visually-hidden"> (se abre en una pestaña nueva)</span>
-        </a>.
-      </p>
-    </div>
-  </section>
-
-  <section class="section band" aria-labelledby="tres-formas">
-    <div class="wrap">
-      <h2 id="tres-formas">Tres formas de ser visible</h2>
-      <div class="cards">
-        {
-          services.map((item) => (
-            <a class="card" href={item.href}>
-              <h3>{item.name}</h3>
-              <p>{item.line}</p>
-              <span class="card__go">Ver {item.name}</span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section band-blue">
-    <div class="wrap cta">
-      <div>
-        <h2>¿Vemos cómo aparece tu empresa?</h2>
-        <p class="intro">
-          Reviso cómo aparece tu empresa en Google y qué responden ChatGPT, Gemini y Perplexity sobre tu rubro. El diagnóstico es gratuito y te devuelvo un informe corto.
+<BaseLayout title={title} description={description} extraGraph={[faqGraph]}>
+  <div class="v2">
+    <section class="v2-hero tex-dots" id="bloque-hero">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap v2-hero__copy">
+        <p class="eyebrow">
+          <b>SEO · GEO · AEO</b>
+          <span>Martín Galmarino · para empresas</span>
         </p>
-      </div>
-      <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="como-trabajo">
-    <div class="wrap">
-      <h2 id="como-trabajo">Cómo trabajo</h2>
-      <p class="intro">
-        El recorrido es el mismo si tenés una pyme, varias sucursales o un e-commerce. Cambia la escala, no el orden.
-      </p>
-      <ul class="chips">
-        {audiences.map((item) => <li>{item}</li>)}
-      </ul>
-      <ol class="steps">
-        {
-          steps.map((step) => (
-            <li>
-              <span>{step.n}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section band" aria-labelledby="quien">
-    <div class="wrap person">
-      <div>
-        <h2 id="quien">Quién está detrás</h2>
-        <p>
-          Trabajo en buscadores desde 2007 y en SEO desde 2010. Hoy soy co-founder de Onmarc, en Córdoba, donde dirijo los proyectos de buscadores desde 2015. Antes fui SEO Manager en Tecnofits y Coordinador SEO en Vittalia, y también fui docente de SEO, Google Ads y Analytics.
+        <h1>
+          Tus clientes ya le preguntan a la IA.
+          <span class="t2">¿Te nombra a vos o a otro?</span>
+        </h1>
+        <p class="lead">
+          Tu empresa, visible en todos los lugares donde hoy se busca: Google, sus resúmenes con IA, ChatGPT, Gemini y
+          Perplexity. Te muestro qué responden sobre tu rubro y qué cambiar primero.
         </p>
-        <p>
-          Trabajo con dueños, gerentes y equipos de empresas que quieren ser encontradas en Google y recomendadas por la inteligencia artificial, aunque no tengan un área interna para esto.
-        </p>
-        <p><a href="/martin-galmarino/">Conocé mi recorrido</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="recursos">
-    <div class="wrap">
-      <h2 id="recursos">Para entender qué cambió</h2>
-      <p class="intro">Tres lecturas cortas, en lenguaje de empresa. Después, si hace falta, vemos tu caso.</p>
-      <div class="resources">
-        {
-          guides.map((item, index) => (
-            <a class="resource" href={item.href}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <h3>{item.name}</h3>
-              <p>{item.line}</p>
-              <span class="card__go">Leer</span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <Proof />
-
-  {
-    posts.length > 0 && (
-      <section class="section" aria-labelledby="notas">
-        <div class="wrap">
-          <h2 id="notas">Últimas notas</h2>
-          <div class="post-list">
-            {posts.map((post) => (
-              <PostCard post={post} level={3} />
-            ))}
-          </div>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">
+            Quiero ver cómo me ve la IA
+            <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+          </a>
+          <a class="button button--ghost" href="#autoprueba">Hacé la prueba en 2 minutos</a>
         </div>
-      </section>
-    )
-  }
-
-  <section class="section" aria-labelledby="preguntas">
-    <div class="wrap">
-      <h2 id="preguntas">Preguntas frecuentes</h2>
-      <div class="faq">
-        {
-          faqs.map((item) => (
-            <details>
-              <summary>{item.question}</summary>
-              <p>
-                {item.answer}
-                {item.sourceUrl && item.sourceLabel && (
-                  <>
-                    {' '}
-                    Fuente:{' '}
-                    <a href={item.sourceUrl} rel="noopener noreferrer">
-                      {item.sourceLabel}
-                      <span class="visually-hidden"> (se abre en una pestaña nueva)</span>
-                    </a>
-                    .
-                  </>
-                )}
-              </p>
-            </details>
-          ))
-        }
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
       </div>
-    </div>
-  </section>
+      <div class="wrap stage">
+        <ChatMock />
+        <ChannelRadar />
+        <p class="cap">Ejemplo ilustrativo con datos ficticios: es lo que revisa el diagnóstico.</p>
+      </div>
+    </section>
 
-  <section class="section band-blue">
-    <div class="wrap cta">
-      <div>
-        <h2>Pedí tu diagnóstico</h2>
+    <section class="strip tex-grid" id="bloque-trayectoria" aria-label="Trayectoria">
+      <ul class="wrap track">
+        <li><b>19 años</b><span>en buscadores, desde 2007</span></li>
+        <li><b>Desde 2010</b><span>trabajando en SEO</span></li>
+        <li><b>Desde 2015</b><span>co-founder y director de proyectos en buscadores en Onmarc</span></li>
+        <li><b>Docente</b><span>fui docente de SEO, Google Ads y Analytics</span></li>
+      </ul>
+    </section>
+
+    <section class="band-white" id="asi-se-busca">
+      <div class="wrap">
+        <h2>Antes te buscaban. Hoy te comparan, y vos no estás en la conversación.</h2>
+        <p class="lead">La misma pregunta termina hoy en cinco lugares distintos, y en cada uno se gana de otra forma.</p>
         <p class="intro">
-          Es gratuito: reviso cómo aparece tu empresa en Google y qué responden ChatGPT, Gemini y Perplexity sobre tu rubro, y te devuelvo un informe corto.
+          Una sola pregunta, cinco pantallas. Tocá cada pestaña y fijate qué significa «ganar» ahí. Ejemplo ilustrativo:
+          no es un cliente.
         </p>
+        <SearchTabs />
       </div>
-      <a class="button button--primary button--lg" href="/diagnostico/">Pedí tu diagnóstico</a>
-    </div>
-  </section>
+    </section>
+
+    <section class="band-cream tex-dots" id="datos">
+      <div class="wrap">
+        <h2>Casi 1 de cada 2 adultos en Argentina ya usa IA.</h2>
+        <p class="lead">No es una moda de nicho: es un hábito que ya tienen tus clientes.</p>
+        <div class="stat-grid">
+          {stats.map((item) => <StatCard figure={item.figure} text={item.text} sources={item.sources} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="band-lav" id="quien-gana">
+      <div class="wrap">
+        <h2>En cada respuesta de la IA gana una empresa. ¿Sos vos?</h2>
+        <p class="lead">Saber quién se lleva hoy esas recomendaciones es el primer paso para disputarlas.</p>
+        <p class="intro">
+          Le hicimos la misma pregunta a la IA 10 veces, en distintas herramientas. Ejemplo ilustrativo: las empresas y
+          los números no son reales.
+        </p>
+        <RankingBars />
+        <p class="prose-note">
+          ¿Por qué gana A? En parte, por lo que dice su sitio. Pero también por lo que otros dicen de esa empresa. Según
+          McKinsey, el sitio propio de una marca suele ser apenas entre el 5% y el 10% de las fuentes que usa la
+          búsqueda con IA. <span>Análisis sobre EE.UU.</span>
+          <a
+            href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/new-front-door-to-the-internet-winning-in-the-age-of-ai-search"
+            target="_blank"
+            rel="noopener noreferrer">McKinsey, «New front door to the internet», 16/10/2025</a
+          >
+        </p>
+        <p class="remate">Cada pregunta que tu empresa no responde la responde un competidor.</p>
+        <div class="ctas ctas--start">
+          <a class="button button--primary" href="/diagnostico/">Quiero saber si me nombran</a>
+        </div>
+        <p class="micro micro--start"><span>Gratis y sin compromiso</span></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="autoprueba">
+      <div class="wrap">
+        <h2>5 señales de que tu empresa es invisible para la IA</h2>
+        <p class="lead">Probalo en 2 minutos, sin pedirle nada a nadie.</p>
+        <Checklist />
+        <div class="ctas ctas--start">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro micro--start"><span>Gratis y sin compromiso</span></p>
+      </div>
+    </section>
+
+    <section class="band-cream" id="tres-formas">
+      <div class="wrap">
+        <h2>Tres lugares donde te pueden elegir. Un mismo trabajo de fondo.</h2>
+        <p class="lead">No necesitás entender las siglas: necesitás saber dónde estás perdiendo.</p>
+        <div class="trio">
+          <article class="offer">
+            <div class="mini mini--list" aria-hidden="true">
+              <span></span><span></span><span class="on"></span>
+            </div>
+            <h3>Que te encuentren en Google</h3>
+            <p><b>Qué ganás:</b> aparecer cuando buscan lo que vendés, y darle a la IA una fuente clara sobre tu empresa.</p>
+            <p><b>Señal de que lo necesitás:</b> no aparecés cuando buscan tu servicio y tu ciudad, ni en Google Maps.</p>
+            <a href="/servicios/seo/">Ver SEO</a>
+          </article>
+          <article class="offer">
+            <div class="mini mini--chat" aria-hidden="true">
+              <span></span><span></span>
+            </div>
+            <h3>Que la IA te nombre, y bien</h3>
+            <p><b>Qué ganás:</b> estar entre las empresas que nombran ChatGPT, Gemini o Perplexity, con una descripción correcta.</p>
+            <p><b>Señal de que lo necesitás:</b> la IA nombra a otros, o dice algo equivocado de vos.</p>
+            <a href="/servicios/geo/">Ver GEO</a>
+          </article>
+          <article class="offer">
+            <div class="mini mini--box" aria-hidden="true"><span>La respuesta, arriba</span></div>
+            <h3>Que tu respuesta sea la que se lee</h3>
+            <p><b>Qué ganás:</b> que la explicación que aparece arriba, en el recuadro o en el resumen, salga de tu sitio.</p>
+            <p><b>Señal de que lo necesitás:</b> las dudas típicas de tu rubro las responde el sitio de otro.</p>
+            <a href="/servicios/aeo/">Ver AEO</a>
+          </article>
+        </div>
+        <p class="base">Los tres frentes se apoyan en lo mismo: un sitio que diga con claridad qué hacés, para quién y dónde.</p>
+      </div>
+    </section>
+
+    <section class="band-violet" id="bloque-cta-medio">
+      <div class="wrap">
+        <h2>¿Querés saber qué responde hoy ChatGPT sobre tu rubro?</h2>
+        <p class="lead">
+          Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity. En hasta 5 días hábiles tenés
+          el informe.
+        </p>
+        <div class="ctas ctas--start">
+          <a class="button button--light" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro micro--start"><span>Gratis y sin compromiso</span></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="como-trabajo">
+      <div class="wrap">
+        <h2>Cuatro pasos. Cada uno termina en algo que podés ver.</h2>
+        <p class="lead">Sabés qué recibís, cuándo y cómo se mide.</p>
+        <Timeline />
+      </div>
+    </section>
+
+    <section class="band-night tex-grid" id="tu-diagnostico">
+      <div class="wrap split">
+        <div>
+          <h2>Así se ve tu diagnóstico: lo que la IA dice hoy de tu empresa, sin vueltas.</h2>
+          <p class="lead">Antes de invertir un peso, sabés dónde estás parado.</p>
+          <p class="intro">Un PDF corto, que se lee en 10 minutos. Tiene seis partes.</p>
+          <div class="ctas ctas--start">
+            <a class="button button--primary" href="/diagnostico/">Quiero mi diagnóstico</a>
+          </div>
+          <p class="micro micro--start"><span>Gratis y sin compromiso</span></p>
+        </div>
+        <ReportPreview />
+      </div>
+    </section>
+
+    <section class="band-cream" id="quien">
+      <div class="wrap who">
+        <div class="who-photo">
+          <Picture
+            src={portrait}
+            alt="Martín Galmarino sonriendo, con remera negra, sobre una pared de madera clara"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 900px) 380px, 100vw"
+            formats={['avif', 'webp']}
+            loading="eager"
+          />
+        </div>
+        <div>
+          <h2>19 años en buscadores. Vi cada cambio desde adentro.</h2>
+          <p class="lead">Vas a trabajar directo conmigo, con datos y sin jerga.</p>
+          <p>
+            Empecé en buscadores en 2007, con publicidad paga, y en SEO en 2010. Desde 2015 soy co-founder de Onmarc, en
+            Córdoba, donde dirijo los proyectos de buscadores. Antes fui SEO Manager en Tecnofits y Coordinador SEO en
+            Vittalia.
+          </p>
+          <p>
+            También fui docente de SEO, Google Ads y Analytics, soy diplomado en Marketing Digital (UBP) y trabajé ocho
+            años en radio. De ahí me quedó el oficio de explicar claro, para que puedas decidir sin depender de las
+            siglas.
+          </p>
+          <ol class="path">
+            <li>2007</li>
+            <li>2010</li>
+            <li>2015</li>
+            <li>hoy</li>
+          </ol>
+          <ul class="principles">
+            <li><b>Trabajo directo conmigo.</b> No te paso a un equipo que no conocés.</li>
+            <li><b>Datos con fuente.</b> Si afirmo algo, te muestro de dónde sale.</li>
+            <li><b>Sin promesas de posición.</b> Te muestro lo que medimos, todos los meses.</li>
+          </ul>
+          <a class="text-link" href="/martin-galmarino/">Conocé mi recorrido</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-white" id="recursos">
+      <div class="wrap">
+        <h2>Entendé qué cambió antes de decidir. Son lecturas cortas.</h2>
+        <p class="lead">Llegás al diagnóstico sabiendo qué preguntar.</p>
+        <div class="guides">
+          {
+            homeGuides.map((guide) => (
+              <a class="guide" href={guide.href}>
+                <span class="ico" aria-hidden="true">
+                  <svg>
+                    <use href={`#i-${guide.icon}`} />
+                  </svg>
+                </span>
+                <h3>{guide.title}</h3>
+                <p>
+                  <b>Te llevás:</b> {guide.take}
+                </p>
+                <span class="guide__meta">Leer · {guide.minutes} min</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <Proof />
+
+    {
+      posts.length > 0 && (
+        <section class="band-lav" id="notas">
+          <div class="wrap">
+            <h2>Últimas notas</h2>
+            <div class="post-list">
+              {posts.map((post) => (
+                <PostCard post={post} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que te estás preguntando, contestado claro</h2>
+        <p class="lead">Respuestas cortas a lo que suele frenar la decisión.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <section class="finale tex-grid" id="bloque-cta-final">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <h2>En tu rubro, alguien ya es la respuesta. <em>¿Sos vos?</em></h2>
+        <p class="lead">
+          En hasta 5 días hábiles lo sabés: 10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y
+          Perplexity.
+        </p>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+      </div>
+    </section>
   </div>
 </BaseLayout>

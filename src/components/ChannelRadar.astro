@@ -1,0 +1,35 @@
+---
+import { channels } from '../data/home';
+
+const marks: Record<(typeof channels)[number]['tone'], string> = {
+  ok: 'i-check',
+  no: 'i-x',
+  meh: 'i-warn',
+  inf: '',
+};
+---
+
+<aside class="radar" aria-label="Dónde aparece tu empresa. Ejemplo ilustrativo.">
+  <p class="qlabel">Dónde aparece tu empresa</p>
+  <div class="score"><b>2 de 5</b><span>canales</span></div>
+  {
+    channels.map((channel) => (
+      <div class="row">
+        <span class="ico" aria-hidden="true">
+          <svg>
+            <use href={`#i-${channel.icon}`} />
+          </svg>
+        </span>
+        <span class="n">{channel.name}</span>
+        <span class:list={['chip', channel.tone]}>
+          {marks[channel.tone] && (
+            <svg aria-hidden="true">
+              <use href={`#${marks[channel.tone]}`} />
+            </svg>
+          )}
+          {channel.status}
+        </span>
+      </div>
+    ))
+  }
+</aside>
