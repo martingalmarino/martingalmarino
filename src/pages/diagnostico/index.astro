@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+
+const title = `Pedí tu diagnóstico | ${site.name}`;
+const description =
+  'Diagnóstico gratuito: vemos cómo aparece tu empresa en Google y qué responden ChatGPT, Gemini y Perplexity.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Pedí tu diagnóstico</h1>
+      <p class="lead">
+        El diagnóstico es gratuito. Revisamos cómo aparece la empresa en Google y qué responden ChatGPT, Gemini y
+        Perplexity sobre el rubro, y devolvemos un informe corto.
+      </p>
+      <p>El formulario todavía no está en el sitio. Mientras tanto, podés escribirme por LinkedIn.</p>
+      <p>
+        <a class="button button--primary" href={site.author.linkedin} rel="me noopener noreferrer">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

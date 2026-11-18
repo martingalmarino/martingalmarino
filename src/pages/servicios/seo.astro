@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services, site } from '../../config/site';
+
+const service = services[0];
+const title = `SEO | ${site.name}`;
+---
+
+<BaseLayout title={title} description={service.line}>
+  <section class="section">
+    <div class="wrap">
+      <h1>SEO</h1>
+      <p class="lead">{service.line}</p>
+      <p><a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a></p>
+    </div>
+  </section>
+</BaseLayout>

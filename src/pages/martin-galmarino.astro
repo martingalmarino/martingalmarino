@@ -1,0 +1,45 @@
+---
+/*
+  Etapa 2: bio y trayectoria.
+  Onmarc va como texto de experiencia, sin logo y sin sameAs.
+  Person.worksFor apunta a la organización; el jobTitle sale de site.author.
+  Blue Union Agency no se menciona en ningún lado.
+  La foto de perfil es src/assets/martin-galmarino-perfil.jpg.
+*/
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import profile from '../assets/martin-galmarino-perfil.jpg';
+
+const title = `Sobre Martín Galmarino | ${site.name}`;
+const description = 'Co-founder y director de proyectos en buscadores de Onmarc. Docente de SEO desde 2018.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <div class="portrait-frame author-photo">
+        <Picture
+          src={profile}
+          alt="Martín Galmarino"
+          formats={['avif', 'webp']}
+          widths={[240, 480]}
+          sizes="8rem"
+          layout="constrained"
+          class="portrait"
+        />
+      </div>
+      <h1>Martín Galmarino</h1>
+      <p class="lead">{site.tagline}. En buscadores desde 2007.</p>
+      <p>
+        Soy co-founder y director de proyectos en buscadores de {site.author.organization.name}. Desde 2018 doy clases de SEO, Google Ads y Analytics.
+      </p>
+      <p>Estoy completando esta página con el recorrido.</p>
+      <p>
+        <a class="button button--primary" href={site.author.linkedin} rel="me noopener noreferrer">
+          Seguime en LinkedIn
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

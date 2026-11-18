@@ -1,0 +1,35 @@
+---
+interface Props {
+  page: number;
+  total: number;
+  base: string;
+}
+
+const { page, total, base } = Astro.props;
+
+function href(n: number) {
+  return n <= 1 ? base : `${base}pagina/${n}/`;
+}
+---
+
+{
+  total > 1 && (
+    <nav class="pager" aria-label="Paginación">
+      {page > 1 ? (
+        <a href={href(page - 1)} rel="prev">
+          Anterior
+        </a>
+      ) : (
+        <span />
+      )}
+      <p>
+        Página {page.toLocaleString('es-AR')} de {total.toLocaleString('es-AR')}
+      </p>
+      {page < total && (
+        <a href={href(page + 1)} rel="next">
+          Siguiente
+        </a>
+      )}
+    </nav>
+  )
+}

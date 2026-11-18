@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services, site } from '../../config/site';
+
+const service = services[1];
+const title = `GEO | ${site.name}`;
+---
+
+<BaseLayout title={title} description={service.line}>
+  <section class="section">
+    <div class="wrap">
+      <h1>GEO</h1>
+      <p class="lead">{service.line}</p>
+      <p>
+        La definición sale de Aggarwal y otros, Princeton, arXiv 2023 / KDD 2024.
+        <a href="https://arxiv.org/abs/2311.09735" rel="noopener noreferrer">Ver el paper</a>.
+      </p>
+      <p><a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a></p>
+    </div>
+  </section>
+</BaseLayout>

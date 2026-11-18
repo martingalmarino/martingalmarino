@@ -1,0 +1,48 @@
+---
+import { guides, services, site } from '../config/site';
+
+const year = new Date().getUTCFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true">MG</span>
+        <span>Martín Galmarino</span>
+      </a>
+      <p>SEO, GEO y AEO para empresas: aparecer en Google y en las respuestas de la IA.</p>
+    </div>
+    <nav aria-label="Servicios">
+      <p class="footer__label">Servicios</p>
+      <ul>
+        <li><a href="/servicios/">Todos los servicios</a></li>
+        {services.map((item) => <li><a href={item.href}>{item.name}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Guías">
+      <p class="footer__label">Guías</p>
+      <ul>
+        <li><a href="/guia/">Entender la búsqueda</a></li>
+        {guides.map((item) => <li><a href={item.href}>{item.name}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Más">
+      <p class="footer__label">Más</p>
+      <ul>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/martin-galmarino/">Sobre mí</a></li>
+        <li><a href="/diagnostico/">Diagnóstico</a></li>
+        <li><a href="/glosario/">Glosario</a></li>
+        <li><a href="/privacidad/">Privacidad</a></li>
+        <li><a href="/rss.xml">RSS</a></li>
+        <li>
+          <a href={site.author.linkedin} rel="me noopener noreferrer">LinkedIn</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="wrap">
+    <p class="legal">© {year} Martín Galmarino</p>
+  </div>
+</footer>

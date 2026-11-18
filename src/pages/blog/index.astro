@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Pagination from '../../components/Pagination.astro';
+import PostCard from '../../components/PostCard.astro';
+import { categoryNames, categorySlug, site } from '../../config/site';
+import { getPublishedPosts, PAGE_SIZE } from '../../lib/blog';
+
+const posts = await getPublishedPosts();
+const pagePosts = posts.slice(0, PAGE_SIZE);
+const total = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+const usedCategories = categoryNames.filter((name) => posts.some((post) => post.data.category === name));
+const title = `Blog | ${site.name}`;
+const description = 'Notas sobre SEO, GEO y AEO, escritas para quien tiene una empresa y no un equipo de marketing.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Blog</h1>
+      <p class="lead">Te explico, en criollo, cómo se busca hoy y qué puede hacer una empresa con eso.</p>
+      {
+        posts.length === 0 ? (
+          <p class="empty">Todavía no publiqué notas. Mientras tanto, podés leer <a href="/guia/">qué cambió en la búsqueda</a>.</p>
+        ) : (
+          <>
+            <ul class="chips">
+              {usedCategories.map((name) => (
+                <li>
+                  <a href={`/blog/categoria/${categorySlug(name)}/`}>{name}</a>
+                </li>
+              ))}
+            </ul>
+            <div class="post-list">
+              {pagePosts.map((post) => (
+                <PostCard post={post} />
+              ))}
+            </div>
+            <Pagination page={1} total={total} base="/blog/" />
+          </>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
