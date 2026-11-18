@@ -33,7 +33,7 @@ npm run preview
 
 1. Importá el repo [martingalmarino/martingalmarino](https://github.com/martingalmarino/martingalmarino).
 2. Framework: Astro (Vercel lo detecta). Build: `npm run build`. No hace falta un output directory a mano: el sitio es estático.
-3. `vercel.ts` ya manda headers de seguridad, cache de `/_astro/` y el redirect de `www` al dominio de `site.url`.
+3. `vercel.json` manda headers de seguridad, cache de `/_astro/` y el redirect de `www` a `https://martingalmarino.com`.
 
 No hay variables de entorno obligatorias en esta etapa. El formulario y Analytics quedan para la etapa 2 (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `PUBLIC_GA_ID`).
 
