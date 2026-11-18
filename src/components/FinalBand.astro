@@ -1,0 +1,40 @@
+---
+interface Link {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  text: string;
+  cta: string;
+  href: string;
+  links?: Link[];
+}
+
+const { title, text, cta, href, links = [] } = Astro.props;
+---
+
+<section class="finale tex-grid">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>{title}</h2>
+    <p class="lead">{text}</p>
+    <div class="ctas">
+      <a class="button button--primary" href={href}>{cta}</a>
+    </div>
+    <p class="micro"><span>Gratis y sin compromiso</span></p>
+    {
+      links.length > 0 && (
+        <p class="more">
+          {links.map((link, index) => (
+            <>
+              {index > 0 && ' · '}
+              <a href={link.href}>{link.label}</a>
+            </>
+          ))}
+        </p>
+      )
+    }
+  </div>
+</section>

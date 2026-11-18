@@ -11,6 +11,20 @@ const { caption, columns, rows, illustrative = false } = Astro.props;
 
 <figure class="compare">
   {illustrative && <figcaption class="ilus">Ejemplo ilustrativo</figcaption>}
+  <ul class="compare-cards">
+    {
+      columns.map((column, columnIndex) => (
+        <li>
+          <p class="compare-cards__title">{column}</p>
+          {rows.map((row) => (
+            <p>
+              <b>{row.label}</b> {row.cells[columnIndex]}
+            </p>
+          ))}
+        </li>
+      ))
+    }
+  </ul>
   <table>
     <caption>{caption}</caption>
     <thead>

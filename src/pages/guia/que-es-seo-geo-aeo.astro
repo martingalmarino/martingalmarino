@@ -1,20 +1,212 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { guides, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const guide = guides[0];
-const title = `${guide.name} | ${site.name}`;
+const path = '/guia/que-es-seo-geo-aeo/';
+const title = 'Qué es SEO, GEO y AEO, y cuál necesitás | Martín Galmarino';
+const description =
+  'SEO, GEO y AEO explicados en una frase cada uno, con una tabla y un test de 3 preguntas para saber por dónde empezar. Sin jerga.';
+const google = 'https://blog.google/products-and-platforms/products/search/ai-overviews-search-october-2024/';
+const paper = 'https://arxiv.org/abs/2311.09735';
+const pew = 'https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/';
+
+const faqs: Faq[] = [
+  { question: '¿Qué es el SEO, el GEO y el AEO?', answer: 'El SEO es para aparecer en Google. El GEO, para que una IA como ChatGPT te nombre y te describa bien. El AEO, para que tu explicación sea la respuesta directa: el recuadro, el resumen o lo que se lee en voz alta.' },
+  { question: '¿El GEO o el AEO reemplazan al SEO?', answer: 'No. El SEO es la base: si Google no entiende tu sitio, la IA tiene menos de dónde sacar una respuesta correcta, y es más difícil que te elijan como respuesta.' },
+  { question: '¿Hace falta trabajar los tres?', answer: 'No siempre. Depende de dónde estás perdiendo clientes hoy. El diagnóstico prueba 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity, y te dice por dónde empezar.' },
+  { question: '¿Qué es LLMO?', answer: 'Es otra sigla para casi lo mismo que el GEO: trabajar para que los modelos de IA, como ChatGPT, nombren y describan bien a tu empresa.' },
+];
+
+const test = [
+  { q: '¿Aparecés en la primera pantalla de Google cuando buscan tu servicio y tu ciudad?', no: 'empezá por SEO.' },
+  { q: 'Si le preguntás a ChatGPT qué empresas de tu rubro hay en tu zona, ¿te nombra?', no: 'sumá GEO.' },
+  { q: '¿Las dudas típicas de tu rubro las responde, arriba de todo, tu sitio?', no: 'sumá AEO.' },
+];
 ---
 
-<BaseLayout title={title} description={guide.line}>
-  <section class="section">
-    <div class="wrap">
-      <h1>{guide.name}</h1>
-      <p class="lead">{guide.line}</p>
-      <p>Esta guía está en preparación. Mientras tanto, las definiciones cortas están en cada servicio.</p>
-      <p>
-        <a href="/servicios/seo/">SEO</a>, <a href="/servicios/geo/">GEO</a> y <a href="/servicios/aeo/">AEO</a>.
-      </p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Guías', path: '/guia/' }, { name: 'Qué es SEO, GEO y AEO', path }]),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Guías', href: '/guia/' }, { label: 'Qué es SEO, GEO y AEO' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Guía · 6 min de lectura</p>
+        <h1>SEO, GEO y AEO: qué es cada uno y cuál necesitás</h1>
+        <p class="lead">Tres siglas, una sola pregunta de fondo: cuando alguien busca lo que vendés, ¿te eligen a vos?</p>
+        <div class="ctas">
+          <a class="button button--primary" href="#test">Hacer el test de 3 preguntas</a>
+          <a class="button button--ghost" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="en-una-frase">
+      <div class="wrap">
+        <h2>Si tenés 30 segundos, quedate con esto.</h2>
+        <p class="lead">Cada sigla es un lugar distinto donde te pueden elegir, o no.</p>
+        <ul class="card-grid">
+          <li><b>SEO</b> que tu empresa aparezca en Google cuando buscan lo que vendés.</li>
+          <li><b>GEO</b> que una IA como ChatGPT, Gemini o Perplexity te nombre, y te describa bien.</li>
+          <li><b>AEO</b> que la explicación que aparece arriba, en el recuadro o en el resumen, salga de tu sitio.</li>
+        </ul>
+        <p>No son tres modas. Son tres pantallas en las que hoy termina la misma búsqueda.</p>
+      </div>
+    </section>
+
+    <section class="band-cream" id="tabla">
+      <div class="wrap">
+        <h2>Las tres, comparadas: dónde se ven y cómo sabés si te falta alguna.</h2>
+        <p class="lead">Una sola tabla para no confundirlas nunca más.</p>
+        <CompareTable
+          caption="SEO, GEO y AEO en una tabla"
+          columns={['SEO', 'GEO', 'AEO']}
+          rows={[
+            { label: 'Sigla', cells: ['Search Engine Optimization', 'Generative Engine Optimization', 'Answer Engine Optimization'] },
+            { label: 'Dónde se ve', cells: ['La lista de resultados de Google', 'ChatGPT, Gemini, Perplexity y los resúmenes con IA', 'Recuadros, resúmenes con IA y respuestas por voz'] },
+            { label: 'Qué se gana', cells: ['Que te encuentren', 'Que te nombren, y bien', 'Que tu explicación sea la que se lee'] },
+            { label: 'Señal de que te falta', cells: ['No aparecés al buscar tu servicio y tu ciudad', 'La IA nombra a otros, o se equivoca con vos', 'Tus dudas típicas las responde otro sitio'] },
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-lav" id="test">
+      <div class="wrap">
+        <h2>¿Cuál necesitás? Respondé tres preguntas con sí o no.</h2>
+        <p class="lead">Te lleva un minuto y te dice por dónde conviene empezar.</p>
+        <ol class="test-list" data-test>
+          {
+            test.map((item) => (
+              <li data-no={item.no}>
+                <p>{item.q}</p>
+                <p class="test-fallback"><b>No</b> → {item.no}</p>
+                <div class="test-ui">
+                  <button type="button" data-ans="si">Sí</button>
+                  <button type="button" data-ans="no">No</button>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="test-result" data-test-result hidden></p>
+        <p>¿Dijiste que no a más de una? Es lo más común. Los tres frentes se apoyan en la misma base, y el orden lo define el diagnóstico.</p>
+      </div>
+    </section>
+
+    <section class="band-white" id="seo">
+      <div class="wrap prose">
+        <h2>SEO: si Google no te entiende, tampoco te recomienda.</h2>
+        <p class="lead">Es la base de todo lo demás, también de lo que dice la IA.</p>
+        <p>El SEO es el trabajo para que Google entienda qué hacés, para quién y dónde, y te muestre cuando alguien busca eso.</p>
+        <p>Sigue siendo la base. Desde octubre de 2024, Google muestra resúmenes con IA en más de 100 países, también en español. Para armarlos, usa las páginas que entiende.</p>
+        <p><b>Ejemplo ilustrativo:</b> alguien busca «mantenimiento industrial en Córdoba». Google muestra a quien dice esas tres cosas con claridad, no a quien solo dice «soluciones integrales».</p>
+        <p>Fuente: <a href={google} target="_blank" rel="noopener noreferrer">Google, 28/10/2024</a></p>
+        <p><a href="/servicios/seo/">Ver cómo trabajo el SEO</a></p>
+      </div>
+    </section>
+
+    <section class="band-cream" id="geo">
+      <div class="wrap prose">
+        <h2>GEO: cuando preguntan en un chat, la IA nombra a pocas empresas.</h2>
+        <p class="lead">El trabajo es que una de ellas sea la tuya, y que lo que diga sea correcto.</p>
+        <p>El GEO es el trabajo para que una IA te nombre cuando alguien pregunta por tu rubro, y para que la descripción sea correcta.</p>
+        <p>El término viene de un estudio de investigadores de Princeton y otros, publicado en KDD 2024. Según ese estudio, algunas formas de presentar la información aumentaron hasta un 40% la visibilidad en las respuestas.</p>
+        <p>A veces vas a ver la sigla LLMO. Se usa casi como sinónimo de GEO.</p>
+        <p><b>Ejemplo ilustrativo:</b> «¿Qué estudio contable me recomendás para una pyme en Córdoba?». La respuesta nombra a dos o tres estudios. Si no estás ahí, ese cliente ni sabe que existís.</p>
+        <p>Fuente: <a href={paper} target="_blank" rel="noopener noreferrer">Aggarwal y otros, arXiv:2311.09735 / KDD 2024</a></p>
+        <p><a href="/servicios/geo/">Ver cómo trabajo el GEO</a></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="aeo">
+      <div class="wrap prose">
+        <h2>AEO: si la respuesta está arriba, mucha gente no hace clic.</h2>
+        <p class="lead">Que esa respuesta salga de tu sitio es otra forma de ser visible.</p>
+        <p>El AEO es el trabajo para que un buscador o un asistente elija tu explicación como respuesta directa: el recuadro de Google, la fuente de un resumen con IA o lo que se lee en voz alta.</p>
+        <p>Importa porque, cuando Google muestra un resumen con IA, la gente hace clic en un resultado en el 8% de las visitas. Sin resumen, en el 15%. <em>(Datos de EE.UU.)</em></p>
+        <p><b>Ejemplo ilustrativo:</b> «¿Cuánto tarda instalar una alarma en una oficina?». Quien responde eso arriba, en dos líneas claras, se lleva la atención.</p>
+        <p>Fuente: <a href={pew} target="_blank" rel="noopener noreferrer">Pew Research Center, 22/7/2025</a></p>
+        <p><a href="/servicios/aeo/">Ver cómo trabajo el AEO</a></p>
+      </div>
+    </section>
+
+    <section class="band-lav" id="como-se-apoyan">
+      <div class="wrap">
+        <h2>No son caminos separados: los tres se apoyan en la misma base.</h2>
+        <p class="lead">Un sitio que diga claro qué hacés, más lo que otros dicen de vos.</p>
+        <p>Si tu sitio no te describe bien, Google te muestra menos, la IA tiene menos de dónde sacar una respuesta y es difícil que tu explicación sea la elegida.</p>
+        <p>Por eso el trabajo empieza por la base y suma frentes según lo que muestre el diagnóstico.</p>
+        <p class="base-strip"><b>Un sitio claro + lo que otros dicen de vos</b></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="glosario">
+      <div class="wrap">
+        <h2>Cinco términos que vas a escuchar, en una línea cada uno.</h2>
+        <p class="lead">Para que nadie te maree con siglas en una reunión.</p>
+        <ul class="glossary">
+          <li><b>Visión general creada por IA (AI Overviews):</b> el resumen que Google muestra arriba de los resultados.</li>
+          <li><b>Modo IA:</b> la búsqueda de Google en forma de conversación, con repreguntas.</li>
+          <li><b>Fragmento destacado:</b> el recuadro con una respuesta breve sacada de una página.</li>
+          <li><b>LLMO:</b> casi un sinónimo de GEO.</li>
+          <li><b>Datos estructurados:</b> marcas en el código que le dicen al buscador qué es cada cosa, como una pregunta frecuente.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que suele preguntarse después de leer esto</h2>
+        <p class="lead">Respuestas cortas, sin siglas de más.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Querés saber cuál te falta a vos?"
+      text="10 preguntas reales de tu rubro, probadas en 4 herramientas. PDF en hasta 5 días hábiles."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[
+        { href: '/guia/evolucion-del-seo/', label: 'De diez links a una respuesta: cómo cambió la búsqueda' },
+        { href: '/guia/por-que-estar-en-los-llms/', label: 'Si la IA no te nombra, nombra a otro' },
+      ]}
+    />
+  </div>
 </BaseLayout>
+
+<script>
+  document.documentElement.classList.add('js');
+  const items = [...document.querySelectorAll('[data-test] li')];
+  const result = document.querySelector('[data-test-result]');
+  const answers = new Map();
+  items.forEach((item, index) => {
+    item.querySelectorAll('[data-ans]').forEach((button) => {
+      button.addEventListener('click', () => {
+        answers.set(index, button.getAttribute('data-ans'));
+        item.querySelectorAll('[data-ans]').forEach((other) => {
+          other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
+        });
+        if (answers.size < items.length || !(result instanceof HTMLElement)) return;
+        const misses = items
+          .map((row, rowIndex) => (answers.get(rowIndex) === 'no' ? row.getAttribute('data-no') : ''))
+          .filter(Boolean);
+        result.hidden = misses.length === 0;
+        result.textContent = misses.length ? `No → ${misses.join(' · ')}` : '';
+      });
+    });
+  });
+</script>

@@ -1,17 +1,201 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { services, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import Checks from '../../components/Checks.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Timeline from '../../components/Timeline.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage, serviceNode } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const service = services[2];
-const title = `AEO | ${site.name}`;
+const path = '/servicios/aeo/';
+const title = 'AEO: que tu respuesta sea la que se lee | Martín Galmarino';
+const description =
+  'Si la respuesta aparece arriba, el clic no llega. Trabajo para que la explicación que muestra Google salga de tu sitio. Diagnóstico gratis.';
+const pew = 'https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/';
+const modo = 'https://blog.google/intl/es-419/actualizaciones-de-producto/informacion/buscador-de-google-presentamos-el-modo-ia-en-hispanoamerica/';
+
+const faqs: Faq[] = [
+  { question: '¿Qué es el AEO?', answer: 'AEO (Answer Engine Optimization) es el trabajo para que un buscador o un asistente elija la explicación de tu sitio como respuesta directa: el recuadro de Google, la fuente de un resumen con IA o lo que se lee en voz alta.' },
+  { question: '¿En qué se diferencia del SEO y del GEO?', answer: 'El SEO apunta a que aparezcas en la lista de Google. El AEO apunta a que tu explicación sea la respuesta que se ve arriba. El GEO apunta a que una IA como ChatGPT te nombre y te describa bien.' },
+  { question: '¿Qué es un recuadro de respuesta?', answer: 'Es el bloque que Google muestra a veces arriba de los resultados, con una respuesta breve sacada de una página. También se lo llama fragmento destacado.' },
+  { question: '¿Me garantizás aparecer en el recuadro?', answer: 'No. Google decide qué muestra, y nadie puede garantizarlo. Lo que sí hago es escribir tus respuestas para que sean fáciles de tomar, y medir todos los meses si te eligen.' },
+  { question: '¿Sirve para la búsqueda por voz?', answer: 'Sí. Un asistente suele leer una sola respuesta, y una respuesta clara y corta en tu sitio tiene más chances de ser esa.' },
+  { question: '¿Cuánto cuesta?', answer: 'El diagnóstico es gratis y sin compromiso. El trabajo posterior se arma a partir de lo que muestra el diagnóstico, y lo conversamos en ese momento.' },
+];
 ---
 
-<BaseLayout title={title} description={service.line}>
-  <section class="section">
-    <div class="wrap">
-      <h1>AEO</h1>
-      <p class="lead">{service.line}</p>
-      <p><a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a></p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Servicios', path: '/servicios/' }, { name: 'AEO', path }]),
+    serviceNode({ name: 'AEO', serviceType: 'Answer Engine Optimization', description, path }),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Servicios', href: '/servicios/' }, { label: 'AEO' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Servicios · AEO</p>
+        <h1>Si la respuesta aparece arriba, el clic no llega. Que la respuesta sea la tuya.</h1>
+        <p class="lead">Las dudas de tu rubro, respondidas con tu explicación: en el recuadro, en el resumen con IA o en lo que se lee en voz alta.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+          <a class="button button--ghost" href="#checklist">Cómo se escribe una respuesta</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <figure class="serp">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <div class="ai">
+            <p>En una oficina chica, la instalación de alarmas depende de los ambientes y del cableado. Fuente citada: <b>tuempresa.com.ar</b></p>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="por-que-importa">
+      <div class="wrap">
+        <h2>Cuanto más se parece a una pregunta, más la responde la IA.</h2>
+        <p class="lead">Y las preguntas son justo lo que tus clientes hacen antes de elegir.</p>
+        <div class="prose">
+          <p><b>Con datos de EE.UU. (Pew):</b></p>
+          <ul>
+            <li>El 18% de las búsquedas en Google mostró un resumen con IA.</li>
+            <li>Cuando la búsqueda empezaba con «quién», «qué», «cuándo» o «por qué», ese número subió al 60%.</li>
+            <li>En búsquedas de 10 palabras o más, al 53%.</li>
+            <li>Con resumen, la gente hizo clic en un resultado en el 8% de las visitas; sin resumen, en el 15%.</li>
+          </ul>
+          <p><b>En español:</b> desde septiembre de 2025, Google ofrece el Modo IA, una búsqueda en forma de conversación. Según Google, los primeros usuarios hacían preguntas dos o tres veces más largas que en una búsqueda tradicional.</p>
+          <p>¿Qué significa para tu empresa? Que en las dudas típicas de tu rubro, alguien se lleva una explicación sin hacer clic. Puede ser la tuya o la de otro.</p>
+          <p>
+            Fuentes:
+            <a href={pew} target="_blank" rel="noopener noreferrer">Pew Research Center, 22/7/2025</a>
+            ·
+            <a href={modo} target="_blank" rel="noopener noreferrer">Google Hispanoamérica, 23/9/2025</a>
+          </p>
+        </div>
+        <figure class="pie">
+          <figcaption class="ilus">Pew Research Center, 22/7/2025 · datos de EE.UU.</figcaption>
+          <p class="pie-bar"><span>Todas</span><span><i style="width:18%"></i></span><span>18%</span></p>
+          <p class="pie-bar"><span>10+ palabras</span><span><i style="width:53%"></i></span><span>53%</span></p>
+          <p class="pie-bar"><span>Pregunta</span><span><i style="width:60%"></i></span><span>60%</span></p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-lav" id="senales">
+      <div class="wrap">
+        <h2>5 señales de que otro responde las dudas de tu rubro</h2>
+        <p class="lead">Si te reconocés en dos o más, tus clientes leen la explicación de otro.</p>
+        <Checks
+          items={[
+            'Buscás una duda típica de tu rubro y arriba aparece el sitio de otro.',
+            'Tus clientes te hacen siempre las mismas preguntas, y tu sitio no las responde.',
+            'Tu sitio tiene preguntas frecuentes, pero las respuestas son vagas o vuelven sobre sí mismas.',
+            'Tus páginas arrancan con «somos líderes» en lugar de contestar algo.',
+            'Cuando preguntás en voz alta, el asistente lee la respuesta de otra empresa.',
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-white" id="antes-despues">
+      <div class="wrap">
+        <h2>La misma respuesta, escrita de dos formas. Google elige una.</h2>
+        <p class="lead">Responder primero y explicar después hace la diferencia.</p>
+        <p><b>Pregunta:</b> «¿Cuánto tarda instalar un sistema de alarmas en una oficina?»</p>
+        <p><em>Ejemplo ilustrativo. Empresa y datos inventados; lo que va entre corchetes se completa con los datos reales de cada caso.</em></p>
+        <BeforeAfter
+          illustrative
+          beforeLabel="Antes · No responde"
+          afterLabel="Después"
+          before="En Seguridad Ejemplo somos líderes con amplia trayectoria. Ofrecemos soluciones integrales adaptadas a cada cliente, con la mejor tecnología y un equipo comprometido. Consultanos."
+          after="En una oficina de hasta [X] m², la instalación lleva [plazo]. Depende de tres cosas: la cantidad de ambientes, si hace falta cablear y si se integra con cámaras. Antes de instalar hacemos una visita técnica sin cargo."
+        />
+      </div>
+    </section>
+
+    <section class="band-cream" id="checklist">
+      <div class="wrap">
+        <h2>Cómo se escribe una respuesta que Google pueda tomar</h2>
+        <p class="lead">Seis reglas que podés aplicar hoy en tu sitio.</p>
+        <ol class="card-grid">
+          <li><b>La pregunta, como título</b>: tal cual la haría tu cliente.</li>
+          <li><b>La respuesta, en las primeras 2 o 3 líneas</b>: directa, sin introducción.</li>
+          <li><b>Después, el detalle</b>: de qué depende, excepciones, ejemplos.</li>
+          <li><b>Números y datos concretos</b> en lugar de adjetivos.</li>
+          <li><b>Una pregunta por bloque</b>, no cinco mezcladas en un párrafo.</li>
+          <li><b>Las preguntas frecuentes marcadas con datos estructurados</b> (FAQPage), para que el buscador las reconozca como preguntas y respuestas.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band-white" id="metodo">
+      <div class="wrap">
+        <h2>De la duda de tu cliente a tu respuesta publicada.</h2>
+        <p class="lead">Trabajás directo conmigo, de principio a fin.</p>
+        <Timeline chips={[]} steps={[
+          { n: '01', title: 'Diagnóstico', note: 'gratis, en hasta 5 días hábiles', text: '10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity, y una revisión rápida de tu sitio.', deliverable: 'un PDF que se lee en 10 minutos, con quién responde hoy esas dudas.', icon: 'file' },
+          { n: '02', title: 'Plan', text: 'Las preguntas que hacen tus clientes, ordenadas por importancia, y dónde responder cada una.', deliverable: 'una lista priorizada de preguntas y páginas.', icon: 'list' },
+          { n: '03', title: 'Ejecución', text: 'Preguntas frecuentes con datos estructurados, páginas que responden y párrafos clave reescritos.', deliverable: 'los cambios publicados, con el detalle de qué se hizo.', icon: 'check' },
+          { n: '04', title: 'Medición', text: 'Si tu sitio aparece como respuesta en las preguntas de tu rubro.', deliverable: 'un reporte mensual.', icon: 'chart' },
+        ]} />
+      </div>
+    </section>
+
+    <section class="band-lav" id="como-se-mide">
+      <div class="wrap">
+        <h2>Medimos si tu respuesta es la que se lee, todos los meses.</h2>
+        <p class="lead">Las mismas preguntas, el mismo método, para comparar mes a mes.</p>
+        <p>En el reporte mensual ves:</p>
+        <ul>
+          <li>En cuáles de las preguntas de tu rubro tu sitio aparece como respuesta: recuadro o fuente del resumen con IA.</li>
+          <li>Qué sitios responden las que todavía no ganás.</li>
+          <li>Las mismas 10 preguntas del diagnóstico en Google, ChatGPT, Gemini y Perplexity.</li>
+        </ul>
+        <p>No prometo un recuadro: Google decide qué mostrar. Lo que sí hago es medir lo mismo todos los meses y mostrarte qué se movió.</p>
+        <figure class="measure">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <table>
+            <thead>
+              <tr><th>Pregunta</th><th>Mes anterior</th><th>Este mes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>¿Cuánto tarda instalar un sistema de alarmas en una oficina?</td><td>Otro sitio</td><td>Tu sitio ↑</td></tr>
+            </tbody>
+          </table>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="relacion">
+      <div class="wrap">
+        <ul class="rel">
+          <li><a href="/servicios/seo/"><b>SEO</b> que te encuentren en Google</a></li>
+          <li><a href="/servicios/geo/"><b>GEO</b> que la IA te nombre, y bien</a></li>
+          <li class="is-here"><span><b>AEO</b> que tu respuesta sea la que se lee (estás acá).</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que te estás preguntando sobre el AEO</h2>
+        <p class="lead">Respuestas directas, como las que buscamos para tu sitio.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Quién responde hoy las dudas de tu rubro?"
+      text="En hasta 5 días hábiles lo sabés: 10 preguntas reales, probadas en Google, ChatGPT, Gemini y Perplexity."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[{ href: '/guia/que-es-seo-geo-aeo/', label: 'SEO, GEO y AEO: qué es cada uno y cuál necesitás' }]}
+    />
+  </div>
 </BaseLayout>

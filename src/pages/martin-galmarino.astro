@@ -1,45 +1,173 @@
 ---
-/*
-  Etapa 2: bio y trayectoria.
-  Onmarc va como texto de experiencia, sin logo y sin sameAs.
-  Person.worksFor apunta a la organización; el jobTitle sale de site.author.
-  Blue Union Agency no se menciona en ningún lado.
-  La foto de perfil es src/assets/martin-galmarino-perfil.jpg.
-*/
 import { Picture } from 'astro:assets';
+import portrait from '../assets/martin-galmarino-perfil.jpg';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../config/site';
-import profile from '../assets/martin-galmarino-perfil.jpg';
+import Crumbs from '../components/Crumbs.astro';
+import FaqList from '../components/FaqList.astro';
+import FinalBand from '../components/FinalBand.astro';
+import { breadcrumb, faqPage } from '../lib/schema';
+import { absoluteUrl, site } from '../config/site';
+import type { Faq } from '../data/home';
 
-const title = `Sobre Martín Galmarino | ${site.name}`;
-const description = 'Co-founder y director de proyectos en buscadores de Onmarc. Docente de SEO desde 2018.';
+const path = '/martin-galmarino/';
+const title = 'Martín Galmarino | En buscadores desde 2007';
+const description =
+  '19 años en buscadores, SEO desde 2010 y co-founder de Onmarc. Te ayudo a aparecer en Google y en la IA. Trabajo directo conmigo.';
+
+const faqs: Faq[] = [
+  {
+    question: '¿Quién es Martín Galmarino?',
+    answer:
+      'Trabajo en buscadores desde 2007 y en SEO desde 2010. Desde 2015 soy co-founder de Onmarc, en Córdoba, donde dirijo los proyectos de buscadores. Ayudo a empresas a aparecer en Google y en las respuestas de la IA.',
+  },
+  {
+    question: '¿Con quién trabajás?',
+    answer:
+      'Con dueños, gerentes y decisores de empresas, sobre todo en Argentina, que quieren aparecer en Google y en ChatGPT, Gemini o Perplexity. No hace falta tener equipo de marketing.',
+  },
+  {
+    question: '¿Voy a trabajar con vos o con un equipo?',
+    answer: 'Directo conmigo, desde el diagnóstico hasta el reporte mensual.',
+  },
+  {
+    question: '¿Por dónde empezamos?',
+    answer:
+      'Por un diagnóstico gratis y sin compromiso. Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity, y en hasta 5 días hábiles recibís un PDF que se lee en 10 minutos.',
+  },
+];
+
+const pathItems = [
+  ['2007', 'Empiezo en buscadores, con publicidad paga en Google.'],
+  ['2010', 'Empiezo a trabajar en SEO.'],
+  ['También', 'Fui SEO Manager en Tecnofits y Coordinador SEO en Vittalia.'],
+  ['Desde 2015', 'Co-founder de Onmarc, en Córdoba, donde dirijo los proyectos de buscadores. Es mi experiencia principal.'],
+  ['Formación', 'Diplomado en Marketing Digital por la Universidad Blas Pascal (UBP).'],
+  ['Docencia', 'Fui docente de SEO, Google Ads y Analytics.'],
+  ['Radio', 'Ocho años en Radio Revés, de la Universidad Nacional de Córdoba. De ahí me quedó el oficio de explicar claro.'],
+];
 ---
 
-<BaseLayout title={title} description={description}>
-  <section class="section">
-    <div class="wrap">
-      <div class="portrait-frame author-photo">
-        <Picture
-          src={profile}
-          alt="Martín Galmarino"
-          formats={['avif', 'webp']}
-          widths={[240, 480]}
-          sizes="8rem"
-          layout="constrained"
-          class="portrait"
-        />
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Martín Galmarino', path }]),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Martín Galmarino' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap who">
+        <div>
+          <p class="eyebrow">Sobre mí</p>
+          <h1>Martín Galmarino</h1>
+          <p class="lead">
+            19 años en buscadores. Hoy ayudo a empresas a aparecer en Google y a que la IA las nombre, y las describa bien. Trabajás directo conmigo.
+          </p>
+          <div class="ctas">
+            <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+            <a class="button button--ghost" href={site.author.linkedin} rel="me noopener noreferrer">Ver mi perfil en LinkedIn</a>
+          </div>
+          <p class="micro"><span>Gratis y sin compromiso</span></p>
+          <ul class="facts-row">
+            <li>19 años</li>
+            <li>2010</li>
+            <li>2015</li>
+            <li>Docente</li>
+          </ul>
+        </div>
+        <div class="who-photo">
+          <Picture
+            src={portrait}
+            alt="Martín Galmarino"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 900px) 420px, 100vw"
+            loading="eager"
+            formats={['webp']}
+          />
+        </div>
       </div>
-      <h1>Martín Galmarino</h1>
-      <p class="lead">{site.tagline}. En buscadores desde 2007.</p>
-      <p>
-        Soy co-founder y director de proyectos en buscadores de {site.author.organization.name}. Desde 2018 doy clases de SEO, Google Ads y Analytics.
-      </p>
-      <p>Estoy completando esta página con el recorrido.</p>
-      <p>
-        <a class="button button--primary" href={site.author.linkedin} rel="me noopener noreferrer">
-          Seguime en LinkedIn
-        </a>
-      </p>
-    </div>
-  </section>
+    </section>
+
+    <section class="band-white" id="por-que">
+      <div class="wrap">
+        <h2>Vi a la búsqueda cambiar cuatro veces. Esta es la más grande.</h2>
+        <p class="lead">Cada cambio movió qué tenía que hacer una empresa para que la encontraran.</p>
+        <div class="prose">
+          <p>Cuando empecé, en 2007, Google buscaba palabras.</p>
+          <p>Después aprendió a reconocer empresas, personas y lugares (2012). Más tarde empezó a interpretar lo que la gente quiso decir (RankBrain, 2015, y BERT, 2019). Hoy responde con un resumen, y además la gente le pregunta a un chat.</p>
+          <p>Las tres primeras olas cambiaron cómo aparecer en una lista. Esta cambia algo más grande: ahora la respuesta nombra a pocas empresas, y el resto no existe.</p>
+          <p>
+            Fuentes de las fechas:
+            <a href="https://blog.google/products-and-platforms/products/search/introducing-knowledge-graph-things-not/" target="_blank" rel="noopener noreferrer">Knowledge Graph, Google, 2012</a>
+            ·
+            <a href="https://searchengineland.com/faq-all-about-the-new-google-rankbrain-algorithm-234440" target="_blank" rel="noopener noreferrer">RankBrain, Search Engine Land</a>
+            ·
+            <a href="https://blog.google/products/search/search-language-understanding-bert/" target="_blank" rel="noopener noreferrer">BERT, Google, 2019</a>
+            ·
+            <a href="https://blog.google/products-and-platforms/products/search/ai-overviews-search-october-2024/" target="_blank" rel="noopener noreferrer">Resúmenes con IA, Google, 2024</a>
+          </p>
+        </div>
+        <ol class="waves">
+          <li><b>Yo, desde 2007</b><p>Google buscaba palabras.</p></li>
+          <li><b>2012</b><p>Empresas, personas y lugares.</p></li>
+          <li><b>2015 / 2019</b><p>RankBrain y BERT.</p></li>
+          <li><b>2022 / 2024</b><p>El chat y los resúmenes con IA.</p></li>
+          <li><b>Hoy</b><p>La respuesta nombra a pocas empresas.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band-cream" id="recorrido">
+      <div class="wrap">
+        <h2>Mi recorrido, en corto</h2>
+        <p class="lead">Lo que hice, en orden, para que sepas con quién vas a trabajar.</p>
+        <ol class="path">
+          {pathItems.map(([when, text]) => (
+            <li>
+              <b>{when}</b>
+              <span>{text}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="band-white" id="como-trabajo">
+      <div class="wrap">
+        <h2>Qué podés esperar trabajando conmigo</h2>
+        <p class="lead">Cuatro reglas que no cambio, sea cual sea el tamaño de tu empresa.</p>
+        <ol class="principle">
+          <li><b>Trabajo directo conmigo.</b> No te paso a un equipo que no conocés.</li>
+          <li><b>Datos con fuente.</b> Si afirmo algo, te muestro de dónde sale.</li>
+          <li><b>Sin promesas de posición.</b> Nadie controla Google ni la IA. Lo que hago es medir lo mismo todos los meses y mostrarte qué se movió.</li>
+          <li><b>Sin jerga.</b> Te explico cada cambio para que puedas decidir vos.</li>
+        </ol>
+        <p>
+          <b>Cómo empezamos:</b> con un diagnóstico gratis. Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity, y en hasta 5 días hábiles recibís un PDF que se lee en 10 minutos. Si seguimos, el orden es plan, ejecución y un reporte mensual.
+        </p>
+        <p>
+          <a href="/servicios/">Servicios</a>
+          ·
+          <a href="/guia/que-es-seo-geo-aeo/">SEO, GEO y AEO: qué es cada uno y cuál necesitás</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que suele preguntarse antes de escribirme</h2>
+        <p class="lead">Respuestas cortas y directas.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Vemos cómo aparece hoy tu empresa?"
+      text="10 preguntas reales de tu rubro, probadas en 4 herramientas. PDF en hasta 5 días hábiles."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+    />
+  </div>
 </BaseLayout>

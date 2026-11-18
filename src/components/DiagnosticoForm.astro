@@ -1,0 +1,131 @@
+---
+const concerns = [
+  'No aparezco en Google',
+  'La IA no nombra a mi empresa',
+  'La IA dice algo incorrecto de mi empresa',
+  'Mi competencia aparece y yo no',
+  'No sé por dónde empezar',
+];
+---
+
+<form class="form" id="formulario" action="/api/diagnostico/" method="post" novalidate data-dx>
+  <h2>Contame de tu empresa. Te lleva 2 minutos.</h2>
+  <p class="lead">Con estos datos armo las 10 preguntas de tu rubro.</p>
+
+  <label>
+    Tu nombre
+    <input name="name" type="text" required autocomplete="name" placeholder="Cómo te llamás" />
+    <span class="field-error" data-error="name"></span>
+  </label>
+  <label>
+    Empresa
+    <input name="company" type="text" required autocomplete="organization" placeholder="El nombre con el que te conocen tus clientes" />
+    <span class="field-error" data-error="company"></span>
+  </label>
+  <label>
+    Sitio web
+    <input name="website" type="url" inputmode="url" placeholder="Si tenés, pegá la dirección. Si no, dejalo vacío" />
+    <span class="hint">Opcional</span>
+    <span class="field-error" data-error="website"></span>
+  </label>
+  <label>
+    Email
+    <input name="email" type="email" required autocomplete="email" placeholder="Donde querés recibir el PDF" />
+    <span class="field-error" data-error="email"></span>
+  </label>
+  <label>
+    Rubro
+    <input name="industry" type="text" required placeholder="Qué hace tu empresa, en una frase. Ej.: «mantenimiento de equipos de frío para supermercados»" />
+    <span class="field-error" data-error="industry"></span>
+  </label>
+  <label>
+    Ciudad o zona
+    <input name="zone" type="text" required placeholder="Dónde trabajás. Ej.: «Córdoba capital y Gran Córdoba» o «todo el país»" />
+    <span class="field-error" data-error="zone"></span>
+  </label>
+  <label>
+    Competidores que te preocupan
+    <input name="competitors" type="text" placeholder="Hasta 3 nombres. Los sumo al informe" />
+    <span class="hint">Opcional</span>
+  </label>
+  <label>
+    Qué te preocupa más
+    <select name="concern" required>
+      <option value="">Elegí la que más se parezca</option>
+      {concerns.map((option) => <option value={option}>{option}</option>)}
+    </select>
+    <span class="field-error" data-error="concern"></span>
+  </label>
+  <label>
+    Algo más
+    <textarea name="message" rows="4" placeholder="Si querés, contame qué te gustaría saber"></textarea>
+    <span class="hint">Opcional</span>
+  </label>
+  <p class="hp" aria-hidden="true">
+    <label>Empresa web <input name="company_site" tabindex="-1" autocomplete="off" /></label>
+  </p>
+  <button class="button button--primary" type="submit">Quiero mi diagnóstico</button>
+  <p class="micro"><span>Gratis y sin compromiso</span></p>
+  <p>
+    Uso estos datos solo para armar tu diagnóstico y enviarte el PDF. No los publico ni los cedo a terceros.
+    <a href="/privacidad/">Política de privacidad</a>.
+  </p>
+  <p class="form-status" data-status role="status"></p>
+</form>
+
+<script>
+  const required = 'Este dato me hace falta para armar las preguntas.';
+  const emailMsg = 'Revisá el email: ahí te llega el PDF.';
+  const siteMsg = 'Revisá la dirección del sitio.';
+  const kind = 'No pude tomar el pedido ahora. No se envió nada. Probá de nuevo en unos minutos.';
+  const form = document.querySelector('[data-dx]');
+  if (form instanceof HTMLFormElement) {
+    const status = form.querySelector('[data-status]');
+    if (new URLSearchParams(location.search).get('envio') === 'error' && status) {
+      status.textContent = kind;
+    }
+
+    const show = (name: string, message: string) => {
+      const field = form.elements.namedItem(name);
+      const error = form.querySelector(`[data-error="${name}"]`);
+      if (field instanceof HTMLElement) field.setAttribute('aria-invalid', message ? 'true' : 'false');
+      if (error) error.textContent = message;
+      return !message;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) || '').trim();
+      let valid = true;
+      for (const name of ['name', 'company', 'email', 'industry', 'zone', 'concern']) {
+        valid = show(name, value(name) ? '' : required) && valid;
+      }
+      const email = value('email');
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) valid = show('email', emailMsg) && valid;
+      const website = value('website');
+      if (website && !/^https?:\/\/\S+\.\S+/.test(website)) valid = show('website', siteMsg) && valid;
+      else show('website', '');
+      if (!valid || !status) return;
+      status.textContent = 'Enviando…';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(data.entries())),
+        });
+        const payload = await response.json().catch(() => null);
+        if (!response.ok || !payload?.ok) {
+          if (payload?.fields) {
+            for (const [name, message] of Object.entries(payload.fields)) show(name, String(message));
+          }
+          status.textContent = payload?.message || kind;
+          return;
+        }
+        location.href = '/diagnostico/gracias/';
+      } catch {
+        status.textContent = kind;
+      }
+    });
+  }
+</script>

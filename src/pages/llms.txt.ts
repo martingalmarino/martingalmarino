@@ -6,13 +6,13 @@ export const GET: APIRoute = async () => {
   const posts = await getPublishedPosts();
   const pages: Array<[string, string]> = [
     ['/', 'Inicio. Tu empresa, visible en todos los lugares donde hoy se busca.'],
-    ['/servicios/', 'Servicios de SEO, GEO y AEO.'],
+    ['/servicios/', 'Servicios de SEO, GEO y AEO. Elegí por el síntoma, no por la sigla.'],
     ...services.map((item) => [item.href, `${item.name}. ${item.line}`] as [string, string]),
-    ['/guia/', 'Entender la búsqueda.'],
+    ['/guia/', 'Qué cambió en la búsqueda. Explicado para quien decide.'],
     ...guides.map((item) => [item.href, `${item.name}. ${item.line}`] as [string, string]),
     ['/blog/', 'Blog.'],
-    [site.author.path, 'Sobre Martín Galmarino. Co-founder y director de proyectos en buscadores de Onmarc. Docente de SEO desde 2018.'],
-    ['/diagnostico/', 'Pedido de diagnóstico gratuito.'],
+    [site.author.path, 'Martín Galmarino. 19 años en buscadores, SEO desde 2010 y co-founder de Onmarc. Trabajo directo conmigo.'],
+    ['/diagnostico/', 'Diagnóstico gratis: 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity.'],
     ['/glosario/', 'Glosario: SEO, GEO, AEO y LLMO (sinónimo de GEO).'],
     ['/privacidad/', 'Política de privacidad.'],
   ];

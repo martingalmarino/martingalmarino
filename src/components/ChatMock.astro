@@ -1,5 +1,13 @@
 ---
 import { chatQuestions } from '../data/home';
+
+interface Props {
+  question?: string;
+  lines?: string[];
+}
+
+const { question, lines = ['Empresa A · trabaja con pymes de la zona', 'Empresa B · tiene reseñas y precios publicados'] } = Astro.props;
+const questions = question ? [question] : chatQuestions;
 ---
 
 <div class="cm">
@@ -14,13 +22,12 @@ import { chatQuestions } from '../data/home';
   </div>
   <div class="cm-body">
     <div class="cm-q">
-      <span class="tw" data-rotator data-q={JSON.stringify(chatQuestions)}>{chatQuestions[0]}</span><i class="caret" aria-hidden="true"></i>
+      <span class="tw" data-rotator data-q={JSON.stringify(questions)}>{questions[0]}</span><i class="caret" aria-hidden="true"></i>
     </div>
     <div class="cm-a">
       <p>Estas son algunas opciones que suelen recomendarse:</p>
       <ol>
-        <li><b>Empresa A</b> · trabaja con pymes de la zona</li>
-        <li><b>Empresa B</b> · tiene reseñas y precios publicados</li>
+        {lines.map((line) => <li><b>{line.split(' · ')[0]}</b>{line.includes(' · ') ? ` · ${line.split(' · ').slice(1).join(' · ')}` : ''}</li>)}
       </ol>
     </div>
     <div class="cm-you">

@@ -39,55 +39,40 @@ export const services = [
   {
     href: '/servicios/seo/',
     name: 'SEO',
-    line: 'El SEO es el trabajo para que tu empresa aparezca en los resultados de Google. Sigue siendo la base: si el buscador no te entiende, la IA tampoco.',
+    line: 'Que te encuentren cuando buscan lo que vendés, y que Google te entienda lo suficiente como para nombrarte.',
   },
   {
     href: '/servicios/geo/',
     name: 'GEO',
-    line: 'El GEO es el trabajo para que la inteligencia artificial —ChatGPT, Gemini o Perplexity— nombre a tu empresa y la describa bien.',
+    line: 'Que te nombren, y que lo que digan de vos sea correcto: en ChatGPT, Gemini, Perplexity y los resúmenes con IA de Google.',
   },
   {
     href: '/servicios/aeo/',
     name: 'AEO',
-    line: 'El AEO es el trabajo para que tu empresa sea la respuesta directa: el recuadro, el resumen o lo que se lee en voz alta, no solo un link más en la lista.',
+    line: 'Las dudas de tu rubro, respondidas con tu explicación: en el recuadro, en el resumen con IA o en lo que se lee en voz alta.',
   },
 ] as const;
 
 export const guides = [
   {
     href: '/guia/que-es-seo-geo-aeo/',
-    name: 'Qué es SEO, GEO y AEO',
-    line: 'Tres formas de ser visible, explicadas sin jerga: en Google, en la inteligencia artificial y como respuesta directa.',
+    name: 'SEO, GEO y AEO: qué es cada uno y cuál necesitás',
+    line: 'SEO, GEO y AEO explicados en una frase cada uno, con una tabla y un test de 3 preguntas para saber por dónde empezar.',
   },
   {
     href: '/guia/evolucion-del-seo/',
-    name: 'La evolución del SEO',
-    line: 'Cómo pasó la búsqueda de una lista de links a las respuestas de la IA, y qué implica eso para tu empresa.',
+    name: 'De diez links a una respuesta: cómo cambió la búsqueda',
+    line: 'Los hitos de Google y la IA de 2012 a 2026, con fuente, y qué te toca hacer hoy con cada uno.',
   },
   {
     href: '/guia/por-que-estar-en-los-llms/',
-    name: 'Por qué aparecer en las respuestas de la IA',
-    line: 'Cada vez más gente le pregunta a ChatGPT, Gemini o Perplexity para buscar información. Si tu empresa no aparece en esas respuestas, pueden nombrar a otra.',
+    name: 'Si la IA no te nombra, nombra a otro',
+    line: 'Qué hace la IA cuando preguntan por tu rubro, datos de Argentina y 5 preguntas para probar hoy qué dice de tu empresa.',
   },
 ] as const;
 
-/** Stubs de la etapa 1: la navegación llega, pero no se indexan ni entran al sitemap. */
-export const noindexPaths = [
-  '/servicios/',
-  '/servicios/seo/',
-  '/servicios/geo/',
-  '/servicios/aeo/',
-  '/guia/',
-  '/guia/que-es-seo-geo-aeo/',
-  '/guia/evolucion-del-seo/',
-  '/guia/por-que-estar-en-los-llms/',
-  '/martin-galmarino/',
-  '/diagnostico/',
-  '/diagnostico/gracias/',
-  '/glosario/',
-  '/privacidad/',
-  '/404/',
-] as const;
+/** Páginas que siguen en preparación o no deben indexarse. */
+export const noindexPaths = ['/diagnostico/gracias/', '/glosario/', '/privacidad/', '/404/'] as const;
 
 export function categorySlug(name: string): string {
   return name

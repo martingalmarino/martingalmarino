@@ -1,24 +1,262 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import DiagnosticoForm from '../../components/DiagnosticoForm.astro';
+import ReportPreview from '../../components/ReportPreview.astro';
+import Timeline from '../../components/Timeline.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const title = `Pedí tu diagnóstico | ${site.name}`;
+const title = 'Diagnóstico gratis: cómo te ve la IA | Martín Galmarino';
 const description =
-  'Diagnóstico gratuito: vemos cómo aparece tu empresa en Google y qué responden ChatGPT, Gemini y Perplexity.';
+  '10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity. Un PDF de 10 minutos, en hasta 5 días hábiles. Gratis.';
+
+const faqs: Faq[] = [
+  {
+    question: '¿El diagnóstico tiene costo?',
+    answer:
+      'No. Es gratis y sin compromiso. Si después querés avanzar, el trabajo se arma a partir de lo que muestra el diagnóstico, y lo conversamos en ese momento.',
+  },
+  {
+    question: '¿Qué recibo exactamente?',
+    answer:
+      'Un PDF corto, que se lee en 10 minutos. Muestra cómo responden Google, ChatGPT, Gemini y Perplexity a 10 preguntas reales de tu rubro, quién aparece en tu lugar, cómo está tu sitio y las 3 cosas para cambiar primero.',
+  },
+  {
+    question: '¿Qué revisás de mi sitio?',
+    answer:
+      'Una revisión rápida, no una auditoría completa: si Google puede leer e indexar tu sitio, si tiene datos estructurados y cómo están tus páginas clave, como el inicio y las de servicios.',
+  },
+  {
+    question: '¿En cuánto tiempo lo recibo?',
+    answer: 'En hasta 5 días hábiles desde que completás el formulario, en el email que dejaste.',
+  },
+  {
+    question: '¿Quién hace el diagnóstico?',
+    answer: 'Yo. Trabajás directo conmigo, desde el diagnóstico hasta la medición.',
+  },
+  {
+    question: '¿Me garantiza aparecer en Google o en la IA?',
+    answer:
+      'No. El diagnóstico muestra dónde estás hoy y por dónde empezar. Nadie puede garantizar una posición en Google ni que una IA te recomiende.',
+  },
+  {
+    question: '¿Sirve si no tengo sitio web?',
+    answer:
+      'Sí. Pruebo igual las 10 preguntas de tu rubro y te muestro quién aparece. Eso te ayuda a decidir qué sitio necesitás.',
+  },
+  {
+    question: '¿Qué hacen con mis datos?',
+    answer: 'Los uso solo para armar tu diagnóstico y enviarte el PDF. No los publico ni los cedo a terceros.',
+  },
+];
+
+const questions = [
+  '¿Qué estudio contable me recomendás para una pyme en Córdoba?',
+  '¿Cuánto cuesta tercerizar la liquidación de sueldos?',
+  '¿Qué conviene más: monotributo o responsable inscripto para una empresa chica?',
+  '¿Qué sabés de [nombre del estudio]?',
+  'Pregunta 5 del rubro',
+  'Pregunta 6 del rubro',
+  'Pregunta 7 del rubro',
+  'Pregunta 8 del rubro',
+  'Pregunta 9 del rubro',
+  'Pregunta 10 del rubro',
+];
+
+const marks = ['✓', '✗', '⚠', '✓'];
 ---
 
-<BaseLayout title={title} description={description}>
-  <section class="section">
-    <div class="wrap">
-      <h1>Pedí tu diagnóstico</h1>
-      <p class="lead">
-        El diagnóstico es gratuito. Revisamos cómo aparece la empresa en Google y qué responden ChatGPT, Gemini y
-        Perplexity sobre el rubro, y devolvemos un informe corto.
-      </p>
-      <p>El formulario todavía no está en el sitio. Mientras tanto, podés escribirme por LinkedIn.</p>
-      <p>
-        <a class="button button--primary" href={site.author.linkedin} rel="me noopener noreferrer">LinkedIn</a>
-      </p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([
+      { name: 'Inicio', path: '/' },
+      { name: 'Diagnóstico', path: '/diagnostico/' },
+    ]),
+    faqPage(absoluteUrl('/diagnostico/'), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Diagnóstico' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Diagnóstico gratuito</p>
+        <h1>Mirá qué dicen de tu empresa ChatGPT y Google. Y de tu competencia.</h1>
+        <p class="lead">
+          Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity. En hasta 5 días hábiles recibís un PDF que se lee en 10 minutos.
+        </p>
+        <div class="ctas">
+          <a class="button button--primary" href="#formulario">Quiero mi diagnóstico</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <div class="dx-grid">
+          <ReportPreview />
+          <div class="dx-form">
+            <DiagnosticoForm />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-white" id="que-vas-a-saber">
+      <div class="wrap">
+        <h2>Cinco preguntas que hoy no podés contestar. En 5 días hábiles, sí.</h2>
+        <p class="lead">Sabés dónde estás parado antes de invertir un peso.</p>
+        <ul class="know-grid">
+          <li><b>¿Te nombran?</b> En cuáles de las 10 preguntas aparece tu empresa, herramienta por herramienta.</li>
+          <li><b>¿Te describen bien?</b> Lo que dicen de vos, marcado como correcto, incompleto o equivocado.</li>
+          <li><b>¿Quién aparece en tu lugar?</b> Las empresas que la IA nombra cuando vos no estás.</li>
+          <li><b>¿Cómo te ve Google?</b> Si aparecés en las búsquedas que te importan.</li>
+          <li><b>¿Tu sitio está en condiciones?</b> Una revisión rápida: si Google lo puede leer e indexar, sus datos estructurados y tus páginas clave.</li>
+          <li class="featured"><b>3 prioridades</b> Y al final, las 3 cosas para cambiar primero.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band-lav" id="las-preguntas">
+      <div class="wrap">
+        <h2>Le pregunto a la IA lo mismo que le preguntan tus clientes.</h2>
+        <p class="lead">Las 10 preguntas se arman con tu rubro, tu zona y lo que me cuentes en el formulario.</p>
+        <div class="prose">
+          <p>
+            No uso preguntas genéricas. Uso las que haría alguien que todavía no te conoce y está por elegir un proveedor. Por ejemplo, para un estudio contable de Córdoba <em>(ejemplo ilustrativo)</em>:
+          </p>
+          <ul>
+            <li>«¿Qué estudio contable me recomendás para una pyme en Córdoba?»</li>
+            <li>«¿Cuánto cuesta tercerizar la liquidación de sueldos?»</li>
+            <li>«¿Qué conviene más: monotributo o responsable inscripto para una empresa chica?»</li>
+            <li>«¿Qué sabés de [nombre del estudio]?»</li>
+          </ul>
+          <p>Cada pregunta se prueba en las 4 herramientas: Google, ChatGPT, Gemini y Perplexity. Son 40 respuestas reales para ver dónde estás.</p>
+        </div>
+        <figure class="qgrid">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Pregunta</th>
+                <th scope="col">Google</th>
+                <th scope="col">ChatGPT</th>
+                <th scope="col">Gemini</th>
+                <th scope="col">Perplexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                questions.map((question, index) => (
+                  <tr class:list={[{ 'is-blur': index > 2 }]}>
+                    <th scope="row">{question}</th>
+                    {marks.map((mark) => (
+                      <td class={mark === '✓' ? 'ok' : mark === '✗' ? 'no' : 'meh'}>{mark}</td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="que-recibis">
+      <div class="wrap">
+        <h2>Un PDF corto, claro y sin siglas. Se lee en 10 minutos.</h2>
+        <p class="lead">Lo recibís en tu email en hasta 5 días hábiles.</p>
+        <div class="prose">
+          <p>El informe tiene seis partes:</p>
+          <ol>
+            <li>¿Te nombran?</li>
+            <li>¿Te describen bien?</li>
+            <li>¿Quién aparece en tu lugar?</li>
+            <li>¿Cómo te ve Google?</li>
+            <li>¿Tu sitio está en condiciones? Lectura e indexación, datos estructurados y páginas clave.</li>
+            <li>Las 3 cosas para cambiar primero.</li>
+          </ol>
+          <p>Lo podés usar aunque no sigas conmigo: te sirve para decidir por dónde empezar o para revisarlo con quien ya trabaja en tu sitio.</p>
+        </div>
+        <ReportPreview />
+      </div>
+    </section>
+
+    <section class="band-cream" id="para-quien">
+      <div class="wrap">
+        <h2>Es para vos si decidís en tu empresa y no tenés tiempo de aprender siglas.</h2>
+        <p class="lead">No hace falta equipo de marketing ni saber qué es GEO.</p>
+        <div class="two">
+          <article>
+            <h3>Es para vos si</h3>
+            <ul>
+              <li>✓ Sos dueño, gerente o decidís sobre cómo consigue clientes tu empresa.</li>
+              <li>✓ Querés saber si hoy te nombra la IA, o si nombra a tu competencia.</li>
+              <li>✓ Tenés sitio web. O no lo tenés, y querés saber qué se dice de tu rubro igual.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>No es para vos si</h3>
+            <ul>
+              <li>✗ Buscás a alguien que te garantice el primer puesto. Nadie puede hacerlo.</li>
+              <li>✗ Solo querés publicidad paga. Esto trabaja otra cosa: que te encuentren y te nombren sin pagar por cada clic.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-white" id="pasos">
+      <div class="wrap">
+        <h2>Tres pasos. Vos hacés uno solo, y te lleva 2 minutos.</h2>
+        <p class="lead">Del formulario al PDF, en hasta 5 días hábiles.</p>
+        <Timeline
+          chips={[]}
+          steps={[
+            {
+              n: '01',
+              title: 'Completás el formulario',
+              who: 'Vos',
+              text: 'Te lleva 2 minutos.',
+              deliverable: '',
+              icon: 'list',
+            },
+            {
+              n: '02',
+              title: 'Pruebo las 10 preguntas',
+              who: 'Yo',
+              text: 'En Google, ChatGPT, Gemini y Perplexity, y hago una revisión rápida de tu sitio: si Google lo puede leer e indexar, los datos estructurados y las páginas clave.',
+              deliverable: '',
+              icon: 'search',
+            },
+            {
+              n: '03',
+              title: 'Recibís el PDF',
+              who: 'Yo',
+              text: 'En tu email, en hasta 5 días hábiles.',
+              deliverable: '',
+              icon: 'file',
+            },
+          ]}
+        />
+        <p>¿Y después? Si querés avanzar, lo conversamos. El trabajo sigue en este orden: plan, ejecución y un reporte mensual de medición. Trabajás directo conmigo.</p>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Antes de completar el formulario</h2>
+        <p class="lead">Lo que suele preguntarse quien pide el diagnóstico.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="En tu rubro, alguien ya es la respuesta. ¿Sos vos?"
+      text="En hasta 5 días hábiles lo sabés."
+      cta="Quiero mi diagnóstico"
+      href="#formulario"
+    />
+  </div>
 </BaseLayout>

@@ -1,26 +1,91 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { guides, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb } from '../../lib/schema';
 
-const title = `Entender la búsqueda | ${site.name}`;
-const description = 'Qué cambió en la búsqueda y por qué le importa a una empresa.';
+const title = 'Entender la búsqueda con IA | Martín Galmarino';
+const description =
+  'Tres lecturas cortas para entender qué cambió en Google y en la IA, y qué te toca hacer. Escritas para quien decide, no para marketers.';
+
+const guides = [
+  {
+    ask: '«¿Qué son SEO, GEO y AEO, y cuál necesito?»',
+    title: 'SEO, GEO y AEO: qué es cada uno y cuál necesitás',
+    minutes: '6 min',
+    take: 'La diferencia en una frase y un test de 3 preguntas.',
+    href: '/guia/que-es-seo-geo-aeo/',
+  },
+  {
+    ask: '«¿Esto es nuevo o viene de antes?»',
+    title: 'De diez links a una respuesta: cómo cambió la búsqueda',
+    minutes: '7 min',
+    take: 'Los hitos de 2012 a 2026 y qué hacer hoy con cada uno.',
+    href: '/guia/evolucion-del-seo/',
+  },
+  {
+    ask: '«¿De verdad me importa lo que diga la IA?»',
+    title: 'Si la IA no te nombra, nombra a otro',
+    minutes: '6 min',
+    take: 'Cinco preguntas para probar hoy qué dice de tu empresa.',
+    href: '/guia/por-que-estar-en-los-llms/',
+  },
+];
 ---
 
-<BaseLayout title={title} description={description}>
-  <section class="section">
-    <div class="wrap">
-      <h1>Entender la búsqueda</h1>
-      <p class="lead">Tres guías para ver qué cambió y por qué le importa a una empresa.</p>
-      <div class="cards">
-        {
-          guides.map((item) => (
-            <a class="card" href={item.href}>
-              <h3>{item.name}</h3>
-              <p>{item.line}</p>
-            </a>
-          ))
-        }
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Guías', path: '/guia/' }])]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Guías' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Guías</p>
+        <h1>Qué cambió en la búsqueda. Explicado para quien decide.</h1>
+        <p class="lead">Tres lecturas cortas, sin siglas de más. Llegás a cualquier reunión sabiendo qué preguntar.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="/guia/que-es-seo-geo-aeo/">Empezar por la guía 1</a>
+          <a class="button button--ghost" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <div class="fans" aria-hidden="true">
+          {guides.map((guide, index) => (
+            <article style={`--r:${(index - 1) * 5}deg`}>
+              <b>{guide.minutes}</b>
+              <p>{guide.title}</p>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="band-white" id="por-donde-empezar">
+      <div class="wrap">
+        <h2>¿Por dónde empiezo? Depende de lo que te estés preguntando.</h2>
+        <p class="lead">Elegí la duda que más se parece a la tuya.</p>
+        <div class="card-grid">
+          {
+            guides.map((guide) => (
+              <article>
+                <p>{guide.ask}</p>
+                <h3><a href={guide.href}>{guide.title}</a></h3>
+                <p>{guide.minutes}</p>
+                <p><b>Te llevás:</b> {guide.take}</p>
+                <p><a href={guide.href}>Leer</a></p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Preferís ver tu caso en lugar de leer?"
+      text="Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity. PDF en hasta 5 días hábiles."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+    />
+  </div>
 </BaseLayout>
