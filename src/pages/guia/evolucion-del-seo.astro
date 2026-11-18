@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides, site } from '../../config/site';
+
+/*
+  TODO etapa 2 (Redactor): el texto largo va acá. No publicarlo a medias.
+  Línea de tiempo de referencia:
+  - Knowledge Graph, 16 may 2012
+  - Fragmentos destacados, 2014
+  - RankBrain, oct 2015
+  - BERT, 25 oct 2019
+  - ChatGPT, 30 nov 2022
+  - Paper GEO, nov 2023: https://arxiv.org/abs/2311.09735
+  - AI Overviews en Argentina, 28 oct 2024
+  - ChatGPT search, 31 oct 2024
+  - Modo IA en español, 23 sep 2025: https://blog.google/intl/es-419/actualizaciones-de-producto/informacion/buscador-de-google-presentamos-el-modo-ia-en-hispanoamerica/
+  - I/O may 2026, Modo IA +1.000 M y AI Overviews +2.500 M: https://blog.google/innovation-and-ai/sundar-pichai-io-2026/
+  Cifras, siempre con su fuente:
+  - 45,5% adultos en Argentina usa IA generativa personal; 63,9% generación Z; entre usuarios, ChatGPT 77,8%, Gemini 38,6%, Meta AI 26,2%. CEPE-UTDT y Fundar, ago-sep 2025. https://www.utdt.edu/nota_prensa.php?id_item_menu=25279&id_nota_prensa=23080
+  - ChatGPT, 1.200 millones de usuarios semanales. OpenAI DevDay, sep 2026. https://www.theverge.com/ai-artificial-intelligence/1002265/chatgpt-now-has-1-2-billion-weekly-users-openai-says
+  - Con resumen de IA se clickea un resultado en el 8% de las visitas, contra 15% sin resumen; el 1% clickea un link dentro del resumen. Pew Research, jul 2025. https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/
+  - Modo IA: preguntas 2 o 3 veces más largas. Blog de Google, sep 2025 (link de arriba).
+  - GEO: la visibilidad puede subir hasta un 40%. Aggarwal y otros.
+*/
+
+const guide = guides[1];
+const title = `${guide.name} | ${site.name}`;
+---
+
+<BaseLayout title={title} description={guide.line}>
+  <section class="section">
+    <div class="wrap">
+      <h1>{guide.name}</h1>
+      <p class="lead">{guide.line}</p>
+      <p>Esta guía está en preparación.</p>
+    </div>
+  </section>
+</BaseLayout>

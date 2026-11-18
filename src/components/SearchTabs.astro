@@ -1,0 +1,122 @@
+---
+import { canales } from '../data/home';
+---
+
+<div class="tabs" data-search-tabs>
+  <div class="tablist" role="tablist" aria-label="Dónde se busca hoy">
+    {
+      canales.map((canal, index) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${canal.id}`}
+          aria-controls={`panel-${canal.id}`}
+          aria-selected={index === 0 ? 'true' : 'false'}
+          tabindex={index === 0 ? 0 : -1}
+        >
+          {canal.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    canales.map((canal, index) => (
+      <div
+        class="panel"
+        role="tabpanel"
+        id={`panel-${canal.id}`}
+        aria-labelledby={`tab-${canal.id}`}
+        hidden={index !== 0}
+      >
+        <p>{canal.text}</p>
+        <div class="mock" aria-hidden="true">
+          <div class="mock__top">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div class="mock__body">
+            {canal.kind === 'resumen' && (
+              <div class="summary-box">
+                <span>Resumen</span>
+                <strong>Empresa del Ejemplo</strong>
+                trabaja con empresas de la zona y lo explica en su sitio.
+              </div>
+            )}
+            {canal.kind === 'chat' && (
+              <>
+                <p class="bubble bubble--user">
+                  <small>Pregunta</small>
+                  ¿A quién le puedo encargar este servicio para mi empresa?
+                </p>
+                <p class="bubble bubble--ai">
+                  <small>{canal.label}</small>
+                  Una opción es Empresa del Ejemplo. En su sitio cuentan qué incluye y en qué zona trabajan.
+                </p>
+              </>
+            )}
+            {canal.kind === 'fuentes' && (
+              <>
+                <div class="summary-box">
+                  <span>Respuesta con fuentes</span>
+                  <strong>Empresa del Ejemplo</strong>
+                  publica cómo trabaja y en qué zona.
+                </div>
+                <div class="source">
+                  <span>Fuente 1</span>
+                  ejemplo-empresa.com.ar
+                </div>
+              </>
+            )}
+            {canal.kind === 'lista' && (
+              <>
+                <div class="result result--hit">
+                  <span>ejemplo-empresa.com.ar</span>
+                  <strong>Empresa del Ejemplo — servicio para empresas</strong>
+                  Qué hacen, en qué zona y cómo pedir una reunión.
+                </div>
+                <div class="result result--dim">
+                  <span>otras-opciones.example</span>
+                  <strong>Otras opciones del rubro</strong>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  const root = document.querySelector('[data-search-tabs]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+    const select = (index: number, focus: boolean) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+      if (focus) tabs[index]?.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(index, false));
+      tab.addEventListener('keydown', (event) => {
+        const last = tabs.length - 1;
+        let next: number | null = null;
+        if (event.key === 'ArrowRight') next = index === last ? 0 : index + 1;
+        if (event.key === 'ArrowLeft') next = index === 0 ? last : index - 1;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = last;
+        if (next === null) return;
+        event.preventDefault();
+        select(next, true);
+      });
+    });
+  }
+</script>

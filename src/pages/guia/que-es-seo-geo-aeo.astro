@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides, site } from '../../config/site';
+
+const guide = guides[0];
+const title = `${guide.name} | ${site.name}`;
+---
+
+<BaseLayout title={title} description={guide.line}>
+  <section class="section">
+    <div class="wrap">
+      <h1>{guide.name}</h1>
+      <p class="lead">{guide.line}</p>
+      <p>Esta guía está en preparación. Mientras tanto, las definiciones cortas están en cada servicio.</p>
+      <p>
+        <a href="/servicios/seo/">SEO</a>, <a href="/servicios/geo/">GEO</a> y <a href="/servicios/aeo/">AEO</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

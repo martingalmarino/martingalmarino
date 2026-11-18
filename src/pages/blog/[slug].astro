@@ -1,0 +1,181 @@
+---
+import { getImage, Picture } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Subscribe from '../../components/Subscribe.astro';
+import { absoluteUrl, site } from '../../config/site';
+import {
+  categoryPath,
+  formatDate,
+  getPublishedPosts,
+  isoDate,
+  postPath,
+  readingMinutes,
+  relatedPosts,
+} from '../../lib/blog';
+import { breadcrumb, faqPage } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) {
+  throw new Error('Falta el slug de la nota');
+}
+
+const post = await getEntry('blog', slug);
+if (!post) {
+  throw new Error(`No encontré la nota ${slug}`);
+}
+
+const { Content, headings } = await render(post);
+const posts = await getPublishedPosts();
+const related = relatedPosts(posts, post);
+const minutes = readingMinutes(post.body ?? '');
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const published = isoDate(post.data.pubDate);
+const modified = isoDate(post.data.updatedDate ?? post.data.pubDate);
+const canonical = absoluteUrl(postPath(post.id));
+const og = await getImage({
+  src: post.data.heroImage,
+  width: 1200,
+  height: 630,
+  format: 'jpg',
+});
+const title = `${post.data.title} | ${site.name}`;
+const personId = `${absoluteUrl(site.author.path)}#person`;
+
+const articleGraph = {
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: published,
+  dateModified: modified,
+  inLanguage: site.locale,
+  articleSection: post.data.category,
+  keywords: post.data.tags.join(', '),
+  image: new URL(og.src, site.url).href,
+  mainEntityOfPage: canonical,
+  author: { '@id': personId },
+  publisher: { '@id': personId },
+};
+
+const crumbs = breadcrumb([
+  { name: 'Inicio', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: post.data.title, path: postPath(post.id) },
+]);
+
+const extra: Record<string, unknown>[] = [articleGraph, crumbs];
+if (post.data.faq?.length) {
+  extra.push(faqPage(canonical, post.data.faq));
+}
+---
+
+<BaseLayout
+  title={title}
+  description={post.data.description}
+  ogType="article"
+  ogImage={new URL(og.src, site.url).href}
+  ogImageAlt={post.data.heroAlt}
+  published={published}
+  modified={modified}
+  extraGraph={extra}
+>
+  <article class="article wrap">
+    {
+      import.meta.env.DEV && post.data.draft && (
+        <p class="draft" role="status">Borrador: esta nota no se publica ni entra al sitemap.</p>
+      )
+    }
+    <header class="article__header">
+      <ol class="crumbs">
+        <li><a href="/">Inicio</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/blog/">Blog</a></li>
+        <li aria-hidden="true">/</li>
+        <li>{post.data.title}</li>
+      </ol>
+      <p class="meta"><a href={categoryPath(post.data.category)}>{post.data.category}</a></p>
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        Firmado por <a href={site.author.path}>{post.data.author}</a>
+        · <time datetime={published}>{formatDate(post.data.pubDate)}</time>
+        {
+          post.data.updatedDate && (
+            <>
+              {' '}
+              · Actualizado el <time datetime={modified}>{formatDate(post.data.updatedDate)}</time>
+            </>
+          )
+        }
+        · {minutes.toLocaleString('es-AR')} min de lectura
+      </p>
+    </header>
+    <figure class="hero-img">
+      <Picture
+        src={post.data.heroImage}
+        alt={post.data.heroAlt}
+        formats={['avif', 'webp']}
+        widths={[640, 960, 1280]}
+        sizes="(min-width: 800px) 44rem, 100vw"
+        layout="constrained"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+    {
+      toc.length > 0 && (
+        <nav class="toc" aria-label="Contenido">
+          <strong>En esta nota</strong>
+          <ol>
+            {toc.map((heading) => (
+              <li class={`depth-${heading.depth}`}>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <div class="prose">
+      <Content />
+    </div>
+    {
+      post.data.faq && post.data.faq.length > 0 && (
+        <section class="faq" aria-labelledby="faq-nota">
+          <h2 id="faq-nota">Preguntas frecuentes</h2>
+          {post.data.faq.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </section>
+      )
+    }
+    <p class="signature">
+      Lo escribí yo, <a href={site.author.path}>Martín Galmarino</a>. {site.tagline}.
+    </p>
+    <Subscribe />
+    {
+      related.length > 0 && (
+        <section class="related-block" aria-labelledby="relacionadas">
+          <h2 id="relacionadas">También puede servirte</h2>
+          <ul class="related">
+            {related.map((item) => (
+              <li>
+                <a href={postPath(item.id)}>{item.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+    <p class="actions">
+      <a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a>
+    </p>
+  </article>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+/*
+  TODO etapa 2: texto de privacidad (Ley 25.326) antes de publicar el formulario.
+  No inventar domicilio, CUIT ni un mail de contacto que no exista.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const title = `Privacidad | ${site.name}`;
+const description = 'Cómo se van a tratar los datos del formulario de diagnóstico.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Privacidad</h1>
+      <p class="lead">El texto legal se publica antes de pedir datos en el formulario.</p>
+    </div>
+  </section>
+</BaseLayout>

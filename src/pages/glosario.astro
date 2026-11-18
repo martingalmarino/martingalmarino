@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const title = `Glosario | ${site.name}`;
+const description = 'Definiciones cortas de SEO, GEO, AEO y LLMO.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Glosario</h1>
+      <p class="lead">
+        Acá van a estar las definiciones cortas de SEO, GEO, AEO y LLMO. Uso LLMO como sinónimo de GEO.
+      </p>
+      <p>Esta página está en preparación.</p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+
+const title = `Gracias | ${site.name}`;
+const description = 'Página de confirmación del diagnóstico.';
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section">
+    <div class="wrap">
+      <h1>Gracias</h1>
+      <p class="lead" role="status">Cuando el formulario esté activo, esta página confirma que el mensaje salió.</p>
+      <p><a href="/">Volver al inicio</a></p>
+    </div>
+  </section>
+</BaseLayout>

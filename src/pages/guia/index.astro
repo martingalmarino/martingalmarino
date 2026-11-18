@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides, site } from '../../config/site';
+
+const title = `Entender la búsqueda | ${site.name}`;
+const description = 'Qué cambió en la búsqueda y por qué le importa a una empresa.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Entender la búsqueda</h1>
+      <p class="lead">Tres guías para ver qué cambió y por qué le importa a una empresa.</p>
+      <div class="cards">
+        {
+          guides.map((item) => (
+            <a class="card" href={item.href}>
+              <h3>{item.name}</h3>
+              <p>{item.line}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

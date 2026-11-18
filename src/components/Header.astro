@@ -1,0 +1,40 @@
+---
+const path = Astro.url.pathname;
+
+const links = [
+  { href: '/servicios/', label: 'Servicios' },
+  { href: '/guia/', label: 'Entender la búsqueda' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/martin-galmarino/', label: 'Sobre mí' },
+];
+
+function current(href: string) {
+  return path === href || (href !== '/' && path.startsWith(href)) ? 'page' : undefined;
+}
+---
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="brand" href="/" aria-label="Martín Galmarino, inicio">
+      <span class="brand__mark" aria-hidden="true">MG</span>
+      <span>Martín Galmarino</span>
+    </a>
+    <details class="menu">
+      <summary class="menu__button">
+        <span class="visually-hidden">Abrir menú</span>
+        <span class="menu__icon" aria-hidden="true"></span>
+      </summary>
+      <nav class="nav" aria-label="Principal">
+        {
+          links.map((link) => (
+            <a href={link.href} aria-current={current(link.href)}>
+              {link.label}
+            </a>
+          ))
+        }
+        <a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a>
+      </nav>
+    </details>
+  </div>
+</header>

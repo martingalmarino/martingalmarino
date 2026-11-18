@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services, site } from '../../config/site';
+
+const title = `Servicios | ${site.name}`;
+const description = 'SEO, GEO y AEO para empresas. Trabajamos con tu equipo, sin un paquete cerrado en esta página.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="wrap">
+      <h1>Servicios</h1>
+      <p class="lead">Trabajamos tres frentes. La base es el SEO. GEO y AEO se apoyan en esa base.</p>
+      <div class="cards">
+        {
+          services.map((item) => (
+            <a class="card" href={item.href}>
+              <h3>{item.name}</h3>
+              <p>{item.line}</p>
+              <span class="card__go">Ver {item.name}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

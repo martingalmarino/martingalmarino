@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const title = `Página no encontrada | ${site.name}`;
+const description = 'Esa dirección no existe en el sitio.';
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section">
+    <div class="wrap">
+      <h1>Esta página no está</h1>
+      <p class="lead">El enlace puede estar viejo, o la nota todavía no se publicó.</p>
+      <p class="actions">
+        <a class="button button--primary" href="/">Ir al inicio</a>
+        <a class="button button--ghost" href="/diagnostico/">Pedí tu diagnóstico</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
