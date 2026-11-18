@@ -9,7 +9,7 @@ export const site = {
   locale: 'es-AR',
   ogLocale: 'es_AR',
   description:
-    'SEO, GEO y AEO para empresas argentinas en transformación digital. En buscadores desde 2007.',
+    'Tu empresa, visible en Google y en las respuestas de ChatGPT, Gemini y Perplexity. Diagnóstico gratuito, con un informe corto. En buscadores desde 2007.',
   author: {
     name: 'Martín Galmarino',
     jobTitle: 'Co-founder y director de proyectos en buscadores',
@@ -39,17 +39,17 @@ export const services = [
   {
     href: '/servicios/seo/',
     name: 'SEO',
-    line: 'Sigue siendo la base: si Google no te entiende, la IA tampoco.',
+    line: 'El SEO es el trabajo para que tu empresa aparezca en los resultados de Google. Sigue siendo la base: si el buscador no te entiende, la IA tampoco.',
   },
   {
     href: '/servicios/geo/',
     name: 'GEO',
-    line: 'La IA ya recomienda empresas; el GEO trabaja para que nombre a la tuya y la describa bien.',
+    line: 'El GEO es el trabajo para que la inteligencia artificial —ChatGPT, Gemini o Perplexity— nombre a tu empresa y la describa bien.',
   },
   {
     href: '/servicios/aeo/',
     name: 'AEO',
-    line: 'Ser la respuesta directa, no solo un link más.',
+    line: 'El AEO es el trabajo para que tu empresa sea la respuesta directa: el recuadro, el resumen o lo que se lee en voz alta, no solo un link más en la lista.',
   },
 ] as const;
 
@@ -57,17 +57,17 @@ export const guides = [
   {
     href: '/guia/que-es-seo-geo-aeo/',
     name: 'Qué es SEO, GEO y AEO',
-    line: 'Tres nombres para tres lugares donde tu empresa puede aparecer.',
+    line: 'Tres formas de ser visible, explicadas sin jerga: en Google, en la inteligencia artificial y como respuesta directa.',
   },
   {
     href: '/guia/evolucion-del-seo/',
     name: 'La evolución del SEO',
-    line: 'De la lista de links a las respuestas de la IA.',
+    line: 'Cómo pasó la búsqueda de una lista de links a las respuestas de la IA, y qué implica eso para tu empresa.',
   },
   {
     href: '/guia/por-que-estar-en-los-llms/',
-    name: 'Por qué estar en los LLMs',
-    line: 'Tus clientes ya preguntan a la IA antes de comprar; si no estás, recomienda a otro.',
+    name: 'Por qué aparecer en las respuestas de la IA',
+    line: 'Tus clientes ya le preguntan a ChatGPT, Gemini o Perplexity antes de comprar. Si tu empresa no aparece, pueden recomendar a otra.',
   },
 ] as const;
 
