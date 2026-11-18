@@ -12,9 +12,13 @@ export const site = {
     'SEO, GEO y AEO para empresas argentinas en transformación digital. En buscadores desde 2007.',
   author: {
     name: 'Martín Galmarino',
-    jobTitle: 'Consultor SEO',
+    jobTitle: 'Co-founder y director de proyectos en buscadores',
     path: '/martin-galmarino/',
     linkedin: 'https://www.linkedin.com/in/martingalmarino/',
+    organization: {
+      name: 'Onmarc',
+      url: 'https://onmarc.com',
+    },
   },
 } as const;
 

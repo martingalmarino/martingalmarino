@@ -11,7 +11,7 @@ export const GET: APIRoute = async () => {
     ['/guia/', 'Entender la búsqueda.'],
     ...guides.map((item) => [item.href, `${item.name}. ${item.line}`] as [string, string]),
     ['/blog/', 'Blog.'],
-    [site.author.path, 'Sobre Martín Galmarino. En buscadores desde 2007.'],
+    [site.author.path, 'Sobre Martín Galmarino. Co-founder y director de proyectos en buscadores de Onmarc. Docente de SEO desde 2018.'],
     ['/diagnostico/', 'Pedido de diagnóstico gratuito.'],
     ['/glosario/', 'Glosario: SEO, GEO, AEO y LLMO (sinónimo de GEO).'],
     ['/privacidad/', 'Política de privacidad.'],
