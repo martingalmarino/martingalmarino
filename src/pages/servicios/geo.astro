@@ -1,21 +1,248 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { services, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import ChatMock from '../../components/ChatMock.astro';
+import StatCard from '../../components/StatCard.astro';
+import Checks from '../../components/Checks.astro';
+import Timeline from '../../components/Timeline.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage, serviceNode } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const service = services[1];
-const title = `GEO | ${site.name}`;
+const path = '/servicios/geo/';
+const title = 'GEO: que la IA nombre a tu empresa | Martín Galmarino';
+const description =
+  'Cuando alguien le pregunta a ChatGPT, Gemini o Perplexity por tu rubro, ¿qué empresa nombra? Te muestro gratis si sos vos o tu competencia.';
+const utdt = 'https://www.utdt.edu/nota_prensa.php?id_item_menu=25279&id_nota_prensa=23080';
+const openai = 'https://cdn.openai.com/global-affairs/0802f1d7-68bc-4325-8b88-30125a6f0aa1/argentina-productivity-report-october-2025.pdf';
+const mckinsey = 'https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/new-front-door-to-the-internet-winning-in-the-age-of-ai-search';
+const bain = 'https://www.bain.com/insights/goodbye-clicks-hello-ai-zero-click-search-redefines-marketing/';
+const paper = 'https://arxiv.org/abs/2311.09735';
+
+const faqs: Faq[] = [
+  { question: '¿Qué es el GEO?', answer: 'GEO (Generative Engine Optimization) es el trabajo para que una IA como ChatGPT, Gemini o Perplexity nombre a tu empresa y la describa bien. A veces vas a ver la sigla LLMO, que se usa casi como sinónimo.' },
+  { question: '¿De dónde sale el término?', answer: 'De un estudio de investigadores de Princeton y otros, publicado en KDD 2024. Según ese estudio, algunas formas de presentar la información aumentaron hasta un 40% la visibilidad en las respuestas de la IA. Es un hallazgo de investigación, no una promesa.', sources: [{ label: 'Aggarwal y otros, arXiv:2311.09735 / KDD 2024', href: paper }] },
+  { question: '¿El GEO reemplaza al SEO?', answer: 'No. Se apoya en él: si Google no entiende tu sitio, la IA tiene menos de dónde sacar una respuesta correcta sobre tu empresa.' },
+  { question: '¿Me garantizás que ChatGPT me va a recomendar?', answer: 'No, y desconfiá de quien te lo garantice: ninguna empresa controla lo que responde una IA. Lo que sí hago es trabajar lo que esas herramientas usan para responder, y medir todos los meses si te nombran.' },
+  { question: '¿Qué hago si la IA dice algo incorrecto de mi empresa?', answer: 'No hay un botón para corregirla. Lo que funciona es que tu sitio y las fuentes que la IA consulta digan lo correcto, de forma clara y coherente. El primer paso es saber qué dice hoy.' },
+  { question: '¿Cuánto tarda en verse?', answer: 'Depende del rubro y de cuánto se hable hoy de tu empresa, así que no te doy una fecha inventada. En el reporte mensual ves si te nombran más que el mes anterior.' },
+  { question: '¿Cuánto cuesta?', answer: 'El diagnóstico es gratis y sin compromiso. El trabajo posterior se arma a partir de lo que muestra el diagnóstico, y lo conversamos en ese momento.' },
+];
 ---
 
-<BaseLayout title={title} description={service.line}>
-  <section class="section">
-    <div class="wrap">
-      <h1>GEO</h1>
-      <p class="lead">{service.line}</p>
-      <p>
-        La definición sale de Aggarwal y otros, Princeton, arXiv 2023 / KDD 2024.
-        <a href="https://arxiv.org/abs/2311.09735" rel="noopener noreferrer">Ver el paper</a>.
-      </p>
-      <p><a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a></p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Servicios', path: '/servicios/' }, { name: 'GEO', path }]),
+    serviceNode({ name: 'GEO', serviceType: 'Generative Engine Optimization', description, path }),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Servicios', href: '/servicios/' }, { label: 'GEO' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Servicios · GEO</p>
+        <h1>Alguien le pregunta a ChatGPT por tu rubro. ¿Qué empresa nombra?</h1>
+        <p class="lead">Que te nombren, y que lo que digan de vos sea correcto: en ChatGPT, Gemini, Perplexity y los resúmenes con IA de Google.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+          <a class="button button--ghost" href="#resultados">Ver los 4 resultados posibles</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <ChatMock
+          question="¿Qué distribuidora de insumos médicos me recomendás en Rosario?"
+          lines={['Distribuidora A · trabaja en Rosario', 'Distribuidora B · publica stock y zona']}
+        />
+      </div>
+    </section>
+
+    <section class="band-white" id="por-que-importa">
+      <div class="wrap">
+        <h2>En Argentina, la IA ya es un buscador más. ¿Qué dice de vos?</h2>
+        <p class="lead">Tus clientes ya le preguntan. La pregunta es qué les contesta.</p>
+        <div class="two">
+          <article>
+            <h3>En Argentina</h3>
+            <ul>
+              <li>El 45,5% de los adultos usa IA generativa para fines personales, y buscar información está entre los usos más comunes.</li>
+              <li>Entre quienes la usan, el 77,8% usa ChatGPT y el 38,6%, Gemini.</li>
+              <li>Según OpenAI, el uso principal de ChatGPT en el país son las búsquedas para tareas específicas: el 13% de los mensajes. <em>(Datos internos de OpenAI.)</em></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Afuera, con datos de EE.UU.</h3>
+            <ul>
+              <li>El 44% de quienes usan búsqueda con IA dice que es su fuente principal para informarse, por encima de la búsqueda tradicional (31%).</li>
+              <li>El 42% de quienes usan estas herramientas les pide recomendaciones de compra.</li>
+            </ul>
+          </article>
+        </div>
+        <p>
+          Fuentes:
+          <a href={utdt} target="_blank" rel="noopener noreferrer">CEPE-UTDT y Fundar, ago-sep 2025</a>
+          ·
+          <a href={openai} target="_blank" rel="noopener noreferrer">OpenAI, informe sobre Argentina, octubre de 2025</a>
+          ·
+          <a href={mckinsey} target="_blank" rel="noopener noreferrer">McKinsey, 16/10/2025</a>
+          ·
+          <a href={bain} target="_blank" rel="noopener noreferrer">Bain & Company, 19/2/2025</a>
+        </p>
+        <div class="stat-grid">
+          <StatCard figure="45,5%" text="de los adultos en Argentina usa IA generativa para fines personales." sources={[{ label: 'CEPE-UTDT y Fundar · Argentina', href: utdt }]} />
+          <StatCard figure="13%" text="de los mensajes de ChatGPT en Argentina son búsquedas para tareas específicas. Datos internos de OpenAI." sources={[{ label: 'OpenAI, oct 2025 · Argentina', href: openai }]} />
+          <StatCard figure="44%" text="de quienes usan búsqueda con IA en EE.UU. dice que es su fuente principal para informarse." sources={[{ label: 'McKinsey, 16/10/2025 · EE.UU.', href: mckinsey }]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="band-lav" id="resultados">
+      <div class="wrap">
+        <h2>Cuando la IA responde sobre tu rubro, te pueden pasar cuatro cosas.</h2>
+        <p class="lead">Solo una te conviene. Hoy no sabés cuál te está pasando.</p>
+        <div class="states">
+          <article class="state"><b>✓ Te nombra, y bien</b> Aparecés con una descripción correcta. Estás en la conversación. Hay que sostenerlo.</article>
+          <article class="state"><b>✗ No te nombra</b> Nombra a otras empresas. Ese cliente se va con otro sin saber que existís.</article>
+          <article class="state"><b>⚠ Te nombra mal</b> Datos viejos, otra zona, un servicio que ya no das. Peor que no aparecer: el cliente se lleva una idea equivocada.</article>
+          <article class="state"><b>★ Cita tu sitio como fuente</b> La respuesta usa tu página y la enlaza. El mejor caso: sos la referencia.</article>
+        </div>
+        <p><b>Ejemplos de preguntas por tipo de empresa</b> <em>(ilustrativos)</em></p>
+        <ul>
+          <li><b>Servicio local:</b> «¿Qué clínica odontológica atiende obras sociales en Villa Carlos Paz?»</li>
+          <li><b>B2B:</b> «¿Qué proveedor de software de gestión conviene para una distribuidora mediana?»</li>
+          <li><b>E-commerce:</b> «¿Dónde compro repuestos de bicicleta online con envío a todo el país?»</li>
+        </ul>
+        <figure class="ex">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <p class="ex-bubble me">¿Qué distribuidora de insumos médicos me recomendás en Rosario?</p>
+          <ol class="ex-names">
+            <li><b>Distribuidora A</b> · te nombra, con la zona correcta</li>
+            <li><b>Distribuidora B</b> · dato viejo: un depósito que ya cerró</li>
+          </ol>
+          <p class="ex-url">Fuente citada: distribuidora-a.com.ar</p>
+          <p class="ex-note">En Google, tu empresa no aparece en esta respuesta.</p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="por-que-gana-otro">
+      <div class="wrap">
+        <h2>La IA no lee solo tu sitio: arma la respuesta con lo que otros dicen de vos.</h2>
+        <p class="lead">Por eso el GEO trabaja adentro y afuera de tu web.</p>
+        <div class="prose">
+          <p>Según un análisis de McKinsey, el sitio propio de una marca suele ser apenas entre el 5% y el 10% de las fuentes que usa la búsqueda con IA. El resto sale de otros lugares: medios, sitios de comparación, reseñas, foros y directorios. <em>(Análisis sobre EE.UU.)</em></p>
+          <p>Para tu empresa, eso significa dos trabajos: que tu sitio te describa sin ambigüedades, y que en los lugares que la IA consulta sobre tu rubro también se hable de vos, y con los datos correctos.</p>
+          <p>Fuente: <a href={mckinsey} target="_blank" rel="noopener noreferrer">McKinsey, 16/10/2025</a></p>
+        </div>
+        <figure class="pie">
+          <figcaption class="ilus">De dónde saca la IA la respuesta · McKinsey, 16/10/2025</figcaption>
+          <p class="pie-bar is-you"><span>Tu sitio</span><span><i style="width:8%"></i></span><span>5–10%</span></p>
+          <p class="pie-bar"><span>Otros sitios</span><span><i style="width:92%"></i></span><span>el resto</span></p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-cream" id="senales">
+      <div class="wrap">
+        <h2>5 señales de que la IA habla de tu rubro sin nombrarte</h2>
+        <p class="lead">Probalo hoy: te lleva 2 minutos.</p>
+        <Checks
+          copies={[
+            '¿Qué empresas de [tu rubro] hay en [tu ciudad]?',
+            '¿Qué sabés de [nombre de tu empresa]?',
+            '¿Qué empresas de [tu rubro] me recomendás y por qué?',
+            '¿Dónde se habla de [tu rubro] en [tu ciudad]?',
+            '¿Qué hace [nombre de tu empresa], para quién y dónde?',
+          ]}
+          items={[
+            'Preguntás «¿qué empresas de [tu rubro] hay en [tu ciudad]?» y no aparecés.',
+            'Preguntás por tu marca y la respuesta tiene datos viejos o equivocados.',
+            'La IA describe a tu competencia con más detalle que a vos.',
+            'Fuera de tu web, casi no hay notas, reseñas ni comparativas que te mencionen.',
+            'Tu sitio no dice en una frase qué hacés, para quién y dónde.',
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-white" id="metodo">
+      <div class="wrap">
+        <h2>De no aparecer a que te nombren, en cuatro pasos.</h2>
+        <p class="lead">Trabajás directo conmigo, de principio a fin.</p>
+        <Timeline chips={[]} steps={[
+          { n: '01', title: 'Diagnóstico', note: 'gratis, en hasta 5 días hábiles', text: '10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity, y una revisión rápida de tu sitio.', deliverable: 'un PDF que se lee en 10 minutos, con quién aparece en tu lugar.', icon: 'file' },
+          { n: '02', title: 'Plan', text: 'Qué corregir en cómo se describe tu empresa y en qué fuentes externas conviene estar.', deliverable: 'una lista priorizada.', icon: 'list' },
+          { n: '03', title: 'Ejecución', text: 'La descripción de la empresa en el sitio, páginas que respondan lo que se pregunta en tu rubro, datos iguales en perfiles y directorios, y presencia en los sitios que la IA cita sobre tu rubro.', deliverable: 'los cambios publicados, con el detalle de qué se hizo.', icon: 'check' },
+          { n: '04', title: 'Medición', text: 'Las mismas 10 preguntas en las 4 herramientas, todos los meses.', deliverable: 'un reporte mensual.', icon: 'chart' },
+        ]} />
+      </div>
+    </section>
+
+    <section class="band-lav" id="como-se-mide">
+      <div class="wrap">
+        <h2>40 respuestas por mes. Ves si te nombran, no lo suponés.</h2>
+        <p class="lead">Las mismas 10 preguntas, en las mismas 4 herramientas, todos los meses.</p>
+        <div class="prose">
+          <p>Cada mes vuelvo a hacer las 10 preguntas del diagnóstico en Google, ChatGPT, Gemini y Perplexity. Son 40 respuestas. En el reporte ves:</p>
+          <ul>
+            <li>En cuántas te nombran, y cómo cambió desde el mes anterior.</li>
+            <li>Si la descripción es correcta, incompleta o equivocada.</li>
+            <li>Qué empresas aparecen en tu lugar.</li>
+            <li>Si alguna respuesta cita tu sitio como fuente.</li>
+          </ul>
+          <p>No hay un «puesto» en la IA, y nadie puede prometer una mención. Lo que sí se puede es medir lo mismo todos los meses y ver si va mejorando.</p>
+        </div>
+        <figure class="ex">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <p class="ex-count"><b>Te nombran en 12 de 40</b></p>
+          <table class="ex-matrix">
+            <thead>
+              <tr>
+                <th scope="col">Pregunta</th>
+                <th scope="col">Google</th>
+                <th scope="col">ChatGPT</th>
+                <th scope="col">Gemini</th>
+                <th scope="col">Perplexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">1</th><td class="ok">✓</td><td class="ok">✓</td><td class="meh">⚠</td><td class="ok">✓</td></tr>
+              <tr><th scope="row">2</th><td class="no">✗</td><td class="ok">✓</td><td class="no">✗</td><td class="meh">⚠</td></tr>
+              <tr><th scope="row">3</th><td class="no">✗</td><td class="no">✗</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+              <tr class="is-blur"><th scope="row">4–10</th><td>✓</td><td>✗</td><td>⚠</td><td>✓</td></tr>
+            </tbody>
+          </table>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="relacion">
+      <div class="wrap">
+        <ul class="rel">
+          <li><a href="/servicios/seo/"><b>SEO</b> que te encuentren en Google. Es la base de la que se alimenta la IA</a></li>
+          <li class="is-here"><span><b>GEO</b> que la IA te nombre, y bien (estás acá).</span></li>
+          <li><a href="/servicios/aeo/"><b>AEO</b> que tu respuesta sea la que se lee</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que te estás preguntando sobre el GEO</h2>
+        <p class="lead">Respuestas cortas a las dudas más comunes.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Qué empresa nombra hoy la IA cuando preguntan por tu rubro?"
+      text="En hasta 5 días hábiles lo sabés: 10 preguntas reales, probadas en Google, ChatGPT, Gemini y Perplexity."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[{ href: '/guia/por-que-estar-en-los-llms/', label: 'Si la IA no te nombra, nombra a otro' }]}
+    />
+  </div>
 </BaseLayout>

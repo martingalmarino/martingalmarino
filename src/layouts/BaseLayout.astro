@@ -1,7 +1,9 @@
 ---
 import '../styles/global.css';
-import inter400 from '../assets/fonts/inter-latin-400.woff2?url';
-import inter600 from '../assets/fonts/inter-latin-600.woff2?url';
+import '../styles/brand.css';
+import interVar from '../assets/fonts/inter-variable.woff2?url';
+import bricolage from '../assets/fonts/bricolage.woff2?url';
+import Icons from '../components/Icons.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
@@ -45,14 +47,14 @@ const graph = pageGraph({ title, description, canonical, extra: extraGraph });
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
-    <meta name="theme-color" content="#1a56db" />
+    <meta name="theme-color" content="#5B3DF5" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={site.locale} href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={site.name} href={absoluteUrl('/rss.xml')} />
-    <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={inter600} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interVar} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bricolage} as="font" type="font/woff2" crossorigin />
     <slot name="head" />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={site.ogLocale} />
@@ -73,6 +75,7 @@ const graph = pageGraph({ title, description, canonical, extra: extraGraph });
     <JsonLd data={graph} />
   </head>
   <body>
+    <Icons />
     <Header />
     <main id="contenido">
       <slot />

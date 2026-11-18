@@ -1,0 +1,59 @@
+---
+import { audiences, steps as homeSteps } from '../data/home';
+
+interface Step {
+  n: string;
+  title: string;
+  note?: string;
+  text: string;
+  deliverable: string;
+  icon: string;
+  who?: string;
+}
+
+interface Props {
+  steps?: Step[];
+  chips?: string[];
+}
+
+const steps: Step[] = Astro.props.steps ?? homeSteps;
+const chips = Astro.props.chips ?? [...audiences];
+---
+
+<div class="time">
+  {
+    chips.length > 0 && (
+      <ul class="time__chips">
+        {chips.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+  <ol class="time__steps">
+    {
+      steps.map((step) => (
+        <li>
+          <span class="time__icon" aria-hidden="true">
+            <svg>
+              <use href={`#i-${step.icon}`} />
+            </svg>
+          </span>
+          <p class="time__n">
+            {step.who ? <span class="time__who">{step.who}</span> : null}
+            {step.n} · {step.title}
+            {step.note ? <span> — {step.note}</span> : null}
+          </p>
+          <p>{step.text}</p>
+          {
+            step.deliverable ? (
+              <p class="time__out">
+                <b>Entregable:</b> {step.deliverable}
+              </p>
+            ) : null
+          }
+        </li>
+      ))
+    }
+  </ol>
+</div>

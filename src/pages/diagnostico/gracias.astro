@@ -1,17 +1,71 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/Crumbs.astro';
 import { site } from '../../config/site';
 
 const title = `Gracias | ${site.name}`;
-const description = 'Página de confirmación del diagnóstico.';
+const description = 'Recibí tu pedido de diagnóstico. En hasta 5 días hábiles te llega el PDF a tu email.';
+const prompts = [
+  '¿Qué empresas de [tu rubro] me recomendás en [tu ciudad]?',
+  '¿Qué sabés de [nombre de tu empresa]?',
+];
 ---
 
 <BaseLayout title={title} description={description} noindex>
-  <section class="section">
-    <div class="wrap">
-      <h1>Gracias</h1>
-      <p class="lead" role="status">Cuando el formulario esté activo, esta página confirma que el mensaje salió.</p>
-      <p><a href="/">Volver al inicio</a></p>
-    </div>
-  </section>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Diagnóstico', href: '/diagnostico/' }, { label: 'Gracias' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="check-big" aria-hidden="true">✓</p>
+        <h1>Listo. Ya estoy armando tu diagnóstico.</h1>
+        <p class="lead" role="status">
+          Recibí tus datos. En hasta 5 días hábiles te llega a tu email un PDF que se lee en 10 minutos, con lo que responden Google, ChatGPT, Gemini y Perplexity sobre tu rubro.
+        </p>
+      </div>
+    </section>
+    <section class="band-white">
+      <div class="wrap narrow">
+        <h2>Mientras tanto, hacé la prueba vos mismo.</h2>
+        <p>
+          Copiá estas preguntas en ChatGPT o Gemini y fijate a quién nombra <em>(ejemplo ilustrativo; reemplazá lo que está entre corchetes)</em>:
+        </p>
+        <div class="test-list">
+          {
+            prompts.map((prompt) => (
+              <p class="prompt-card">
+                <span>«{prompt}»</span>
+                <button type="button" data-copy={prompt}>
+                  Copiar
+                </button>
+              </p>
+            ))
+          }
+        </div>
+        <p class="more">
+          <a href="/#autoprueba">Ver las 5 señales de que tu empresa es invisible para la IA</a>
+        </p>
+        <p><a href="/guia/por-que-estar-en-los-llms/">Leer «Si la IA no te nombra, nombra a otro»</a></p>
+        <p><a href="/">Volver al inicio</a></p>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const text = button.getAttribute('data-copy') || '';
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const area = document.createElement('textarea');
+        area.value = text;
+        document.body.append(area);
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+      }
+      button.textContent = 'Copiada';
+    });
+  });
+</script>

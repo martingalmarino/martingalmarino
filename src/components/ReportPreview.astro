@@ -1,0 +1,41 @@
+---
+import { ranking, reportParts } from '../data/home';
+---
+
+<div class="pdfs" aria-label="Vista previa ilustrativa del diagnóstico">
+  <article class="pdf">
+    <header>
+      <span>Diagnóstico</span>
+      <span class="ilus">Ejemplo ilustrativo</span>
+    </header>
+    <ol>
+      {
+        reportParts.map((part, index) => (
+          <li class:list={[{ 'is-soft': part.soft }]}>
+            <p>
+              <b>
+                {index + 1}. {part.title}
+              </b>
+              {part.text}
+            </p>
+            {part.ranking && (
+              <ul class="pdf__rank">
+                {ranking.map((row) => (
+                  <li>
+                    <span>{row.name}</span>
+                    <b>{row.score}</b>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="stamp" aria-hidden="true">Ejemplo</p>
+  </article>
+  <article class="pdf pdf--back" aria-hidden="true">
+    <header><span>Diagnóstico</span></header>
+    <p>Las mismas 10 preguntas, otra vez el mes que viene.</p>
+  </article>
+</div>

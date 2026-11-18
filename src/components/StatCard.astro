@@ -1,0 +1,28 @@
+---
+interface Source {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  figure: string;
+  text: string;
+  sources: Source[];
+}
+
+const { figure, text, sources } = Astro.props;
+---
+
+<article class="stat">
+  <p class="stat__figure">{figure}</p>
+  <p>{text}</p>
+  <p class="stat__sources">
+    {
+      sources.map((source) => (
+        <a class="source-pill" href={source.href} target="_blank" rel="noopener noreferrer">
+          {source.label}
+        </a>
+      ))
+    }
+  </p>
+</article>

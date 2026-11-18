@@ -26,6 +26,19 @@ export function breadcrumb(items: Crumb[]) {
   };
 }
 
+export function serviceNode(options: { name: string; description: string; path: string; serviceType: string }) {
+  return {
+    '@type': 'Service',
+    '@id': `${absoluteUrl(options.path)}#service`,
+    name: options.name,
+    serviceType: options.serviceType,
+    description: options.description,
+    url: absoluteUrl(options.path),
+    provider: { '@id': personId },
+    areaServed: { '@type': 'Country', name: 'Argentina' },
+  };
+}
+
 export function faqPage(canonical: string, items: FaqItem[]) {
   return {
     '@type': 'FAQPage',

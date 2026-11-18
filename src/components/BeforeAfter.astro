@@ -1,0 +1,60 @@
+---
+interface Row {
+  label: string;
+  before: string;
+  after: string;
+}
+
+interface Props {
+  beforeLabel?: string;
+  afterLabel?: string;
+  before?: string;
+  after?: string;
+  rows?: Row[];
+  illustrative?: boolean;
+}
+
+const {
+  beforeLabel = 'Antes',
+  afterLabel = 'Después',
+  before = '',
+  after = '',
+  rows = [],
+  illustrative = false,
+} = Astro.props;
+---
+
+<div class="ba">
+  {illustrative && <p class="ilus">Ejemplo ilustrativo</p>}
+  {
+    rows.length > 0 ? (
+      <div class="ba-table">
+        <p class="qlabel">{beforeLabel}</p>
+        <p class="qlabel">{afterLabel}</p>
+        {rows.map((row) => (
+          <>
+            <div>
+              <p class="qlabel">{row.label}</p>
+              <p>{row.before}</p>
+            </div>
+            <div>
+              <p class="qlabel">{row.label}</p>
+              <p>{row.after}</p>
+            </div>
+          </>
+        ))}
+      </div>
+    ) : (
+      <>
+        <div>
+          <p class="qlabel">{beforeLabel}</p>
+          <p>{before}</p>
+        </div>
+        <div>
+          <p class="qlabel">{afterLabel}</p>
+          <p>{after}</p>
+        </div>
+      </>
+    )
+  }
+</div>

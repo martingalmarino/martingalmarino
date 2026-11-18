@@ -1,38 +1,285 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { guides, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import StatCard from '../../components/StatCard.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-/*
-  TODO etapa 2 (Redactor): el texto largo va acá. No publicarlo a medias.
-  Línea de tiempo de referencia:
-  - Knowledge Graph, 16 may 2012
-  - Fragmentos destacados, 2014
-  - RankBrain, oct 2015
-  - BERT, 25 oct 2019
-  - ChatGPT, 30 nov 2022
-  - Paper GEO, nov 2023: https://arxiv.org/abs/2311.09735
-  - AI Overviews en Argentina, 28 oct 2024
-  - ChatGPT search, 31 oct 2024
-  - Modo IA en español, 23 sep 2025: https://blog.google/intl/es-419/actualizaciones-de-producto/informacion/buscador-de-google-presentamos-el-modo-ia-en-hispanoamerica/
-  - I/O may 2026, Modo IA +1.000 M y AI Overviews +2.500 M: https://blog.google/innovation-and-ai/sundar-pichai-io-2026/
-  Cifras, siempre con su fuente:
-  - 45,5% adultos en Argentina usa IA generativa personal; 63,9% generación Z; entre usuarios, ChatGPT 77,8%, Gemini 38,6%, Meta AI 26,2%. CEPE-UTDT y Fundar, ago-sep 2025. https://www.utdt.edu/nota_prensa.php?id_item_menu=25279&id_nota_prensa=23080
-  - ChatGPT, 1.200 millones de usuarios semanales. OpenAI DevDay, sep 2026. https://www.theverge.com/ai-artificial-intelligence/1002265/chatgpt-now-has-1-2-billion-weekly-users-openai-says
-  - Con resumen de IA se clickea un resultado en el 8% de las visitas, contra 15% sin resumen; el 1% clickea un link dentro del resumen. Pew Research, jul 2025. https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/
-  - Modo IA: preguntas 2 o 3 veces más largas. Blog de Google, sep 2025 (link de arriba).
-  - GEO: la visibilidad puede subir hasta un 40%. Aggarwal y otros.
-*/
+const path = '/guia/evolucion-del-seo/';
+const title = 'Cómo cambió la búsqueda, de 2012 a 2026 | Martín Galmarino';
+const description =
+  'De diez links a una respuesta: los hitos de Google y la IA de 2012 a 2026, con fuente, y qué te toca hacer hoy con cada uno.';
+const pew = 'https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/';
+const utdt = 'https://www.utdt.edu/nota_prensa.php?id_item_menu=25279&id_nota_prensa=23080';
 
-const guide = guides[1];
-const title = `${guide.name} | ${site.name}`;
+const hitos = [
+  {
+    when: '16/5/2012',
+    title: 'Google lanza el Knowledge Graph',
+    era: 'Diez links azules. Google empieza a reconocer empresas, no solo palabras.',
+    paso: 'Google empezó a entender «cosas, no cadenas de texto»: personas, lugares y empresas, y cómo se relacionan.',
+    hoy: 'Que tu empresa sea reconocible. Mismo nombre, misma descripción y mismos datos en todos lados.',
+    sources: [{ label: 'Amit Singhal, blog de Google, 16/5/2012', href: 'https://blog.google/products-and-platforms/products/search/introducing-knowledge-graph-things-not/' }],
+  },
+  {
+    when: 'Enero de 2014',
+    title: 'Aparecen los fragmentos destacados',
+    era: 'Arriba de la lista aparece un recuadro con una respuesta.',
+    paso: 'Google empezó a mostrar arriba de la lista un recuadro con una respuesta sacada de una página. No hay un anuncio de esa fecha: Google la confirmó en un post de 2018.',
+    hoy: 'Responder en tu sitio las preguntas de tus clientes, en dos o tres líneas claras. Ahí nace lo que hoy llamamos AEO.',
+    sources: [{ label: 'Danny Sullivan, blog de Google, 30/1/2018', href: 'https://blog.google/products-and-platforms/products/search/reintroduction-googles-featured-snippets/' }],
+  },
+  {
+    when: '26/10/2015',
+    title: 'Se conoce RankBrain',
+    era: 'Google interpreta la búsqueda, no solo las palabras exactas.',
+    paso: 'Bloomberg publicó que Google usaba aprendizaje automático para interpretar búsquedas, y Google lo confirmó. Ya funcionaba desde antes de esa fecha.',
+    hoy: 'Explicar con claridad de qué se trata tu negocio. Importa menos repetir una frase exacta.',
+    sources: [
+      { label: 'Bloomberg, 26/10/2015', href: 'https://www.bloomberg.com/news/articles/2015-10-26/google-turning-its-lucrative-web-search-over-to-ai-machines' },
+      { label: 'Search Engine Land, con confirmación de Google', href: 'https://searchengineland.com/faq-all-about-the-new-google-rankbrain-algorithm-234440' },
+    ],
+  },
+  {
+    when: '25/10/2019',
+    title: 'BERT llega al buscador',
+    era: 'El buscador entiende el contexto de la frase.',
+    paso: 'Google empezó a entender el contexto de las palabras dentro de una frase. Al principio, en una de cada diez búsquedas en inglés en EE.UU.',
+    hoy: 'Escribir como habla tu cliente, con frases naturales, no con listas de palabras clave.',
+    sources: [{ label: 'Pandu Nayak, blog de Google, 25/10/2019', href: 'https://blog.google/products/search/search-language-understanding-bert/' }],
+  },
+  {
+    when: '30/11/2022',
+    title: 'OpenAI lanza ChatGPT',
+    era: 'Una conversación nombra a dos empresas. El resto no aparece.',
+    paso: 'Apareció un sistema con el que se conversa en lenguaje natural. La gente empezó a pedirle explicaciones y recomendaciones.',
+    hoy: 'Asumir que existe un lugar más donde te pueden nombrar, describir mal o ignorar.',
+    sources: [{ label: 'OpenAI, 30/11/2022', href: 'https://openai.com/index/chatgpt/' }],
+  },
+  {
+    when: '16/11/2023',
+    title: 'Se publica el estudio que define el GEO',
+    era: 'Aparecer en la respuesta deja de ser suerte y pasa a tener método.',
+    paso: 'Investigadores de Princeton y otros formalizaron cómo hacer más visible un contenido en las respuestas de la IA. Algunas formas de presentar la información aumentaron hasta un 40% la visibilidad. Se publicó en KDD 2024.',
+    hoy: 'Tratar «aparecer en lo que responde la IA» como un trabajo con método, no como suerte.',
+    sources: [{ label: 'Aggarwal y otros, arXiv:2311.09735', href: 'https://arxiv.org/abs/2311.09735' }],
+  },
+  {
+    when: '28/10/2024',
+    title: 'Resúmenes con IA en más de 100 países, también en español',
+    era: 'Un resumen responde arriba de los diez links.',
+    paso: 'Google anunció la Visión general creada por IA en más de 100 países y territorios, con soporte en español. Un resumen responde arriba de la lista.',
+    hoy: 'Buscar ser la fuente de ese resumen, no solo un link debajo.',
+    sources: [{ label: 'Google, 28/10/2024', href: 'https://blog.google/products-and-platforms/products/search/ai-overviews-search-october-2024/' }],
+  },
+  {
+    when: '31/10/2024',
+    title: 'ChatGPT empieza a buscar en la web',
+    era: 'El chat muestra links a las fuentes que usó.',
+    paso: 'ChatGPT empezó a buscar en internet y a mostrar links a sus fuentes. El 5/2/2025 quedó disponible para todos, sin necesidad de registrarse, donde ChatGPT funciona.',
+    hoy: 'Que tu sitio pueda ser una de esas fuentes citadas.',
+    sources: [{ label: 'OpenAI, 31/10/2024, con actualizaciones', href: 'https://openai.com/index/introducing-chatgpt-search/' }],
+  },
+  {
+    when: '23/9/2025',
+    title: 'Google lanza el Modo IA en español',
+    era: 'La búsqueda se vuelve una conversación, con preguntas más largas.',
+    paso: 'La búsqueda de Google sumó un modo de conversación en español, también en Hispanoamérica. Los primeros usuarios hacían preguntas dos o tres veces más largas.',
+    hoy: 'Responder preguntas largas y específicas, como las que hace un cliente que está por decidir.',
+    sources: [{ label: 'Robby Stein, Google Hispanoamérica, 23/9/2025', href: 'https://blog.google/intl/es-419/actualizaciones-de-producto/informacion/buscador-de-google-presentamos-el-modo-ia-en-hispanoamerica/' }],
+  },
+  {
+    when: '19/5/2026',
+    title: 'La búsqueda con IA se vuelve masiva',
+    era: 'Los resúmenes con IA superan los 2.500 millones de usuarios mensuales.',
+    paso: 'En el Google I/O, Sundar Pichai dijo que los resúmenes con IA superan los 2.500 millones de usuarios mensuales, y que el Modo IA pasó los 1.000 millones en un año.',
+    hoy: 'Dejar de preguntarte si esto va a llegar. La pregunta es si tu empresa aparece.',
+    sources: [{ label: 'Sundar Pichai, blog de Google, 19/5/2026', href: 'https://blog.google/innovation-and-ai/sundar-pichai-io-2026/' }],
+  },
+  {
+    when: '7/10/2026',
+    title: 'ChatGPT pasa los 1.200 millones de usuarios por semana',
+    era: 'Más de 1.200 millones de personas usan ChatGPT cada semana.',
+    paso: 'OpenAI informó que más de 1.200 millones de personas usan ChatGPT cada semana.',
+    hoy: 'Medir qué dice ChatGPT de tu rubro con la misma seriedad con la que mirás Google.',
+    sources: [{ label: 'OpenAI, 7/10/2026', href: 'https://openai.com/index/gpt-6-for-everyone/' }],
+  },
+];
+
+const faqs: Faq[] = [
+  { question: '¿El SEO murió con la inteligencia artificial?', answer: 'No. Sigue siendo la base: si Google no entiende tu sitio, te muestra menos y la IA tiene menos de dónde sacar una respuesta sobre tu empresa. Lo que cambió es que, además de la lista, hay resúmenes, recuadros y chats.' },
+  { question: '¿Desde cuándo existen los recuadros de respuesta?', answer: 'Google indica que introdujo los fragmentos destacados en enero de 2014. Lo dijo en un post oficial de 2018; no hay un anuncio de esa fecha.', sources: [{ label: 'Danny Sullivan, blog de Google, 30/1/2018', href: 'https://blog.google/products-and-platforms/products/search/reintroduction-googles-featured-snippets/' }] },
+  { question: '¿Los resúmenes con IA de Google ya están en español?', answer: 'Sí. Google anunció el 28/10/2024 que se implementaban en más de 100 países, también en español. El 23/9/2025 sumó el Modo IA en español, también en Hispanoamérica.', sources: [
+    { label: 'Google, 28/10/2024', href: 'https://blog.google/products-and-platforms/products/search/ai-overviews-search-october-2024/' },
+    { label: 'Google Hispanoamérica, 23/9/2025', href: 'https://blog.google/intl/es-419/actualizaciones-de-producto/informacion/buscador-de-google-presentamos-el-modo-ia-en-hispanoamerica/' },
+  ] },
+  { question: '¿Qué debería hacer mi empresa con este cambio?', answer: 'Primero, saber dónde está hoy: en Google y en lo que responden ChatGPT, Gemini y Perplexity sobre tu rubro. Con eso se decide si empezar por SEO, AEO o GEO.' },
+];
 ---
 
-<BaseLayout title={title} description={guide.line}>
-  <section class="section">
-    <div class="wrap">
-      <h1>{guide.name}</h1>
-      <p class="lead">{guide.line}</p>
-      <p>Esta guía está en preparación.</p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([{ name: 'Inicio', path: '/' }, { name: 'Guías', path: '/guia/' }, { name: 'Cómo cambió la búsqueda', path }]),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Guías', href: '/guia/' }, { label: 'Cómo cambió la búsqueda' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Guía · 7 min de lectura</p>
+        <h1>De diez links a una respuesta: cómo cambió la búsqueda</h1>
+        <p class="lead">En 2012, Google buscaba palabras. En 2026, conversa. Estos son los hitos, con fuente, y lo que cada uno te pide hacer hoy.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="#linea-de-tiempo">Ir a la línea de tiempo</a>
+          <a class="button button--ghost" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <div class="two">
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <p class="qlabel">2012</p>
+            <ol class="ex-links">
+              <li>resultado-1.example</li>
+              <li>resultado-2.example</li>
+              <li>resultado-3.example</li>
+              <li>resultado-4.example</li>
+              <li>resultado-5.example</li>
+            </ol>
+          </figure>
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <p class="qlabel">2026</p>
+            <p class="ex-bubble">Una respuesta nombra a dos empresas. El resto no está.</p>
+            <ol class="ex-names">
+              <li><b>Empresa A</b></li>
+              <li><b>Empresa B</b></li>
+            </ol>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-white" id="por-que">
+      <div class="wrap prose">
+        <h2>Vi cada uno de estos cambios desde adentro. Este es el más grande.</h2>
+        <p class="lead">No es historia técnica: es lo que cambió para una empresa que quiere que la encuentren.</p>
+        <p>Trabajo en buscadores desde 2007 y en SEO desde 2010. Cada cambio de esta lista modificó qué tenía que hacer una empresa para que la encontraran.</p>
+        <p>En cada hito vas a ver tres cosas: qué pasó, qué significó y qué hacer hoy. Las fechas tienen fuente. Si una fuente dice algo distinto de lo que se repite, lo aclaro.</p>
+      </div>
+    </section>
+
+    <section class="band-lav" id="linea-de-tiempo">
+      <div class="wrap">
+        <h2>De las palabras a las conversaciones: once hitos en catorce años.</h2>
+        <p class="lead">Cada uno con su fuente, y con lo que te toca hacer hoy.</p>
+        <div class="hitos">
+          <ol>
+            {
+              hitos.map((hito, index) => (
+                <li>
+                  <details open={index === 0} data-era={hito.era} data-ui={index >= 4 ? 'chat' : 'links'}>
+                    <summary>
+                      {hito.when} · {hito.title}
+                    </summary>
+                    <p><b>Qué pasó.</b> {hito.paso}</p>
+                    <p><b>Qué hacer hoy.</b> {hito.hoy}</p>
+                    <p>
+                      {hito.sources.length > 1 ? 'Fuentes: ' : 'Fuente: '}
+                      {hito.sources.map((source, sourceIndex) => (
+                        <>
+                          {sourceIndex > 0 && ' · '}
+                          <a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a>
+                        </>
+                      ))}
+                    </p>
+                  </details>
+                </li>
+              ))
+            }
+          </ol>
+          <aside class="era" data-era-panel>
+            <figure class="ex">
+              <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+              <div data-era-links>
+                <ol class="ex-links">
+                  <li>resultado-1.example</li>
+                  <li>resultado-2.example</li>
+                  <li>resultado-3.example</li>
+                </ol>
+              </div>
+              <div data-era-chat hidden>
+                <ol class="ex-names">
+                  <li><b>Empresa A</b></li>
+                  <li><b>Empresa B</b></li>
+                </ol>
+              </div>
+            </figure>
+            <p data-era-text>{hitos[0].era}</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-white" id="hoy">
+      <div class="wrap">
+        <h2>Se busca más que nunca, en más lugares, y se hace menos clic.</h2>
+        <p class="lead">Ser visible ya no es solo recibir visitas: también es ser nombrado.</p>
+        <div class="prose">
+          <p>Cuando Google muestra un resumen con IA, la gente hace clic en un resultado en el 8% de las visitas. Sin resumen, en el 15%. <em>(Datos de EE.UU.)</em></p>
+          <p>En Argentina, el 45,5% de los adultos ya usa IA generativa para fines personales, y buscar información está entre los usos más comunes.</p>
+          <p>Hoy hay tres formas de ganar: aparecer en Google, ser la respuesta de arriba y ser nombrado, y bien descrito, cuando alguien le pregunta a una IA.</p>
+          <p>
+            Fuentes:
+            <a href={pew} target="_blank" rel="noopener noreferrer">Pew Research Center, 22/7/2025</a>
+            ·
+            <a href={utdt} target="_blank" rel="noopener noreferrer">CEPE-UTDT y Fundar, ago-sep 2025</a>
+          </p>
+        </div>
+        <div class="stat-grid">
+          <StatCard figure="8% vs. 15%" text="clics con resumen de IA y sin él. Datos de EE.UU." sources={[{ label: 'Pew Research Center, 22/7/2025', href: pew }]} />
+          <StatCard figure="45,5%" text="de los adultos en Argentina usa IA generativa para fines personales." sources={[{ label: 'CEPE-UTDT y Fundar, ago-sep 2025', href: utdt }]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que suele preguntarse quien llega hasta acá</h2>
+        <p class="lead">Respuestas cortas, con fuente cuando hay un dato.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿En qué parte de esta historia quedó tu empresa?"
+      text="10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity. PDF en hasta 5 días hábiles."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[
+        { href: '/guia/que-es-seo-geo-aeo/', label: 'SEO, GEO y AEO: qué es cada uno y cuál necesitás' },
+        { href: '/guia/por-que-estar-en-los-llms/', label: 'Si la IA no te nombra, nombra a otro' },
+      ]}
+    />
+  </div>
 </BaseLayout>
+
+<script>
+  const panel = document.querySelector('[data-era-text]');
+  const links = document.querySelector('[data-era-links]');
+  const chat = document.querySelector('[data-era-chat]');
+  document.querySelectorAll('[data-era]').forEach((item) => {
+    item.addEventListener('toggle', () => {
+      if (!(item instanceof HTMLDetailsElement) || !item.open) return;
+      if (panel) panel.textContent = item.getAttribute('data-era');
+      const showChat = item.getAttribute('data-ui') === 'chat';
+      if (links instanceof HTMLElement) links.hidden = showChat;
+      if (chat instanceof HTMLElement) chat.hidden = !showChat;
+    });
+  });
+</script>

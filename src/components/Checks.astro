@@ -1,0 +1,77 @@
+---
+interface Props {
+  items: string[];
+  copies?: string[];
+  results?: string[];
+}
+
+const { items, copies = [], results = [] } = Astro.props;
+---
+
+<div data-checks data-results={results.length ? JSON.stringify(results) : undefined}>
+  <ul class="prompts">
+    {
+      items.map((item, index) => (
+        <li>
+          <label>
+            <input type="checkbox" />
+            <span>{item}</span>
+          </label>
+          {copies[index] && (
+            <button type="button" data-copy={copies[index]}>
+              Copiar pregunta
+            </button>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  <p data-count hidden></p>
+  <p data-result hidden></p>
+</div>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('[data-checks]').forEach((root) => {
+    const boxes = [...root.querySelectorAll('input')];
+    const count = root.querySelector('[data-count]');
+    const result = root.querySelector('[data-result]');
+    if (!(count instanceof HTMLElement) || !(result instanceof HTMLElement)) return;
+    const results = root.getAttribute('data-results');
+    const messages = results ? JSON.parse(results) : [];
+
+    const paint = () => {
+      const marked = boxes.filter((box) => box.checked).length;
+      if (count) {
+        count.hidden = false;
+        count.textContent = `Marcaste ${marked} de ${boxes.length}.`;
+      }
+      if (result && messages[marked]) {
+        result.hidden = false;
+        result.textContent = messages[marked];
+      }
+    };
+
+    boxes.forEach((box) => box.addEventListener('change', paint));
+
+    root.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const text = button.getAttribute('data-copy') || '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = document.createElement('textarea');
+          area.value = text;
+          document.body.append(area);
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        const previous = button.textContent;
+        button.textContent = 'Copiada';
+        if (!reduce) window.setTimeout(() => (button.textContent = previous), 1600);
+      });
+    });
+  });
+</script>

@@ -1,17 +1,228 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { services, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import StatCard from '../../components/StatCard.astro';
+import Checks from '../../components/Checks.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Timeline from '../../components/Timeline.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage, serviceNode } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const service = services[0];
-const title = `SEO | ${site.name}`;
+const path = '/servicios/seo/';
+const title = 'SEO: que Google te encuentre | Martín Galmarino';
+const description =
+  'Que te encuentren cuando buscan lo que vendés, y que Google te entienda tanto como para nombrarte en sus resúmenes con IA. Diagnóstico gratis.';
+const pew = 'https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/';
+const google = 'https://blog.google/products-and-platforms/products/search/ai-overviews-search-october-2024/';
+
+const faqs: Faq[] = [
+  { question: '¿Qué es el SEO?', answer: 'Es el trabajo para que tu empresa aparezca en Google cuando alguien busca lo que vendés. La sigla viene del inglés: Search Engine Optimization.' },
+  { question: '¿El SEO sigue sirviendo ahora que existe la IA?', answer: 'Sí. Es la base: si Google no entiende tu empresa, es menos probable que te muestre en la lista y que te use como fuente de sus resúmenes con IA.' },
+  { question: '¿Me garantizás el primer lugar en Google?', answer: 'No, y desconfiá de quien lo haga: nadie controla lo que muestra Google. Sí te muestro todos los meses, con datos, si aparecés en las búsquedas que te importan.' },
+  { question: '¿Cuánto tarda en verse?', answer: 'Depende de cómo esté tu sitio y de cuánta competencia tenga tu rubro, así que no te doy una fecha inventada. El reporte mensual te muestra qué se movió.' },
+  { question: 'Ya tengo a alguien que me hace SEO. ¿Me sirve igual?', answer: 'Sí. El diagnóstico te muestra dónde aparecés y dónde no, y te deja una lista concreta para revisar con quien ya trabaja con vos.' },
+  { question: '¿Trabajás también mi ficha de Google Maps?', answer: 'Sí. Tu Perfil de Empresa de Google es la ficha que aparece en Maps y en las búsquedas locales. Es parte de la ejecución: datos completos y correctos, categorías, horarios, fotos y servicios, y lo medimos en el reporte mensual.' },
+  { question: '¿Cuánto cuesta?', answer: 'El diagnóstico es gratis y sin compromiso. El trabajo posterior se arma a partir de lo que muestra el diagnóstico, y lo conversamos en ese momento.' },
+];
 ---
 
-<BaseLayout title={title} description={service.line}>
-  <section class="section">
-    <div class="wrap">
-      <h1>SEO</h1>
-      <p class="lead">{service.line}</p>
-      <p><a class="button button--primary" href="/diagnostico/">Pedí tu diagnóstico</a></p>
-    </div>
-  </section>
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([
+      { name: 'Inicio', path: '/' },
+      { name: 'Servicios', path: '/servicios/' },
+      { name: 'SEO', path },
+    ]),
+    serviceNode({ name: 'SEO', serviceType: 'SEO', description, path }),
+    faqPage(absoluteUrl(path), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Servicios', href: '/servicios/' }, { label: 'SEO' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Servicios · SEO</p>
+        <h1>Google sigue siendo la puerta de entrada. Pero ahora, arriba de tu link, hay una respuesta.</h1>
+        <p class="lead">Que te encuentren cuando buscan lo que vendés, y que Google te entienda lo suficiente como para nombrarte.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve Google</a>
+          <a class="button button--ghost" href="#checklist">Ver la checklist de 7 puntos</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <figure class="ex">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <div class="ex-ai">
+            <b>Visión general creada por IA</b>
+            <p>El mantenimiento industrial en Córdoba lo hacen empresas que publican servicio, zona y tipo de planta.</p>
+          </div>
+          <div class="ex-hit">
+            <span class="ex-pos">4</span>
+            <div>
+              <span class="ex-url">metalurgica-ejemplo.com.ar</span>
+              <strong>Mantenimiento industrial en Córdoba | Metalúrgica Ejemplo</strong>
+              <p>Tu link queda más abajo, debajo de la respuesta.</p>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="que-cambio">
+      <div class="wrap">
+        <h2>Con un resumen de IA arriba, se hace casi la mitad de clics.</h2>
+        <p class="lead">El SEO sigue siendo la base. Lo que cambió es qué significa ganar en Google.</p>
+        <div class="prose">
+          <ul>
+            <li>Desde octubre de 2024, Google muestra resúmenes con IA en más de 100 países, también en español. Responden la pregunta arriba de la lista.</li>
+            <li>Cuando aparece ese resumen, la gente hace clic en un resultado en el 8% de las visitas. Sin resumen, en el 15%.</li>
+            <li>En los links que están dentro del resumen, el clic es apenas del 1%.</li>
+            <li>Con resumen, el 26% termina ahí la navegación, contra el 16% sin él. <em>(Datos de EE.UU.)</em></li>
+          </ul>
+          <p>¿Qué significa para tu empresa? Que hoy se gana de dos formas: apareciendo en la lista y siendo la fuente que Google usa para armar el resumen. Las dos dependen de lo mismo: que Google entienda qué hacés, para quién y dónde.</p>
+          <p>
+            Fuentes:
+            <a href={google} target="_blank" rel="noopener noreferrer">Google, 28/10/2024</a>
+            ·
+            <a href={pew} target="_blank" rel="noopener noreferrer">Pew Research Center, 22/7/2025</a>
+          </p>
+        </div>
+        <div class="stat-grid">
+          <StatCard figure="8%" text="de las visitas hace clic en un resultado cuando hay resumen de IA. Datos de EE.UU." sources={[{ label: 'Pew Research Center, 22/7/2025', href: pew }]} />
+          <StatCard figure="15%" text="hace clic cuando no hay resumen. Datos de EE.UU." sources={[{ label: 'Pew Research Center, 22/7/2025', href: pew }]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="band-lav" id="senales">
+      <div class="wrap">
+        <h2>5 señales de que Google no entiende tu empresa</h2>
+        <p class="lead">Si marcás dos o más, hay clientes que hoy te buscan y encuentran a otro.</p>
+        <Checks
+          items={[
+            'Buscás tu servicio y tu ciudad, y en la primera pantalla aparecen otros.',
+            'Solo te encuentran cuando escriben el nombre exacto de tu empresa.',
+            'Tu sitio tiene una sola página que dice «servicios», sin detalle de qué hacés ni dónde.',
+            'Tu ficha de Google Maps tiene datos viejos, o no la reclamaste: horario, dirección, rubro o fotos.',
+            'Las consultas que llegan por la web no son de tu cliente ideal, o directamente no llegan.',
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-white" id="antes-despues">
+      <div class="wrap">
+        <h2>La misma empresa, dicha de dos formas. Google entiende una sola.</h2>
+        <p class="lead">Un cambio chico en cómo te presentás cambia a quién te muestra Google.</p>
+        <BeforeAfter
+          illustrative
+          beforeLabel="Antes"
+          afterLabel="Después"
+          rows={[
+            { label: 'Título de la página', before: 'Inicio - Metalúrgica Ejemplo', after: 'Mantenimiento industrial en Córdoba | Metalúrgica Ejemplo' },
+            { label: 'Descripción', before: 'Bienvenidos a nuestra web. Somos una empresa con años de trayectoria.', after: 'Mantenimiento preventivo y correctivo para plantas de alimentos en Córdoba y alrededores. Pedí una visita técnica.' },
+            { label: 'Qué entiende Google', before: 'Que existe una empresa.', after: 'Qué hace, para quién y dónde.' },
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-cream" id="checklist">
+      <div class="wrap">
+        <h2>7 cosas que Google necesita entender de tu empresa</h2>
+        <p class="lead">Si alguna falta, Google adivina. Y cuando adivina, suele elegir a otro.</p>
+        <ol class="card-grid">
+          <li><b>Qué hacés</b>, dicho como lo buscaría tu cliente, no como lo dice tu folleto.</li>
+          <li><b>Para quién</b>: el tipo de empresa o de persona con la que trabajás.</li>
+          <li><b>Dónde</b>: ciudad, zona o «todo el país», escrito con todas las letras.</li>
+          <li><b>En qué te diferenciás</b>, con hechos concretos, no con adjetivos.</li>
+          <li><b>Qué preguntan tus clientes antes de comprar</b>, respondido en tu sitio.</li>
+          <li><b>Los mismos datos en todos lados</b>: sitio, ficha de Google Maps (Perfil de Empresa) y directorios.</li>
+          <li><b>Qué dicen otros de vos</b>: reseñas, notas y sitios del rubro que te mencionan.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band-white" id="metodo">
+      <div class="wrap">
+        <h2>Así trabajamos tu SEO: cuatro pasos, cuatro entregables.</h2>
+        <p class="lead">Trabajás directo conmigo, de principio a fin.</p>
+        <Timeline chips={[]} steps={[
+          { n: '01', title: 'Diagnóstico', note: 'gratis, en hasta 5 días hábiles', text: 'Pruebo 10 preguntas reales de tu rubro en Google, ChatGPT, Gemini y Perplexity, y hago una revisión rápida de tu sitio: si Google lo puede leer e indexar, los datos estructurados y las páginas clave.', deliverable: 'un PDF que se lee en 10 minutos.', icon: 'file' },
+          { n: '02', title: 'Plan', text: 'Qué páginas crear o ajustar, qué datos ordenar y qué problemas técnicos frenan al sitio.', deliverable: 'una lista priorizada.', icon: 'list' },
+          { n: '03', title: 'Ejecución', text: 'Títulos y descripciones, páginas por servicio y por zona, preguntas frecuentes, datos estructurados y tu Perfil de Empresa de Google, la ficha que aparece en Maps.', deliverable: 'los cambios publicados y tu ficha de Google al día.', icon: 'check' },
+          { n: '04', title: 'Medición', text: 'Apariciones en Google, rendimiento de tu ficha, consultas y las 10 preguntas.', deliverable: 'un reporte mensual.', icon: 'chart' },
+        ]} />
+      </div>
+    </section>
+
+    <section class="band-lav" id="como-se-mide">
+      <div class="wrap">
+        <h2>Lo medimos todos los meses, con datos de Google y no con sensaciones.</h2>
+        <p class="lead">Ves qué se movió, qué no y qué sigue.</p>
+        <p>En el reporte mensual vas a ver:</p>
+        <ul>
+          <li>Si aparecés en las búsquedas que importan para tu negocio, y cómo cambió eso desde el mes anterior.</li>
+          <li>Cuántas veces se mostró tu sitio y cuántos clics recibió, según las herramientas de Google para dueños de sitios.</li>
+          <li>Cómo rinde tu ficha de Google: llamadas, pedidos de cómo llegar y visitas al sitio desde la ficha.</li>
+          <li>Las consultas que llegaron por la web.</li>
+          <li>Las mismas 10 preguntas del diagnóstico: si Google te nombra en sus resúmenes con IA.</li>
+        </ul>
+        <p>No es una posición prometida: es lo que pasó.</p>
+        <figure class="ex">
+          <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+          <ul class="ex-metrics">
+            <li><b>1.240</b> Apariciones</li>
+            <li><b>86</b> Clics</li>
+            <li><b>34</b> Cómo llegar</li>
+          </ul>
+          <svg class="ex-line" viewBox="0 0 280 88" role="img" aria-label="Gráfico ilustrativo de apariciones, de enero a abril">
+            <polyline points="16,64 88,52 160,58 248,28" fill="none" stroke="currentColor" stroke-width="3" />
+            <g class="ex-line-dots" fill="currentColor">
+              <circle cx="16" cy="64" r="4" />
+              <circle cx="88" cy="52" r="4" />
+              <circle cx="160" cy="58" r="4" />
+              <circle cx="248" cy="28" r="4" />
+            </g>
+            <g class="ex-line-labels">
+              <text x="16" y="82">Ene</text>
+              <text x="88" y="82">Feb</text>
+              <text x="160" y="82">Mar</text>
+              <text x="248" y="82">Abr</text>
+            </g>
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band-white" id="relacion">
+      <div class="wrap">
+        <ul class="rel">
+          <li class="is-here"><span><b>SEO</b> que te encuentren en Google (estás acá).</span></li>
+          <li><a href="/servicios/geo/"><b>GEO</b> que la IA te nombre, y bien</a></li>
+          <li><a href="/servicios/aeo/"><b>AEO</b> que tu respuesta sea la que se lee</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que te estás preguntando sobre el SEO</h2>
+        <p class="lead">Respuestas cortas, sin siglas de más.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿Te encuentran cuando buscan lo que vendés?"
+      text="En hasta 5 días hábiles lo sabés: 10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[{ href: '/guia/evolucion-del-seo/', label: 'De diez links a una respuesta: cómo cambió la búsqueda' }]}
+    />
+  </div>
 </BaseLayout>

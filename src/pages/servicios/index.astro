@@ -1,27 +1,315 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { services, site } from '../../config/site';
+import Crumbs from '../../components/Crumbs.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import Timeline from '../../components/Timeline.astro';
+import FaqList from '../../components/FaqList.astro';
+import FinalBand from '../../components/FinalBand.astro';
+import { breadcrumb, faqPage } from '../../lib/schema';
+import { absoluteUrl } from '../../config/site';
+import type { Faq } from '../../data/home';
 
-const title = `Servicios | ${site.name}`;
-const description = 'SEO, GEO y AEO para empresas. Trabajamos con tu equipo, sin un paquete cerrado en esta página.';
+const title = 'Servicios de SEO, GEO y AEO | Martín Galmarino';
+const description =
+  '¿Perdés clientes en Google, en la IA o en la respuesta de arriba? Elegí por el síntoma, no por la sigla. Diagnóstico gratis y sin compromiso.';
+
+const faqs: Faq[] = [
+  {
+    question: '¿Tengo que contratar los tres servicios?',
+    answer:
+      'No. Empezamos por el frente que más pesa en tu caso, según el diagnóstico. El reporte mensual dice si conviene sumar otro.',
+  },
+  {
+    question: '¿Cuánto cuesta?',
+    answer:
+      'El diagnóstico es gratis y sin compromiso. El trabajo posterior se arma a partir de lo que muestra el diagnóstico, y lo conversamos en ese momento.',
+  },
+  {
+    question: '¿Con quién trabajo?',
+    answer: 'Directo conmigo. No te paso a un equipo que no conocés.',
+  },
+  {
+    question: '¿Cuánto tarda en verse un cambio?',
+    answer:
+      'Depende de cómo esté tu sitio y de tu rubro, así que no te doy una fecha inventada. Todos los meses ves en el reporte qué se movió.',
+  },
+  {
+    question: '¿Me garantizás resultados?',
+    answer:
+      'No garantizo posiciones ni menciones: nadie controla lo que muestra Google o lo que responde una IA. Sí te muestro todos los meses qué cambió, con las mismas 10 preguntas.',
+  },
+];
+
+const symptoms = [
+  {
+    pain: 'Buscan tu servicio en tu ciudad y en Google aparecen otros.',
+    name: 'SEO',
+    line: 'que te encuentren',
+    href: '/servicios/seo/',
+    cta: 'Ver SEO',
+  },
+  {
+    pain: 'Le preguntás a ChatGPT por tu rubro y nombra a tu competencia, o dice algo equivocado de vos.',
+    name: 'GEO',
+    line: 'que la IA te nombre, y bien',
+    href: '/servicios/geo/',
+    cta: 'Ver GEO',
+  },
+  {
+    pain: 'Las dudas típicas de tu rubro las responde, arriba de todo, el sitio de otro.',
+    name: 'AEO',
+    line: 'que tu respuesta sea la que se lee',
+    href: '/servicios/aeo/',
+    cta: 'Ver AEO',
+  },
+  {
+    pain: 'Te pasan varias, o no sabés.',
+    name: 'El diagnóstico',
+    line: 'para saber por dónde empezar',
+    href: '/diagnostico/',
+    cta: 'Quiero ver cómo me ve la IA',
+  },
+];
 ---
 
-<BaseLayout title={title} description={description}>
-  <section class="section">
-    <div class="wrap">
-      <h1>Servicios</h1>
-      <p class="lead">Trabajamos tres frentes. La base es el SEO. GEO y AEO se apoyan en esa base.</p>
-      <div class="cards">
-        {
-          services.map((item) => (
-            <a class="card" href={item.href}>
-              <h3>{item.name}</h3>
-              <p>{item.line}</p>
-              <span class="card__go">Ver {item.name}</span>
-            </a>
-          ))
-        }
+<BaseLayout
+  title={title}
+  description={description}
+  extraGraph={[
+    breadcrumb([
+      { name: 'Inicio', path: '/' },
+      { name: 'Servicios', path: '/servicios/' },
+    ]),
+    faqPage(absoluteUrl('/servicios/'), faqs),
+  ]}
+>
+  <div class="v2">
+    <Crumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Servicios' }]} />
+    <section class="band-cream page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Servicios</p>
+        <h1>¿Dónde estás perdiendo clientes: en Google, en la IA o en la respuesta de arriba?</h1>
+        <p class="lead">Elegí por el síntoma, no por la sigla. Y si no lo sabés, el diagnóstico te lo dice.</p>
+        <div class="ctas">
+          <a class="button button--primary" href="/diagnostico/">Quiero ver cómo me ve la IA</a>
+          <a class="button button--ghost" href="#sintomas">Elegir por síntoma</a>
+        </div>
+        <p class="micro"><span>Gratis y sin compromiso</span></p>
+        <div class="ex-row">
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <div class="ex-hit">
+              <span class="ex-pos">2</span>
+              <div>
+                <span class="ex-url">empresa-a.com.ar</span>
+                <strong>Tu servicio en tu ciudad | Empresa A</strong>
+                <p>Aparece en la lista, debajo de otras empresas.</p>
+              </div>
+            </div>
+          </figure>
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <p class="ex-bubble me">¿A quién me recomendás?</p>
+            <ol class="ex-names">
+              <li><b>Empresa A</b> · la nombra el chat</li>
+              <li><b>Empresa B</b> · también aparece</li>
+            </ol>
+          </figure>
+          <figure class="ex">
+            <figcaption class="ilus">Ejemplo ilustrativo</figcaption>
+            <div class="ex-ai">
+              <b>Respuesta</b>
+              <p>La explicación de arriba sale del sitio de otra empresa.</p>
+              <span class="ex-url">otro-sitio.com.ar</span>
+            </div>
+          </figure>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="band-white" id="sintomas">
+      <div class="wrap">
+        <h2>¿Cuál de estas te pasa?</h2>
+        <p class="lead">Tocá la que más se parezca y te digo por dónde empezar.</p>
+        <div class="sym-picks">
+          {symptoms.map((item, index) => (
+            <button type="button" data-sym={index} aria-pressed="false">{item.pain}</button>
+          ))}
+        </div>
+        <div class="sym-result" hidden data-sym-result></div>
+        <table class="sym-table">
+          <thead>
+            <tr>
+              <th scope="col">Si te pasa esto…</th>
+              <th scope="col">Empezá por</th>
+              <th scope="col">Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              symptoms.map((item) => (
+                <tr>
+                  <td>{item.pain}</td>
+                  <td>
+                    <b>{item.name}</b>: {item.line}
+                  </td>
+                  <td>
+                    <a href={item.href}>{item.cta}</a>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="band-cream" id="comparativa">
+      <div class="wrap">
+        <h2>Tres frentes, comparados en una sola tabla.</h2>
+        <p class="lead">Qué resuelve cada uno, dónde se ve y cómo sabés si funciona.</p>
+        <CompareTable
+          caption="SEO, GEO y AEO comparados"
+          columns={['SEO', 'GEO', 'AEO']}
+          rows={[
+            {
+              label: 'Qué resuelve',
+              cells: [
+                'Que te encuentren en Google',
+                'Que la IA te nombre y te describa bien',
+                'Que tu explicación sea la respuesta de arriba',
+              ],
+            },
+            {
+              label: 'Dónde se ve',
+              cells: [
+                'La lista de resultados de Google',
+                'ChatGPT, Gemini, Perplexity y los resúmenes con IA',
+                'Recuadros, resúmenes con IA y respuestas por voz',
+              ],
+            },
+            {
+              label: 'Señal de que lo necesitás',
+              cells: [
+                'No aparecés cuando buscan tu servicio y tu ciudad, ni en Google Maps',
+                'La IA nombra a otros, o se equivoca con vos',
+                'Tus dudas típicas las responde otro sitio',
+              ],
+            },
+            {
+              label: 'Qué entrego',
+              cells: [
+                'Páginas claras, ficha de Google (Perfil de Empresa) al día y problemas técnicos resueltos',
+                'Descripción de la empresa corregida y presencia fuera de tu sitio',
+                'Preguntas frecuentes y respuestas escritas para ser citadas',
+              ],
+            },
+            {
+              label: 'Cómo se mide (todos los meses)',
+              cells: [
+                'Apariciones en Google y consultas',
+                'Menciones en las 10 preguntas del rubro y si la descripción es correcta',
+                'Si tu sitio aparece como respuesta o fuente',
+              ],
+            },
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-lav" id="como-se-apoyan">
+      <div class="wrap">
+        <h2>No son tres servicios sueltos. Es un mismo trabajo visto desde tres lugares.</h2>
+        <p class="lead">Si Google no entiende tu empresa, la IA tampoco tiene de dónde sacar una buena respuesta.</p>
+        <div class="prose">
+          <p>
+            Los tres frentes se apoyan en la misma base: un sitio que diga con claridad qué hacés, para quién y dónde, y que también se hable de vos fuera de tu web. Por eso no hace falta elegir uno para siempre. Empezamos por lo que más pesa en tu caso, y el reporte mensual dice si conviene sumar otro frente.
+          </p>
+          <p>
+            Hay un motivo para no quedarse solo con la lista de links: cuando Google muestra un resumen de IA, la gente hace clic en un resultado en el 8% de las visitas. Sin resumen, lo hace en el 15%. <em>(Datos de EE.UU.)</em>
+          </p>
+          <p>
+            Fuente:
+            <a href="https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/" target="_blank" rel="noopener noreferrer">Pew Research Center, 22/7/2025</a>
+          </p>
+        </div>
+        <p class="base-strip"><b>Un sitio que te describe con claridad + lo que otros dicen de vos</b></p>
+      </div>
+    </section>
+
+    <section class="band-white" id="metodo">
+      <div class="wrap">
+        <h2>El mismo método para los tres frentes, con un reporte cada mes.</h2>
+        <p class="lead">Sabés qué recibís en cada paso, y trabajás directo conmigo.</p>
+        <Timeline
+          chips={[]}
+          steps={[
+            {
+              n: '01',
+              title: 'Diagnóstico',
+              note: 'gratis, en hasta 5 días hábiles',
+              text: '10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity, y una revisión rápida de tu sitio.',
+              deliverable: 'un PDF que se lee en 10 minutos.',
+              icon: 'file',
+            },
+            {
+              n: '02',
+              title: 'Plan',
+              text: 'Qué cambiar, dónde y por qué, empezando por lo que más pesa.',
+              deliverable: 'una lista priorizada.',
+              icon: 'list',
+            },
+            {
+              n: '03',
+              title: 'Ejecución',
+              text: 'Los cambios en tu sitio y fuera de él.',
+              deliverable: 'los cambios publicados, con el detalle de qué se hizo.',
+              icon: 'check',
+            },
+            {
+              n: '04',
+              title: 'Medición',
+              text: 'Las mismas 10 preguntas, más Google y las consultas que llegan.',
+              deliverable: 'un reporte mensual.',
+              icon: 'chart',
+            },
+          ]}
+        />
+      </div>
+    </section>
+
+    <section class="band-cream" id="preguntas">
+      <div class="wrap narrow">
+        <h2>Lo que conviene saber antes de elegir</h2>
+        <p class="lead">Respuestas cortas, sin vueltas.</p>
+        <FaqList items={faqs} />
+      </div>
+    </section>
+
+    <FinalBand
+      title="¿No sabés por dónde empezar? Empezá por saber dónde estás."
+      text="10 preguntas reales de tu rubro, probadas en Google, ChatGPT, Gemini y Perplexity. El PDF te llega en hasta 5 días hábiles."
+      cta="Quiero ver cómo me ve la IA"
+      href="/diagnostico/"
+      links={[
+        { href: '/guia/que-es-seo-geo-aeo/', label: 'SEO, GEO y AEO: qué es cada uno y cuál necesitás' },
+        { href: '/guia/por-que-estar-en-los-llms/', label: 'Si la IA no te nombra, nombra a otro' },
+      ]}
+    />
+  </div>
 </BaseLayout>
+
+<script define:vars={{ symptoms }}>
+  document.documentElement.classList.add('js');
+  const buttons = [...document.querySelectorAll('[data-sym]')];
+  const result = document.querySelector('[data-sym-result]');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const item = symptoms[Number(button.getAttribute('data-sym'))];
+      buttons.forEach((other) => other.setAttribute('aria-pressed', other === button ? 'true' : 'false'));
+      if (!result) return;
+      result.hidden = false;
+      result.innerHTML = `<p><b>${item.name}</b>: ${item.line}</p><p><a href="${item.href}">${item.cta}</a></p>`;
+    });
+  });
+</script>
